@@ -18,11 +18,41 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="include\SOIL2\image_array.c" />
+    <ClCompile Include="include\SOIL2\image_DXT.c" />
+    <ClCompile Include="include\SOIL2\image_helper.c" />
+    <ClCompile Include="include\SOIL2\SOIL2.c" />
+    <ClCompile Include="include\SOIL2\wfETC.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\SOIL2\image_array.h" />
+    <ClInclude Include="include\SOIL2\image_array_helper.h" />
+    <ClInclude Include="include\SOIL2\image_DXT.h" />
+    <ClInclude Include="include\SOIL2\image_helper.h" />
+    <ClInclude Include="include\SOIL2\pkm_helper.h" />
+    <ClInclude Include="include\SOIL2\pvr_helper.h" />
+    <ClInclude Include="include\SOIL2\SOIL2.h" />
+    <ClInclude Include="include\SOIL2\stbi_DDS.h" />
+    <ClInclude Include="include\SOIL2\stbi_DDS_c.h" />
+    <ClInclude Include="include\SOIL2\stbi_ext.h" />
+    <ClInclude Include="include\SOIL2\stbi_ext_c.h" />
+    <ClInclude Include="include\SOIL2\stbi_pkm.h" />
+    <ClInclude Include="include\SOIL2\stbi_pkm_c.h" />
+    <ClInclude Include="include\SOIL2\stbi_pvr.h" />
+    <ClInclude Include="include\SOIL2\stbi_pvr_c.h" />
+    <ClInclude Include="include\SOIL2\stbi_qoi.h" />
+    <ClInclude Include="include\SOIL2\stbi_qoi_c.h" />
+    <ClInclude Include="include\SOIL2\stbi_qoi_write.h" />
+    <ClInclude Include="include\SOIL2\stb_image.h" />
+    <ClInclude Include="include\SOIL2\stb_image_write.h" />
+    <ClInclude Include="include\SOIL2\wfETC.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{655e86e2-87b5-411a-b511-c3afc4161908}</ProjectGuid>
-    <RootNamespace>ECHOEDITOR</RootNamespace>
+    <ProjectGuid>{649d7631-de10-48e9-abb3-6cb8b22e5029}</ProjectGuid>
+    <RootNamespace>SOIL</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,13 +70,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,12 +101,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)SOIL\include;$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_UTILITIES\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)SOIL\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)SOIL\include;$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_UTILITIES\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)SOIL\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -116,14 +144,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
@@ -135,36 +162,18 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ECHO_UTILITIES\ECHO_UTILITIES.vcxproj">
-      <Project>{04493297-1a07-4364-9365-1f6916997fc1}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ECHO_WINDOW\ECHO_WINDOW.vcxproj">
-      <Project>{865b8956-2d51-48a1-a9b2-a46208397f10}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\GLAD\GLAD.vcxproj">
-      <Project>{ef57e67f-34df-4ce8-9df0-e878e4b4aa1d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\SOIL\SOIL.vcxproj">
-      <Project>{649d7631-de10-48e9-abb3-6cb8b22e5029}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
