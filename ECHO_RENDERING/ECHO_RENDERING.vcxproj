@@ -158,10 +158,14 @@
   <ItemGroup>
     <ClInclude Include="include\Rendering\Essentials\Shader.h" />
     <ClInclude Include="include\Rendering\Essentials\ShaderLoader.h" />
+    <ClInclude Include="include\Rendering\Essentials\Texture.h" />
+    <ClInclude Include="include\Rendering\Essentials\TextureLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\ShaderLoader.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\TextureLoader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

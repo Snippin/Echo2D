@@ -2,6 +2,7 @@
 
 #include <Logger/Logger.h>
 #include <Rendering/Essentials/ShaderLoader.h>
+#include <Rendering/Essentials/TextureLoader.h>
 #include <Windowing/Window/Window.h>
 
 #include <glad/glad.h>
@@ -90,72 +91,6 @@ struct UVs
     }
 };
 
-bool LoadTexture(const std::string &path, int &width, int &height,
-    bool blended)
-{
-    int channels = 0;
-
-    unsigned char *image = SOIL_load_image(
-        path.c_str(),   // File name      -- Image to be loaded
-        &width,         // Width          -- Width of image
-        &height,        // Height         -- Height of image
-        &channels,      // Channels       -- Number of channels
-        SOIL_LOAD_AUTO  // Force channels -- Force channel count
-    );
-
-    // Check if image is successful
-    if (!image)
-    {
-        std::cout << "SOIL2 failed to load image [" << path << "] -- " <<
-            SOIL_last_result() << "\n";
-        return false;
-    }
-
-    GLint format = GL_RGBA;
-
-    switch (channels)
-    {
-    case 3:
-        format = GL_RGB;
-        break;
-
-    case 4:
-        format = GL_RGBA;
-        break;
-    }
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    if (blended)
-    {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    }
-    else
-    {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    }
-
-    glTexImage2D(
-        GL_TEXTURE_2D,      // Target           -- Specifies target texture
-        0,                  // Level            -- Level of detail. 0 is base image level
-        format,             // Internal format  -- Number of color components
-        width,              // Width            -- Width of texture image
-        height,             // Height           -- Height of texture image
-        0,                  // Border
-        format,             // Format           -- Format of pixel data
-        GL_UNSIGNED_BYTE,   // Type             -- Data type of pixel data
-        image               // Data
-    );
-
-    // Delete image data from SOIL2
-    free(image);
-
-    return true;
-}
-
 int main()
 {
     ECHO_INIT_LOGS(true, true);
@@ -226,19 +161,14 @@ int main()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // Create texture id & gen/bind texture
-    GLuint tex_id;
-    glGenTextures(1, &tex_id);
-    glBindTexture(GL_TEXTURE_2D, tex_id);
+    // Add temp texture
+    auto texture = ECHO_RENDERING::TextureLoader::Create(
+        ECHO_RENDERING::Texture::TextureType::PIXEL,
+        "./assets/textures/hill_tiles.png");
 
-    // Create width & height for texture
-    int width = 0;
-    int height = 0;
-
-    // Load texture
-    if (!LoadTexture("assets/textures/hill_tiles.png", width, height, false))
+    if (!texture)
     {
-        ECHO_ERROR("Failed to load the texture");
+        ECHO_ERROR("Failed to create texture");
         return -1;
     }
 
@@ -248,8 +178,8 @@ int main()
     auto generate_uvs = [&](float start_x, float start_y, float sprite_width,
         float sprite_height)
         {
-            uvs.Width = sprite_width / width;
-            uvs.Height = sprite_height / height;
+            uvs.Width = sprite_width / texture->GetWidth();
+            uvs.Height = sprite_height / texture->GetHeight();
 
             uvs.X = start_x * uvs.Width;
             uvs.Y = start_y * uvs.Height;
@@ -381,7 +311,7 @@ int main()
         shader->SetUniformMat4("uProjection", camera.GetCameraMatrix());
 
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, tex_id);
+        glBindTexture(GL_TEXTURE_2D, texture->GetID());
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
