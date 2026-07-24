@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{655e86e2-87b5-411a-b511-c3afc4161908}</ProjectGuid>
-    <RootNamespace>ECHOEDITOR</RootNamespace>
+    <ProjectGuid>{de690bae-85bd-4c81-ae6c-87639959ee70}</ProjectGuid>
+    <RootNamespace>ECHORENDERING</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,13 +40,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,12 +71,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)ECHO_RENDERING\include;$(SolutionDir)Dependencies\GLM;$(SolutionDir)SOIL\include;$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_UTILITIES\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\GLM;$(SolutionDir)GLAD\include;$(SolutionDir)SOIL\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)ECHO_RENDERING\include;$(SolutionDir)Dependencies\GLM;$(SolutionDir)SOIL\include;$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_UTILITIES\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\GLM;$(SolutionDir)GLAD\include;$(SolutionDir)SOIL\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -123,7 +121,6 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
@@ -142,31 +139,26 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ECHO_RENDERING\ECHO_RENDERING.vcxproj">
-      <Project>{de690bae-85bd-4c81-ae6c-87639959ee70}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ECHO_UTILITIES\ECHO_UTILITIES.vcxproj">
-      <Project>{04493297-1a07-4364-9365-1f6916997fc1}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ECHO_WINDOW\ECHO_WINDOW.vcxproj">
-      <Project>{865b8956-2d51-48a1-a9b2-a46208397f10}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\GLAD\GLAD.vcxproj">
       <Project>{ef57e67f-34df-4ce8-9df0-e878e4b4aa1d}</Project>
     </ProjectReference>
     <ProjectReference Include="..\SOIL\SOIL.vcxproj">
       <Project>{649d7631-de10-48e9-abb3-6cb8b22e5029}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Rendering\Essentials\Shader.h" />
+    <ClInclude Include="include\Rendering\Essentials\ShaderLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\ShaderLoader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
