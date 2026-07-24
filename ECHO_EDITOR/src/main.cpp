@@ -1,11 +1,91 @@
 #define SDL_MAIN_HANDLED = 1;
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <SDL.h>
 #include <SOIL2/SOIL2.h>
 #include <Windowing/Window/Window.h>
 
 #include <iostream>
+
+class Camera2D
+{
+public:
+    Camera2D()
+        : Camera2D(640, 480)
+    {
+    }
+
+    Camera2D(int width, int height) :
+        width{width}, height{height}, scale{1.f},
+        position{glm::vec2{0.f}}, camera_matrix{1.f},
+        ortho_projection{1.f}, need_update{true}
+    {
+        float half_width = static_cast<float>(width) * 0.5f;
+        float half_height = static_cast<float>(height) * 0.5f;
+
+        // Flip top and bottom values due to image being rendered upside down
+        ortho_projection = glm::ortho(
+            -half_width,    // Left
+            half_width,     // Right
+            half_height,    // Bottom
+            -half_height,   // Top
+            -1.f,           // Near
+            1.f             // Far
+        );
+    }
+
+    inline glm::mat4 GetCameraMatrix() { return camera_matrix; }
+
+    inline void SetScale(float new_scale)
+    {
+        scale = new_scale;
+        need_update = true;
+    }
+
+    void Update()
+    {
+        if (!need_update)
+        {
+            return;
+        }
+
+        // Translate
+        glm::vec3 translate{-position.x, -position.y, 0.f};
+        camera_matrix = glm::translate(ortho_projection, translate);
+
+        // Scale
+        glm::vec3 scaling{scale, scale, 0.f};
+        camera_matrix *= glm::scale(glm::mat4{1.f}, scaling);
+
+        need_update = false;
+    }
+
+private:
+    int width;
+    int height;
+    float scale;
+
+    glm::vec2 position;
+    glm::mat4 camera_matrix;
+    glm::mat4 ortho_projection;
+
+    bool need_update;
+};
+
+struct UVs
+{
+    float X;
+    float Y;
+    float Width;
+    float Height;
+
+    UVs() :
+        X{0.f}, Y{0.f}, Width{0.f}, Height{0.f}
+    {
+    }
+};
 
 bool LoadTexture(const std::string &path, int &width, int &height,
     bool blended)
@@ -107,7 +187,7 @@ int main()
     SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
     // Create window
-    ECHO_WINDOWING::Window window("Test Window", 480, 480,
+    ECHO_WINDOWING::Window window("Test Window", 640, 480,
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, true,
         SDL_WINDOW_OPENGL);
 
@@ -137,6 +217,10 @@ int main()
         return -1;
     }
 
+    // Enable alpha blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     // Create texture id & gen/bind texture
     GLuint tex_id;
     glGenTextures(1, &tex_id);
@@ -147,11 +231,26 @@ int main()
     int height = 0;
 
     // Load texture
-    if (!LoadTexture("assets/textures/dog.png", width, height, false))
+    if (!LoadTexture("assets/textures/hill_tiles.png", width, height, false))
     {
         std::cout << "Failed to load the texture\n";
         return -1;
     }
+
+    // Temp UVs
+    UVs uvs;
+
+    auto generate_uvs = [&](float start_x, float start_y, float sprite_width,
+        float sprite_height)
+        {
+            uvs.Width = sprite_width / width;
+            uvs.Height = sprite_height / height;
+
+            uvs.X = start_x * uvs.Width;
+            uvs.Y = start_y * uvs.Height;
+        };
+
+    generate_uvs(1, 6, 16, 16);
 
     // Vertices for a quad
     //float vertices[] = {
@@ -163,10 +262,10 @@ int main()
 
     // Swapped tex coords
     float vertices[] = {
-        -0.5f, 0.5f, 0.f, 0.f, 0.f,  // TL
-        0.5f, 0.5f, 0.f, 1.f, 0.f,   // TR
-        0.5f, -0.5f, 0.f, 1.f, 1.f,  // BR
-        -0.5f, -0.5f, 0.f, 0.f, 1.f, // BL
+        -16, 16.f, 0.f, uvs.X, (uvs.Y + uvs.Height),                    // TL
+        -16.f, -16.f, 0.f, uvs.X, uvs.Y,                                // BL
+        16.f, -16.f, 0.f, (uvs.X + uvs.Width), uvs.Y,                   // BR
+        16.f, 16.f, 0.f, (uvs.X + uvs.Width), (uvs.Y + uvs.Height)      // TR
     };
 
     GLuint indices[] = {
@@ -174,14 +273,19 @@ int main()
         2, 3, 0
     };
 
+    // Create temp camera
+    Camera2D camera{};
+    camera.SetScale(5.f);
+
     const char *vertex_src =
         "#version 450 core\n"
         "layout (location = 0) in vec3 aPos;\n"
         "layout (location = 1) in vec2 aTexCoords;\n"
+        "uniform mat4 uProjection;\n"
         "out vec2 fragUVs;\n"
         "void main()\n"
         "{\n"
-        "	gl_Position = vec4(aPos, 1.0f);\n"
+        "	gl_Position = uProjection * vec4(aPos, 1.0f);\n"
         "	fragUVs = aTexCoords;\n"
         "}\0";
 
@@ -348,11 +452,16 @@ int main()
 
         glViewport(0, 0, window.GetWidth(), window.GetHeight());
 
-        glClearColor(0.f, 0.f, 0.f, 1.f);
+        glClearColor(1.f, 1.f, 1.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shader_program);
         glBindVertexArray(VAO);
+
+        auto projection = camera.GetCameraMatrix();
+        GLuint location = glGetUniformLocation(shader_program, "uProjection");
+
+        glUniformMatrix4fv(location, 1, GL_FALSE, &projection[0][0]);
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, tex_id);
@@ -361,6 +470,8 @@ int main()
 
         glBindVertexArray(0);
         SDL_GL_SwapWindow(window.GetWindow().get());
+
+        camera.Update();
     }
 
     std::cout << "Closing\n";
