@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)SOIL\include;$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_UTILITIES\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies\GLM;$(SolutionDir)SOIL\include;$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_UTILITIES\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)SOIL\include;$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_UTILITIES\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Dependencies\GLM;$(SolutionDir)SOIL\include;$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_UTILITIES\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
