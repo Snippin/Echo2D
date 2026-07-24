@@ -71,10 +71,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Dependencies\GLM;$(SolutionDir)GLAD\include;$(SolutionDir)SOIL\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)Dependencies\GLM;$(SolutionDir)GLAD\include;$(SolutionDir)SOIL\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Dependencies\GLM;$(SolutionDir)GLAD\include;$(SolutionDir)SOIL\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)Dependencies\GLM;$(SolutionDir)GLAD\include;$(SolutionDir)SOIL\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -145,6 +145,9 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ECHO_LOGGER\ECHO_LOGGER.vcxproj">
+      <Project>{b5a46f22-e1e8-486e-aefb-0bcc537fb90e}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\GLAD\GLAD.vcxproj">
       <Project>{ef57e67f-34df-4ce8-9df0-e878e4b4aa1d}</Project>
     </ProjectReference>

@@ -1,6 +1,6 @@
 #include "Rendering/Essentials/Shader.h"
 
-#include <iostream>
+#include <Logger/Logger.h>
 
 namespace ECHO_RENDERING
 {
@@ -58,8 +58,8 @@ namespace ECHO_RENDERING
 
         if (location == GL_INVALID_INDEX)
         {
-            std::cout << "Uniform [" << uniform_name <<
-                "] is not found in the shader\n";
+            ECHO_ERROR("Uniform [{}] is not found in the shader",
+                uniform_name);
             return -1;
         }
 
