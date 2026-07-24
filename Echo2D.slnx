@@ -3,6 +3,7 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Project Path="ECHO_CORE/ECHO_CORE.vcxproj" Id="6b9435b6-231c-48cb-9f8d-79ce4b30cd64" />
   <Project Path="ECHO_EDITOR/ECHO_EDITOR.vcxproj" Id="655e86e2-87b5-411a-b511-c3afc4161908" />
   <Project Path="ECHO_LOGGER/ECHO_LOGGER.vcxproj" Id="b5a46f22-e1e8-486e-aefb-0bcc537fb90e" />
   <Project Path="ECHO_RENDERING/ECHO_RENDERING.vcxproj" Id="de690bae-85bd-4c81-ae6c-87639959ee70" />

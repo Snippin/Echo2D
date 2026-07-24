@@ -1,6 +1,10 @@
 #define SDL_MAIN_HANDLED = 1;
 #define NOMINMAX
 
+#include <Core/ECS/Components/Identity.h>
+#include <Core/ECS/Components/SpriteComponent.h>
+#include <Core/ECS/Components/TransformComponent.h>
+#include <Core/ECS/Entity.h>
 #include <Logger/Logger.h>
 #include <Rendering/Core/Camera2D.h>
 #include <Rendering/Essentials/ShaderLoader.h>
@@ -8,46 +12,10 @@
 #include <Rendering/Essentials/Vertex.h>
 #include <Windowing/Window/Window.h>
 
-#include <entt.hpp>
 #include <glad/glad.h>
 #include <SDL.h>
 
 #include <iostream>
-
-struct UVs
-{
-    float X{0.f};
-    float Y{0.f};
-    float UV_Width{0.f};
-    float UV_Height{0.f};
-};
-
-struct TransformComponent
-{
-    glm::vec2 Position{glm::vec2{1.f}};
-    glm::vec2 Scale{glm::vec2{1.f}};
-    float Rotation{0.f};
-};
-
-struct SpriteComponent
-{
-    float Width{0.f};
-    float Height{0.f};
-    UVs Uvs{.X = 0.f, .Y = 0.f, .UV_Width = 0.f, .UV_Height = 0.f};
-
-    ECHO_RENDERING::Color Colour{.R = 255, .G = 255, .B = 255, .A = 255};
-    int Start_X{0};
-    int Start_Y{0};
-
-    void GenerateUVs(int texture_width, int texture_height)
-    {
-        Uvs.UV_Width = Width / texture_width;
-        Uvs.UV_Height = Height / texture_height;
-
-        Uvs.X = Start_X * Uvs.UV_Width;
-        Uvs.Y = Start_Y * Uvs.UV_Height;
-    }
-};
 
 int main()
 {
@@ -130,29 +98,19 @@ int main()
         return -1;
     }
 
-    // Create a registry
-    auto registry = std::make_unique<entt::registry>();
-    if (!registry)
-    {
-        ECHO_ERROR("Failed to create entt registry");
-        return -1;
-    }
+    auto registry = std::make_unique<ECHO_CORE::ECS::Registry>();
 
-    // Temp UVs
-    UVs tex_uvs;
+    ECHO_CORE::ECS::Entity entity1{*registry, "ent1", "test"};
 
-    // Create a new entity -- for testing
-    auto ent1 = registry->create();
-
-    auto &transform = registry->emplace<TransformComponent>(ent1,
-        TransformComponent{
+    auto &transform = entity1.AddComponent<ECHO_CORE::ECS::TransformComponent>(
+        ECHO_CORE::ECS::TransformComponent{
             .Position = glm::vec2{0.f},
             .Scale = glm::vec2{1.f},
             .Rotation = 0.f
         });
 
-    auto &sprite = registry->emplace<SpriteComponent>(ent1,
-        SpriteComponent{
+    auto &sprite = entity1.AddComponent<ECHO_CORE::ECS::SpriteComponent>(
+        ECHO_CORE::ECS::SpriteComponent{
             .Width = 16.f,
             .Height = 16.f,
             .Colour = ECHO_RENDERING::Color{.R = 0,.G = 255,.B = 0,.A = 255},
@@ -194,6 +152,10 @@ int main()
     vertices.push_back(bot_left);
     vertices.push_back(bot_right);
     vertices.push_back(top_right);
+
+    auto &identity = entity1.GetComponent<ECHO_CORE::ECS::Identity>();
+    ECHO_LOG("Name-{}, Group-{}, ID-{}", identity.Name, identity.Group,
+        identity.Entity_Id);
 
     GLuint indices[] = {
         0, 1, 2,
