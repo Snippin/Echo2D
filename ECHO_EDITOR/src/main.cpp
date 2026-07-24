@@ -1,82 +1,15 @@
 #define SDL_MAIN_HANDLED = 1;
 
 #include <Logger/Logger.h>
+#include <Rendering/Core/Camera2D.h>
 #include <Rendering/Essentials/ShaderLoader.h>
 #include <Rendering/Essentials/TextureLoader.h>
 #include <Windowing/Window/Window.h>
 
 #include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include <SDL.h>
-#include <SOIL2/SOIL2.h>
 
 #include <iostream>
-
-class Camera2D
-{
-public:
-    Camera2D()
-        : Camera2D(640, 480)
-    {
-    }
-
-    Camera2D(int width, int height) :
-        width{width}, height{height}, scale{1.f},
-        position{glm::vec2{0.f}}, camera_matrix{1.f},
-        ortho_projection{1.f}, need_update{true}
-    {
-        float half_width = static_cast<float>(width) * 0.5f;
-        float half_height = static_cast<float>(height) * 0.5f;
-
-        // Flip top and bottom values due to image being rendered upside down
-        ortho_projection = glm::ortho(
-            -half_width,    // Left
-            half_width,     // Right
-            half_height,    // Bottom
-            -half_height,   // Top
-            -1.f,           // Near
-            1.f             // Far
-        );
-    }
-
-    inline glm::mat4 GetCameraMatrix() { return camera_matrix; }
-
-    inline void SetScale(float new_scale)
-    {
-        scale = new_scale;
-        need_update = true;
-    }
-
-    void Update()
-    {
-        if (!need_update)
-        {
-            return;
-        }
-
-        // Translate
-        glm::vec3 translate{-position.x, -position.y, 0.f};
-        camera_matrix = glm::translate(ortho_projection, translate);
-
-        // Scale
-        glm::vec3 scaling{scale, scale, 0.f};
-        camera_matrix *= glm::scale(glm::mat4{1.f}, scaling);
-
-        need_update = false;
-    }
-
-private:
-    int width;
-    int height;
-    float scale;
-
-    glm::vec2 position;
-    glm::mat4 camera_matrix;
-    glm::mat4 ortho_projection;
-
-    bool need_update;
-};
 
 struct UVs
 {
@@ -209,7 +142,7 @@ int main()
     };
 
     // Create temp camera
-    Camera2D camera{};
+    ECHO_RENDERING::Camera2D camera{};
     camera.SetScale(5.f);
 
     // Create shader

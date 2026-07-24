@@ -156,12 +156,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Rendering\Core\Camera2D.h" />
     <ClInclude Include="include\Rendering\Essentials\Shader.h" />
     <ClInclude Include="include\Rendering\Essentials\ShaderLoader.h" />
     <ClInclude Include="include\Rendering\Essentials\Texture.h" />
     <ClInclude Include="include\Rendering\Essentials\TextureLoader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera2D.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\ShaderLoader.cpp" />
     <ClCompile Include="src\Texture.cpp" />
