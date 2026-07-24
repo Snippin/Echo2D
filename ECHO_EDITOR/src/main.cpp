@@ -1,13 +1,14 @@
 #define SDL_MAIN_HANDLED = 1;
 
+#include <Logger/Logger.h>
+#include <Rendering/Essentials/ShaderLoader.h>
+#include <Windowing/Window/Window.h>
+
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <SDL.h>
 #include <SOIL2/SOIL2.h>
-
-#include <Rendering/Essentials/ShaderLoader.h>
-#include <Windowing/Window/Window.h>
 
 #include <iostream>
 
@@ -157,11 +158,13 @@ bool LoadTexture(const std::string &path, int &width, int &height,
 
 int main()
 {
+    ECHO_INIT_LOGS(true, true);
+
     // Initialise SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
         std::string error = SDL_GetError();
-        std::cout << "Failed to intialise SDL: " << error << "\n";
+        ECHO_ERROR("Failed to initialise SDL: {}", error);
         return -1;
     }
 
@@ -169,7 +172,7 @@ int main()
     if (SDL_GL_LoadLibrary(NULL) != 0)
     {
         std::string error = SDL_GetError();
-        std::cout << "Failed to open GL Library: " << error << "\n";
+        ECHO_ERROR("Failed to open GL Library: {}", error);
         return -1;
     }
 
@@ -195,7 +198,7 @@ int main()
 
     if (!window.GetWindow())
     {
-        std::cout << "Failed to create window\n";
+        ECHO_ERROR("Failed to create window");
         return -1;
     }
 
@@ -205,7 +208,7 @@ int main()
     if (!window.GetGLContext())
     {
         std::string error = SDL_GetError();
-        std::cout << "Failed to create OpenGL Context: " << error << "\n";
+        ECHO_ERROR("Failed to create OpenGL Context: {}", error);
         return -1;
     }
 
@@ -215,7 +218,7 @@ int main()
     // Initialise GLAD
     if (gladLoadGLLoader(SDL_GL_GetProcAddress) == 0)
     {
-        std::cout << "Failed to LoadGL --> GLAD\n";
+        ECHO_ERROR("Failed to LoadGL --> GLAD");
         return -1;
     }
 
@@ -235,7 +238,7 @@ int main()
     // Load texture
     if (!LoadTexture("assets/textures/hill_tiles.png", width, height, false))
     {
-        std::cout << "Failed to load the texture\n";
+        ECHO_ERROR("Failed to load the texture");
         return -1;
     }
 
@@ -285,7 +288,7 @@ int main()
 
     if (!shader)
     {
-        std::cout << "Failed to create shader\n";
+        ECHO_ERROR("Failed to create shader");
         return -1;
     }
 
