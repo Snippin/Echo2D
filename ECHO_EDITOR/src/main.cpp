@@ -4,6 +4,7 @@
 #include <Rendering/Core/Camera2D.h>
 #include <Rendering/Essentials/ShaderLoader.h>
 #include <Rendering/Essentials/TextureLoader.h>
+#include <Rendering/Essentials/Vertex.h>
 #include <Windowing/Window/Window.h>
 
 #include <glad/glad.h>
@@ -106,35 +107,46 @@ int main()
     }
 
     // Temp UVs
-    UVs uvs;
+    UVs tex_uvs;
 
     auto generate_uvs = [&](float start_x, float start_y, float sprite_width,
         float sprite_height)
         {
-            uvs.Width = sprite_width / texture->GetWidth();
-            uvs.Height = sprite_height / texture->GetHeight();
+            tex_uvs.Width = sprite_width / texture->GetWidth();
+            tex_uvs.Height = sprite_height / texture->GetHeight();
 
-            uvs.X = start_x * uvs.Width;
-            uvs.Y = start_y * uvs.Height;
+            tex_uvs.X = start_x * tex_uvs.Width;
+            tex_uvs.Y = start_y * tex_uvs.Height;
         };
 
     generate_uvs(1, 6, 16, 16);
 
-    // Vertices for a quad
-    //float vertices[] = {
-    //    -0.5f, 0.5f, 0.f, 0.f, 1.f,  // TL
-    //    0.5f, 0.5f, 0.f, 1.f, 1.f,   // TR
-    //    0.5f, -0.5f, 0.f, 1.f, 0.f,  // BR
-    //    -0.5f, -0.5f, 0.f, 0.f, 0.f, // BL
-    //};
+    std::vector<ECHO_RENDERING::Vertex> vertices{};
 
-    // Swapped tex coords
-    float vertices[] = {
-        -16, 16.f, 0.f, uvs.X, (uvs.Y + uvs.Height),                    // TL
-        -16.f, -16.f, 0.f, uvs.X, uvs.Y,                                // BL
-        16.f, -16.f, 0.f, (uvs.X + uvs.Width), uvs.Y,                   // BR
-        16.f, 16.f, 0.f, (uvs.X + uvs.Width), (uvs.Y + uvs.Height)      // TR
+    ECHO_RENDERING::Vertex top_left{
+        glm::vec2{-16.f, 16.f},
+        glm::vec2{tex_uvs.X, (tex_uvs.Y + tex_uvs.Height)}
     };
+
+    ECHO_RENDERING::Vertex top_right{
+        glm::vec2{-16.f, -16.f},
+        glm::vec2{tex_uvs.X, tex_uvs.Y}
+    };
+
+    ECHO_RENDERING::Vertex bot_left{
+        glm::vec2{16.f, -16.f},
+        glm::vec2{(tex_uvs.X + tex_uvs.Width), tex_uvs.Y}
+    };
+
+    ECHO_RENDERING::Vertex bot_right{
+        glm::vec2{16.f, 16.f},
+        glm::vec2{(tex_uvs.X + tex_uvs.Width), (tex_uvs.Y + tex_uvs.Height)}
+    };
+
+    vertices.push_back(top_left);
+    vertices.push_back(top_right);
+    vertices.push_back(bot_left);
+    vertices.push_back(bot_right);
 
     GLuint indices[] = {
         0, 1, 2,
@@ -169,10 +181,10 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     glBufferData(
-        GL_ARRAY_BUFFER,					   // Target buffer type
-        sizeof(vertices) * 3 * sizeof(float),  // size of buffer object data in bytes
-        vertices,							   // Pointer to data that will be copied
-        GL_STATIC_DRAW						   // Expected usage pattern of data
+        GL_ARRAY_BUFFER,					                // Target buffer type
+        vertices.size() * sizeof(ECHO_RENDERING::Vertex),   // size of buffer object data in bytes
+        vertices.data(),							        // Pointer to data that will be copied
+        GL_STATIC_DRAW						                // Expected usage pattern of data
     );
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
@@ -185,12 +197,12 @@ int main()
     );
 
     glVertexAttribPointer(
-        0,					// Attribute    -- Layout position in the shader
-        3,					// Size		    -- Number of components per vertex
-        GL_FLOAT,			// Type		    -- Data type of components
-        GL_FALSE,			// Normalized   -- Specifies if fixed-point data values should be normalized
-        5 * sizeof(float),	// Stride       -- Specifies byte offset between consecutive attributes
-        nullptr 			// Pointer      -- Specifies the offset of the first component
+        0,					                                // Attribute    -- Layout position in the shader
+        2,					                                // Size		    -- Number of components per vertex
+        GL_FLOAT,			                                // Type		    -- Data type of components
+        GL_FALSE,			                                // Normalized   -- Specifies if fixed-point data values should be normalized
+        sizeof(ECHO_RENDERING::Vertex),	                    // Stride       -- Specifies byte offset between consecutive attributes
+        (void *)offsetof(ECHO_RENDERING::Vertex, Position) 	// Pointer      -- Specifies the offset of the first component
     );
 
     glVertexAttribPointer(
@@ -198,12 +210,22 @@ int main()
         2,
         GL_FLOAT,
         GL_FALSE,
-        5 * sizeof(float),
-        reinterpret_cast<void *>(sizeof(float) * 3) // Offset of positional data to the first UV coord
+        sizeof(ECHO_RENDERING::Vertex),
+        (void *)offsetof(ECHO_RENDERING::Vertex, UVs)   // Offset of positional data to the first UV coord
+    );
+
+    glVertexAttribPointer(
+        2,
+        4,
+        GL_UNSIGNED_BYTE,
+        GL_TRUE,
+        sizeof(ECHO_RENDERING::Vertex),
+        (void *)offsetof(ECHO_RENDERING::Vertex, Colour)   // Offset of positional data to the first UV coord
     );
 
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
     glBindVertexArray(0);
 
     SDL_Event event{};

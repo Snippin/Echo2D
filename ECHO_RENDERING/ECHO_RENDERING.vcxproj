@@ -161,6 +161,7 @@
     <ClInclude Include="include\Rendering\Essentials\ShaderLoader.h" />
     <ClInclude Include="include\Rendering\Essentials\Texture.h" />
     <ClInclude Include="include\Rendering\Essentials\TextureLoader.h" />
+    <ClInclude Include="include\Rendering\Essentials\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera2D.cpp" />
