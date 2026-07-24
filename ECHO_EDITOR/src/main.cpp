@@ -1,4 +1,5 @@
 #define SDL_MAIN_HANDLED = 1;
+#define NOMINMAX
 
 #include <Logger/Logger.h>
 #include <Rendering/Core/Camera2D.h>
@@ -7,6 +8,7 @@
 #include <Rendering/Essentials/Vertex.h>
 #include <Windowing/Window/Window.h>
 
+#include <entt.hpp>
 #include <glad/glad.h>
 #include <SDL.h>
 
@@ -14,14 +16,36 @@
 
 struct UVs
 {
-    float X;
-    float Y;
-    float Width;
-    float Height;
+    float X{0.f};
+    float Y{0.f};
+    float UV_Width{0.f};
+    float UV_Height{0.f};
+};
 
-    UVs() :
-        X{0.f}, Y{0.f}, Width{0.f}, Height{0.f}
+struct TransformComponent
+{
+    glm::vec2 Position{glm::vec2{1.f}};
+    glm::vec2 Scale{glm::vec2{1.f}};
+    float Rotation{0.f};
+};
+
+struct SpriteComponent
+{
+    float Width{0.f};
+    float Height{0.f};
+    UVs Uvs{.X = 0.f, .Y = 0.f, .UV_Width = 0.f, .UV_Height = 0.f};
+
+    ECHO_RENDERING::Color Colour{.R = 255, .G = 255, .B = 255, .A = 255};
+    int Start_X{0};
+    int Start_Y{0};
+
+    void GenerateUVs(int texture_width, int texture_height)
     {
+        Uvs.UV_Width = Width / texture_width;
+        Uvs.UV_Height = Height / texture_height;
+
+        Uvs.X = Start_X * Uvs.UV_Width;
+        Uvs.Y = Start_Y * Uvs.UV_Height;
     }
 };
 
@@ -106,47 +130,70 @@ int main()
         return -1;
     }
 
+    // Create a registry
+    auto registry = std::make_unique<entt::registry>();
+    if (!registry)
+    {
+        ECHO_ERROR("Failed to create entt registry");
+        return -1;
+    }
+
     // Temp UVs
     UVs tex_uvs;
 
-    auto generate_uvs = [&](float start_x, float start_y, float sprite_width,
-        float sprite_height)
-        {
-            tex_uvs.Width = sprite_width / texture->GetWidth();
-            tex_uvs.Height = sprite_height / texture->GetHeight();
+    // Create a new entity -- for testing
+    auto ent1 = registry->create();
 
-            tex_uvs.X = start_x * tex_uvs.Width;
-            tex_uvs.Y = start_y * tex_uvs.Height;
-        };
+    auto &transform = registry->emplace<TransformComponent>(ent1,
+        TransformComponent{
+            .Position = glm::vec2{0.f},
+            .Scale = glm::vec2{1.f},
+            .Rotation = 0.f
+        });
 
-    generate_uvs(1, 6, 16, 16);
+    auto &sprite = registry->emplace<SpriteComponent>(ent1,
+        SpriteComponent{
+            .Width = 16.f,
+            .Height = 16.f,
+            .Colour = ECHO_RENDERING::Color{.R = 0,.G = 255,.B = 0,.A = 255},
+            .Start_X = 1,
+            .Start_Y = 6,
+        });
+
+    sprite.GenerateUVs(texture->GetWidth(), texture->GetHeight());
 
     std::vector<ECHO_RENDERING::Vertex> vertices{};
 
     ECHO_RENDERING::Vertex top_left{
-        glm::vec2{-16.f, 16.f},
-        glm::vec2{tex_uvs.X, (tex_uvs.Y + tex_uvs.Height)}
+        glm::vec2{transform.Position.x, transform.Position.y + sprite.Height},
+        glm::vec2{sprite.Uvs.X, (sprite.Uvs.Y + sprite.Uvs.UV_Height)},
+        sprite.Colour
     };
 
     ECHO_RENDERING::Vertex top_right{
-        glm::vec2{-16.f, -16.f},
-        glm::vec2{tex_uvs.X, tex_uvs.Y}
+        glm::vec2{transform.Position.x + sprite.Width,
+            transform.Position.y + sprite.Height},
+        glm::vec2{sprite.Uvs.X + sprite.Uvs.UV_Width,
+            sprite.Uvs.Y + sprite.Uvs.UV_Height},
+        sprite.Colour
     };
 
     ECHO_RENDERING::Vertex bot_left{
-        glm::vec2{16.f, -16.f},
-        glm::vec2{(tex_uvs.X + tex_uvs.Width), tex_uvs.Y}
+        glm::vec2{transform.Position.x, transform.Position.y},
+        glm::vec2{sprite.Uvs.X , sprite.Uvs.Y},
+        sprite.Colour
     };
 
     ECHO_RENDERING::Vertex bot_right{
-        glm::vec2{16.f, 16.f},
-        glm::vec2{(tex_uvs.X + tex_uvs.Width), (tex_uvs.Y + tex_uvs.Height)}
+        glm::vec2{transform.Position.x + sprite.Width, transform.Position.y},
+        glm::vec2{sprite.Uvs.X + sprite.Uvs.UV_Width, sprite.Uvs.Y},
+        sprite.Colour
     };
 
     vertices.push_back(top_left);
-    vertices.push_back(top_right);
     vertices.push_back(bot_left);
     vertices.push_back(bot_right);
+    vertices.push_back(top_right);
 
     GLuint indices[] = {
         0, 1, 2,
