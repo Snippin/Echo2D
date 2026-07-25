@@ -28,7 +28,7 @@ namespace ECHO_LOGGER
 
         std::stringstream ss;
         ss << "ECHO [INFO]: " << DateTime() << " - " << std::vformat(message,
-            std::make_format_args(std::forward<Args>(args)...)) << "\n";
+            std::make_format_args(args...)) << "\n";
 
         if (console_log)
         {
@@ -56,7 +56,7 @@ namespace ECHO_LOGGER
 
         std::stringstream ss;
         ss << "ECHO [WARN]: " << DateTime() << " - " << std::vformat(message,
-            std::make_format_args(std::forward<Args>(args)...)) << "\n";
+            std::make_format_args(args...)) << "\n";
 
         if (console_log)
         {
@@ -85,7 +85,7 @@ namespace ECHO_LOGGER
 
         std::stringstream ss;
         ss << "ECHO [ERROR]: " << DateTime() << " - " << std::vformat(message,
-            std::make_format_args(std::forward<Args>(args)...)) <<
+            std::make_format_args(args...)) <<
             "\nFUNC: " << location.function_name() <<
             "\nLINE: " << location.line() << "\n\n";
 
