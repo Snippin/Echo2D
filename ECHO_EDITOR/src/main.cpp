@@ -5,10 +5,10 @@
 #include <Core/ECS/Components/SpriteComponent.h>
 #include <Core/ECS/Components/TransformComponent.h>
 #include <Core/ECS/Entity.h>
+#include <Core/Resources/AssetManager.h>
 #include <Logger/Logger.h>
 #include <Rendering/Core/Camera2D.h>
 #include <Rendering/Essentials/ShaderLoader.h>
-#include <Rendering/Essentials/TextureLoader.h>
 #include <Rendering/Essentials/Vertex.h>
 #include <Windowing/Window/Window.h>
 
@@ -87,16 +87,21 @@ int main()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // Add temp texture
-    auto texture = ECHO_RENDERING::TextureLoader::Create(
-        ECHO_RENDERING::Texture::TextureType::PIXEL,
-        "./assets/textures/hill_tiles.png");
-
-    if (!texture)
+    auto asset_manager = std::make_shared<ECHO_RESOURCES::AssetManager>();
+    if (!asset_manager)
     {
-        ECHO_ERROR("Failed to create texture");
+        ECHO_ERROR("Failed to create `AssetManager`");
         return -1;
     }
+
+    if (!asset_manager->AddTexture("hill_tiles",
+        "./assets/textures/hill_tiles.png", true))
+    {
+        ECHO_ERROR("Failed to create and add texture");
+        return -1;
+    }
+
+    auto texture = asset_manager->GetTexture("hill_tiles");
 
     auto registry = std::make_unique<ECHO_CORE::ECS::Registry>();
 
@@ -118,7 +123,7 @@ int main()
             .Start_Y = 6,
         });
 
-    sprite.GenerateUVs(texture->GetWidth(), texture->GetHeight());
+    sprite.GenerateUVs(texture.GetWidth(), texture.GetHeight());
 
     std::vector<ECHO_RENDERING::Vertex> vertices{};
 
@@ -167,14 +172,14 @@ int main()
     camera.SetScale(5.f);
 
     // Create shader
-    auto shader = ECHO_RENDERING::ShaderLoader::Create(
-        "assets/shaders/basic_shader");
-
-    if (!shader)
+    if (!asset_manager->AddShader("basic_shader",
+        "./assets/shaders/basic_shader"))
     {
-        ECHO_ERROR("Failed to create shader");
+        ECHO_ERROR("Failed to create and add shader");
         return -1;
     }
+
+    auto shader = asset_manager->GetShader("basic_shader");
 
     // Create vertex array object and vertex buffer object, index buffer object
     GLuint VAO;
@@ -269,13 +274,13 @@ int main()
         glClearColor(1.f, 1.f, 1.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        shader->Enable();
+        shader.Enable();
         glBindVertexArray(VAO);
 
-        shader->SetUniformMat4("uProjection", camera.GetCameraMatrix());
+        shader.SetUniformMat4("uProjection", camera.GetCameraMatrix());
 
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture->GetID());
+        glBindTexture(GL_TEXTURE_2D, texture.GetID());
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
@@ -283,7 +288,7 @@ int main()
         SDL_GL_SwapWindow(window.GetWindow().get());
 
         camera.Update();
-        shader->Disable();
+        shader.Disable();
     }
 
     std::cout << "Closing\n";

@@ -4,6 +4,11 @@
 
 namespace ECHO_RENDERING
 {
+    Shader::Shader() :
+        Shader(0, "", "")
+    {
+    }
+
     Shader::Shader(GLuint program, const std::string &vertex_path,
         const std::string &fragment_path) :
         shader_program_id{program}, vertex_path{vertex_path},

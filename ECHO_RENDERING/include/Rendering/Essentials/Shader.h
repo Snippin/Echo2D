@@ -11,6 +11,7 @@ namespace ECHO_RENDERING
     class Shader
     {
     public:
+        Shader();
         Shader(GLuint program, const std::string &vertex_path,
             const std::string &fragment_path);
         ~Shader();
