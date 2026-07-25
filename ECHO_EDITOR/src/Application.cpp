@@ -5,6 +5,7 @@
 #include <Core/ECS/Components/TransformComponent.h>
 #include <Core/ECS/Entity.h>
 #include <Core/Resources/AssetManager.h>
+#include <Core/Systems/ScriptSystem.h>
 #include <Logger/Logger.h>
 #include <Rendering/Core/Camera2D.h>
 #include <Rendering/Essentials/Vertex.h>
@@ -200,6 +201,47 @@ namespace ECHO_EDITOR
             2, 3, 0
         };
 
+        // Create lua state
+        auto lua = std::make_shared<sol::state>();
+
+        if (!lua)
+        {
+            ECHO_ERROR("Failed to create lua state");
+            return false;
+        }
+
+        lua->open_libraries(sol::lib::base, sol::lib::math, sol::lib::os,
+            sol::lib::table, sol::lib::io, sol::lib::string);
+
+        if (!registry->AddContext<std::shared_ptr<sol::state>>(lua))
+        {
+            ECHO_ERROR("Failed to add sol::state to registry context");
+            return false;
+        }
+
+        // Create script system
+        auto script_system = std::make_shared<
+            ECHO_CORE::SYSTEMS::ScriptSystem>(*registry);
+
+        if (!script_system)
+        {
+            ECHO_ERROR("Failed to create script system");
+            return false;
+        }
+
+        if (!script_system->LoadMainScript(*lua))
+        {
+            ECHO_ERROR("Failed to load main lua script");
+            return false;
+        }
+
+        if (!registry->AddContext<std::shared_ptr<
+            ECHO_CORE::SYSTEMS::ScriptSystem>>(script_system))
+        {
+            ECHO_ERROR("Failed to add script system to registry context");
+            return false;
+        }
+
         // Create temp camera
         auto camera = std::make_shared<ECHO_RENDERING::Camera2D>();
         camera->SetScale(10.f);
@@ -340,6 +382,10 @@ namespace ECHO_EDITOR
         }
 
         camera->Update();
+
+        const auto &script_system = registry->GetContext<std::shared_ptr<
+            ECHO_CORE::SYSTEMS::ScriptSystem>>();
+        script_system->Update();
     }
 
     void Application::Render()
@@ -371,6 +417,10 @@ namespace ECHO_EDITOR
         glActiveTexture(GL_TEXTURE0);
         const auto &texture = asset_manager->GetTexture("hill_tiles");
         glBindTexture(GL_TEXTURE_2D, texture.GetID());
+
+        const auto &script_system = registry->GetContext<std::shared_ptr<
+            ECHO_CORE::SYSTEMS::ScriptSystem>>();
+        script_system->Render();
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 

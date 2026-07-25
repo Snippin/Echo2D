@@ -22,6 +22,27 @@ namespace ECHO_CORE::ECS
         );
     }
 
+    Entity::Entity(Registry &registry, const entt::entity &entity) :
+        registry{registry}, entity{entity}, name{""}, group{""}
+    {
+        if (HasComponent<Identity>())
+        {
+            const auto &id = GetComponent<Identity>();
+            name = id.Name;
+            group = id.Group;
+        }
+    }
+
+    const std::string &Entity::GetName() const
+    {
+        return name;
+    }
+
+    const std::string &Entity::GetGroup() const
+    {
+        return group;
+    }
+
     std::uint32_t Entity::Kill()
     {
         return registry.Get().destroy(entity);

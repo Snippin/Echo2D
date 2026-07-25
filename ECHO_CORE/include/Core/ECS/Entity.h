@@ -10,7 +10,11 @@ namespace ECHO_CORE::ECS
         Entity(Registry &registry);
         Entity(Registry &registry, const std::string &name = "",
             const std::string &group = "");
+        Entity(Registry &registry, const entt::entity &entity);
         ~Entity() = default;
+
+        const std::string &GetName() const;
+        const std::string &GetGroup() const;
 
         std::uint32_t Kill();
 
