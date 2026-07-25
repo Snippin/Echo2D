@@ -6,12 +6,12 @@
 
 namespace ECHO_UTIL
 {
-	struct SDLDestroyer
-	{
-		void operator()(SDL_Window *window) const;
-		void operator()(SDL_GameController *controller) const;
-		void operator()(SDL_Cursor *cursor) const;
-	};
+    struct SDLDestroyer
+    {
+        void operator()(SDL_Window *window) const;
+        void operator()(SDL_GameController *controller) const;
+        void operator()(SDL_Cursor *cursor) const;
+    };
 }
 
 typedef std::shared_ptr<SDL_GameController> Controller;

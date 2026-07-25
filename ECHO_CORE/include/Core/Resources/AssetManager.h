@@ -20,7 +20,7 @@ namespace ECHO_RESOURCES
         const ECHO_RENDERING::Texture &GetTexture(const std::string &name);
 
         bool AddShader(const std::string &name, const std::string &base_path);
-        const ECHO_RENDERING::Shader &GetShader(const std::string &name);
+        ECHO_RENDERING::Shader &GetShader(const std::string &name);
 
     private:
         std::map<std::string, std::shared_ptr<ECHO_RENDERING::Texture>>

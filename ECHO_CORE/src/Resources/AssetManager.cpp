@@ -68,14 +68,14 @@ namespace ECHO_RESOURCES
         return true;
     }
 
-    const ECHO_RENDERING::Shader &AssetManager::GetShader(
-        const std::string &name)
+    ECHO_RENDERING::Shader &AssetManager::GetShader(const std::string &name)
     {
         auto itr = shaders.find(name);
         if (itr == shaders.end())
         {
             ECHO_ERROR("Failed to get shader [{}] -- Does not exist", name);
-            return ECHO_RENDERING::Shader();
+            ECHO_RENDERING::Shader shader{};
+            return shader;
         }
 
         return *itr->second;
