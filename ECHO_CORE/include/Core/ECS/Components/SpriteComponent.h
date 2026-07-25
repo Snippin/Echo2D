@@ -21,6 +21,9 @@ namespace ECHO_CORE::ECS
         ECHO_RENDERING::Color Colour{.R = 255, .G = 255, .B = 255, .A = 255};
         int Start_X{0};
         int Start_Y{0};
+        int Layer{0};
+
+        std::string Texture_Name{""};
 
         void GenerateUVs(int texture_width, int texture_height)
         {

@@ -5,6 +5,7 @@
 #include <Core/ECS/Components/TransformComponent.h>
 #include <Core/ECS/Entity.h>
 #include <Core/Resources/AssetManager.h>
+#include <Core/Systems/RenderSystem.h>
 #include <Core/Systems/ScriptSystem.h>
 #include <Logger/Logger.h>
 #include <Rendering/Core/Camera2D.h>
@@ -45,7 +46,6 @@ namespace ECHO_EDITOR
 
     Application::Application() :
         window{nullptr}, registry{nullptr}, event{}, running{true}
-        , VAO{0}, VBO{0}, IBO{0}
     {
     }
 
@@ -142,7 +142,7 @@ namespace ECHO_EDITOR
         const auto &transform = entity1.AddComponent<ECHO_CORE::ECS::TransformComponent>(
             ECHO_CORE::ECS::TransformComponent{
                 .Position = glm::vec2{0.f},
-                .Scale = glm::vec2{1.f},
+                .Scale = glm::vec2{5.f},
                 .Rotation = 0.f
             });
 
@@ -153,53 +153,15 @@ namespace ECHO_EDITOR
                 .Colour = ECHO_RENDERING::Color{.R = 0,.G = 255,.B = 0,.A = 255},
                 .Start_X = 1,
                 .Start_Y = 6,
+                .Layer = 0,
+                .Texture_Name = "hill_tiles",
             });
 
         sprite.GenerateUVs(texture.GetWidth(), texture.GetHeight());
 
-        std::vector<ECHO_RENDERING::Vertex> vertices{};
-
-        ECHO_RENDERING::Vertex top_left{
-            glm::vec2{transform.Position.x,
-                transform.Position.y + sprite.Height},
-            glm::vec2{sprite.Uvs.X, (sprite.Uvs.Y + sprite.Uvs.UV_Height)},
-            sprite.Colour
-        };
-
-        ECHO_RENDERING::Vertex top_right{
-            glm::vec2{transform.Position.x + sprite.Width,
-                transform.Position.y + sprite.Height},
-            glm::vec2{sprite.Uvs.X + sprite.Uvs.UV_Width,
-                sprite.Uvs.Y + sprite.Uvs.UV_Height},
-            sprite.Colour
-        };
-
-        ECHO_RENDERING::Vertex bot_left{
-            glm::vec2{transform.Position.x, transform.Position.y},
-            glm::vec2{sprite.Uvs.X , sprite.Uvs.Y},
-            sprite.Colour
-        };
-
-        ECHO_RENDERING::Vertex bot_right{
-            glm::vec2{transform.Position.x + sprite.Width,
-                transform.Position.y},
-            glm::vec2{sprite.Uvs.X + sprite.Uvs.UV_Width, sprite.Uvs.Y},
-            sprite.Colour
-        };
-
-        vertices.push_back(top_left);
-        vertices.push_back(bot_left);
-        vertices.push_back(bot_right);
-        vertices.push_back(top_right);
-
         auto &identity = entity1.GetComponent<ECHO_CORE::ECS::Identity>();
         ECHO_LOG("Name-{}, Group-{}, ID-{}", identity.Name, identity.Group,
             identity.Entity_Id);
-
-        GLuint indices[] = {
-            0, 1, 2,
-            2, 3, 0
-        };
 
         // Create lua state
         auto lua = std::make_shared<sol::state>();
@@ -242,9 +204,25 @@ namespace ECHO_EDITOR
             return false;
         }
 
+        // Create render system
+        auto render_system = std::make_shared<
+            ECHO_CORE::SYSTEMS::RenderSystem>(*registry);
+
+        if (!render_system)
+        {
+            ECHO_ERROR("Failed to create render system");
+            return false;
+        }
+
+        if (!registry->AddContext<std::shared_ptr<
+            ECHO_CORE::SYSTEMS::RenderSystem>>(render_system))
+        {
+            ECHO_ERROR("Failed to add render system to registry context");
+            return false;
+        }
+
         // Create temp camera
         auto camera = std::make_shared<ECHO_RENDERING::Camera2D>();
-        camera->SetScale(10.f);
 
         if (!registry->AddContext<std::shared_ptr<
             ECHO_RESOURCES::AssetManager>>(asset_manager))
@@ -265,62 +243,6 @@ namespace ECHO_EDITOR
             ECHO_ERROR("Failed to load shaders");
             return false;
         }
-
-        glGenVertexArrays(1, &VAO);
-        glGenBuffers(1, &VBO);
-        glGenBuffers(1, &IBO);
-
-        // Bind VAO, VBO & IBO
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-        glBufferData(
-            GL_ARRAY_BUFFER,					                // Target buffer type
-            vertices.size() * sizeof(ECHO_RENDERING::Vertex),   // size of buffer object data in bytes
-            vertices.data(),							        // Pointer to data that will be copied
-            GL_STATIC_DRAW						                // Expected usage pattern of data
-        );
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-
-        glBufferData(
-            GL_ELEMENT_ARRAY_BUFFER,			   // Target buffer type
-            6 * sizeof(GLuint),                    // size of buffer object data in bytes
-            indices,							   // Pointer to data that will be copied
-            GL_STATIC_DRAW						   // Expected usage pattern of data
-        );
-
-        glVertexAttribPointer(
-            0,					                                // Attribute    -- Layout position in the shader
-            2,					                                // Size		    -- Number of components per vertex
-            GL_FLOAT,			                                // Type		    -- Data type of components
-            GL_FALSE,			                                // Normalized   -- Specifies if fixed-point data values should be normalized
-            sizeof(ECHO_RENDERING::Vertex),	                    // Stride       -- Specifies byte offset between consecutive attributes
-            (void *)offsetof(ECHO_RENDERING::Vertex, Position) 	// Pointer      -- Specifies the offset of the first component
-        );
-
-        glVertexAttribPointer(
-            1,
-            2,
-            GL_FLOAT,
-            GL_FALSE,
-            sizeof(ECHO_RENDERING::Vertex),
-            (void *)offsetof(ECHO_RENDERING::Vertex, UVs)   // Offset of positional data to the first UV coord
-        );
-
-        glVertexAttribPointer(
-            2,
-            4,
-            GL_UNSIGNED_BYTE,
-            GL_TRUE,
-            sizeof(ECHO_RENDERING::Vertex),
-            (void *)offsetof(ECHO_RENDERING::Vertex, Colour)   // Offset of positional data to the first UV coord
-        );
-
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glEnableVertexAttribArray(2);
-        glBindVertexArray(0);
 
         return true;
     }
@@ -390,44 +312,20 @@ namespace ECHO_EDITOR
 
     void Application::Render()
     {
-        const auto &asset_manager = registry->GetContext<std::shared_ptr<
-            ECHO_RESOURCES::AssetManager>>();
-        const auto &camera = registry->GetContext<std::shared_ptr<
-            ECHO_RENDERING::Camera2D>>();
-
-        auto &shader = asset_manager->GetShader("basic");
-        auto projection = camera->GetCameraMatrix();
-
-        if (shader.ShaderProgramID() == 0)
-        {
-            ECHO_ERROR("Shader program has not been created properly");
-            return;
-        }
+        const auto &render_system = registry->GetContext<std::shared_ptr<
+            ECHO_CORE::SYSTEMS::RenderSystem>>();
+        const auto &script_system = registry->GetContext<std::shared_ptr<
+            ECHO_CORE::SYSTEMS::ScriptSystem>>();
 
         glViewport(0, 0, window->GetWidth(), window->GetHeight());
 
         glClearColor(1.f, 1.f, 1.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        shader.Enable();
-        glBindVertexArray(VAO);
-
-        shader.SetUniformMat4("uProjection", projection);
-
-        glActiveTexture(GL_TEXTURE0);
-        const auto &texture = asset_manager->GetTexture("hill_tiles");
-        glBindTexture(GL_TEXTURE_2D, texture.GetID());
-
-        const auto &script_system = registry->GetContext<std::shared_ptr<
-            ECHO_CORE::SYSTEMS::ScriptSystem>>();
         script_system->Render();
+        render_system->Render();
 
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
-        glBindVertexArray(0);
         SDL_GL_SwapWindow(window->GetWindow().get());
-
-        shader.Disable();
     }
 
     void Application::CleanUp()

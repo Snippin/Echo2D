@@ -25,11 +25,6 @@ namespace ECHO_EDITOR
         SDL_Event event;
         bool running;
 
-        // TODO: Temporary for test
-        GLuint VAO;
-        GLuint VBO;
-        GLuint IBO;
-
         bool Initialise();
         bool LoadShaders();
 
