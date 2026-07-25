@@ -71,10 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\lua53\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\lua53\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -125,6 +127,9 @@
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
+    <Lib>
+      <AdditionalDependencies>lua53.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -143,6 +148,9 @@
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
+    <Lib>
+      <AdditionalDependencies>lua53.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECHO_LOGGER\ECHO_LOGGER.vcxproj">
