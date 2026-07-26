@@ -2,6 +2,8 @@
 
 #include "Registry.h"
 
+#include <sol/sol.hpp>
+
 namespace ECHO_CORE::ECS
 {
     class Entity
@@ -12,6 +14,11 @@ namespace ECHO_CORE::ECS
             const std::string &group = "");
         Entity(Registry &registry, const entt::entity &entity);
         ~Entity() = default;
+
+        static void CreateLuaBind(sol::state &lua, Registry &registry);
+
+        template <typename TComponent>
+        static void RegisterMetaComponent();
 
         const std::string &GetName() const;
         const std::string &GetGroup() const;
@@ -39,6 +46,10 @@ namespace ECHO_CORE::ECS
         std::string name;
         std::string group;
     };
+
+    template <typename TComponent>
+    auto add_component(Entity &entity, const sol::table &component,
+        sol::this_state s);
 }
 
 #include "Entity.inl"

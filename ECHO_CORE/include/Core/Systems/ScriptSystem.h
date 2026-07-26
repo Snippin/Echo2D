@@ -12,6 +12,9 @@ namespace ECHO_CORE::SYSTEMS
         ScriptSystem(ECHO_CORE::ECS::Registry &registry);
         ~ScriptSystem() = default;
 
+        static void RegisterLuaBindings(sol::state &lua,
+            ECHO_CORE::ECS::Registry &registry);
+
         bool LoadMainScript(sol::state &lua);
         void Update();
         void Render();

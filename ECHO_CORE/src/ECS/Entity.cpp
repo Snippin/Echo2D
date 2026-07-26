@@ -1,6 +1,7 @@
 #include "Core/ECS/Entity.h"
 
 #include "Core/Ecs/Components/Identity.h"
+#include "Core/Ecs/MetaUtilities.h"
 
 namespace ECHO_CORE::ECS
 {
@@ -31,6 +32,41 @@ namespace ECHO_CORE::ECS
             name = id.Name;
             group = id.Group;
         }
+    }
+
+    void Entity::CreateLuaBind(sol::state &lua, Registry &registry)
+    {
+        using namespace entt::literals;
+
+        lua.new_usertype<Entity>(
+            "Entity",
+            sol::call_constructor,
+            sol::factories(
+                [&](const std::string &name, const std::string &group)
+                {
+                    return Entity{registry, name, group};
+                }
+            ),
+            "addComponent",
+            [](Entity &entity, const sol::table &comp, sol::this_state s) ->  
+                sol::object 
+            {
+                // Check if valid lua/sol table
+                if (!comp.valid())
+                {
+                    return sol::lua_nil_t{};
+                }
+
+                const auto component = ECHO_CORE::UTILS::InvokeMetaFunction(
+                    ECHO_CORE::UTILS::GetIdType(comp),
+                    "add_component"_hs,
+                    entity, comp, s
+                );
+
+                return component ? 
+                    component.cast<sol::reference>() : sol::lua_nil_t{};
+            }
+        );
     }
 
     const std::string &Entity::GetName() const

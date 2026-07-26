@@ -1,6 +1,8 @@
 #include "Core/Systems/ScriptSystem.h"
 
 #include "Core/ECS/Components/ScriptComponent.h"
+#include "Core/ECS/Components/SpriteComponent.h"
+#include "Core/ECS/Components/TransformComponent.h"
 #include "Core/ECS/Entity.h"
 
 #include <Logger/Logger.h>
@@ -10,6 +12,19 @@ namespace ECHO_CORE::SYSTEMS
     ScriptSystem::ScriptSystem(ECHO_CORE::ECS::Registry &registry) :
         registry{registry}, main_loaded{}
     {
+    }
+
+    void ScriptSystem::RegisterLuaBindings(sol::state &lua,
+        ECHO_CORE::ECS::Registry &registry)
+    {
+        ECHO_CORE::ECS::Entity::CreateLuaBind(lua, registry);
+        ECHO_CORE::ECS::TransformComponent::CreateLuaBind(lua);
+        ECHO_CORE::ECS::SpriteComponent::CreateLuaBind(lua, registry);
+
+        ECHO_CORE::ECS::Entity::RegisterMetaComponent<
+            ECHO_CORE::ECS::TransformComponent>();
+        ECHO_CORE::ECS::Entity::RegisterMetaComponent<
+            ECHO_CORE::ECS::SpriteComponent>();
     }
 
     bool ScriptSystem::LoadMainScript(sol::state &lua)
@@ -76,7 +91,7 @@ namespace ECHO_CORE::SYSTEMS
                 continue;
             }
 
-            auto &script = ent.GetComponent<
+            const auto &script = ent.GetComponent<
                 ECHO_CORE::ECS::ScriptComponent>();
 
             auto status = script.Update(entity);
@@ -106,7 +121,7 @@ namespace ECHO_CORE::SYSTEMS
                 continue;
             }
 
-            auto &script = ent.GetComponent<
+            const auto &script = ent.GetComponent<
                 ECHO_CORE::ECS::ScriptComponent>();
 
             auto status = script.Render(entity);

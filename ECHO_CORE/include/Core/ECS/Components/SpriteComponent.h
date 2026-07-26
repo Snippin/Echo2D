@@ -1,6 +1,10 @@
 #pragma once
 
+#include "../Registry.h"
+
 #include <Rendering/Essentials/Vertex.h>
+
+#include <sol/sol.hpp>
 
 namespace ECHO_CORE::ECS
 {
@@ -33,5 +37,8 @@ namespace ECHO_CORE::ECS
             Uvs.X = Start_X * Uvs.UV_Width;
             Uvs.Y = Start_Y * Uvs.UV_Height;
         }
+
+        static void CreateLuaBind(sol::state &lua,
+            ECHO_CORE::ECS::Registry &registry);
     };
 }

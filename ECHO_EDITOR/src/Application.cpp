@@ -1,18 +1,15 @@
 #include "Application.h"
 
-#include <Core/ECS/Components/Identity.h>
-#include <Core/ECS/Components/SpriteComponent.h>
-#include <Core/ECS/Components/TransformComponent.h>
 #include <Core/ECS/Entity.h>
 #include <Core/Resources/AssetManager.h>
 #include <Core/Systems/RenderSystem.h>
 #include <Core/Systems/ScriptSystem.h>
 #include <Logger/Logger.h>
 #include <Rendering/Core/Camera2D.h>
-#include <Rendering/Essentials/Vertex.h>
 
 #include <glad/glad.h>
 #include <SDL.h>
+#include <sol/sol.hpp>
 
 namespace ECHO_EDITOR
 {
@@ -119,10 +116,19 @@ namespace ECHO_EDITOR
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+        registry = std::make_unique<ECHO_CORE::ECS::Registry>();
+
         auto asset_manager = std::make_shared<ECHO_RESOURCES::AssetManager>();
         if (!asset_manager)
         {
             ECHO_ERROR("Failed to create `AssetManager`");
+            return false;
+        }
+
+        if (!registry->AddContext<std::shared_ptr<
+            ECHO_RESOURCES::AssetManager>>(asset_manager))
+        {
+            ECHO_ERROR("Failed to add asset manager to registry context");
             return false;
         }
 
@@ -132,36 +138,6 @@ namespace ECHO_EDITOR
             ECHO_ERROR("Failed to create and add texture");
             return false;
         }
-
-        const auto &texture = asset_manager->GetTexture("hill_tiles");
-
-        registry = std::make_unique<ECHO_CORE::ECS::Registry>();
-
-        ECHO_CORE::ECS::Entity entity1{*registry, "ent1", "test"};
-
-        const auto &transform = entity1.AddComponent<ECHO_CORE::ECS::TransformComponent>(
-            ECHO_CORE::ECS::TransformComponent{
-                .Position = glm::vec2{0.f},
-                .Scale = glm::vec2{5.f},
-                .Rotation = 0.f
-            });
-
-        auto &sprite = entity1.AddComponent<ECHO_CORE::ECS::SpriteComponent>(
-            ECHO_CORE::ECS::SpriteComponent{
-                .Width = 16.f,
-                .Height = 16.f,
-                .Colour = ECHO_RENDERING::Color{.R = 0,.G = 255,.B = 0,.A = 255},
-                .Start_X = 1,
-                .Start_Y = 6,
-                .Layer = 0,
-                .Texture_Name = "hill_tiles",
-            });
-
-        sprite.GenerateUVs(texture.GetWidth(), texture.GetHeight());
-
-        auto &identity = entity1.GetComponent<ECHO_CORE::ECS::Identity>();
-        ECHO_LOG("Name-{}, Group-{}, ID-{}", identity.Name, identity.Group,
-            identity.Entity_Id);
 
         // Create lua state
         auto lua = std::make_shared<sol::state>();
@@ -191,12 +167,6 @@ namespace ECHO_EDITOR
             return false;
         }
 
-        if (!script_system->LoadMainScript(*lua))
-        {
-            ECHO_ERROR("Failed to load main lua script");
-            return false;
-        }
-
         if (!registry->AddContext<std::shared_ptr<
             ECHO_CORE::SYSTEMS::ScriptSystem>>(script_system))
         {
@@ -221,15 +191,8 @@ namespace ECHO_EDITOR
             return false;
         }
 
-        // Create temp camera
+        // Create camera
         auto camera = std::make_shared<ECHO_RENDERING::Camera2D>();
-
-        if (!registry->AddContext<std::shared_ptr<
-            ECHO_RESOURCES::AssetManager>>(asset_manager))
-        {
-            ECHO_ERROR("Failed to add asset manager to registry context");
-            return false;
-        }
 
         if (!registry->AddContext<std::shared_ptr<ECHO_RENDERING::Camera2D>>(
             camera))
@@ -241,6 +204,14 @@ namespace ECHO_EDITOR
         if (!LoadShaders())
         {
             ECHO_ERROR("Failed to load shaders");
+            return false;
+        }
+
+        ECHO_CORE::SYSTEMS::ScriptSystem::RegisterLuaBindings(*lua, *registry);
+
+        if (!script_system->LoadMainScript(*lua))
+        {
+            ECHO_ERROR("Failed to load main lua script");
             return false;
         }
 
