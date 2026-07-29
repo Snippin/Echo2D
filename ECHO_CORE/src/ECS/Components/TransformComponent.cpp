@@ -40,12 +40,12 @@ namespace ECHO_CORE::ECS
                 return std::make_tuple(transform.Scale.x, transform.Scale.y);
             },
             "Rotation", &TransformComponent::Rotation,
-            "setPos",
+            "SetPosition",
             [](TransformComponent &transform, float x, float y)
             {
                 transform.Position = glm::vec2{x, y};
             },
-            "setScale",
+            "SetScale",
             [](TransformComponent &transform, float x, float y)
             {
                 transform.Scale = glm::vec2{x, y};

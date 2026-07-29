@@ -1,6 +1,7 @@
 #pragma once
 
 #include <entt.hpp>
+#include <sol/sol.hpp>
 
 namespace ECHO_CORE::ECS
 {
@@ -17,19 +18,23 @@ namespace ECHO_CORE::ECS
         TContext AddContext(TContext context);
         template<typename TContext>
         TContext &GetContext();
+
+        static void CreateLuaBind(sol::state &lua, Registry &registry);
+
+        template<typename TComponent>
+        static void RegisterMetaComponent();
+
     private:
         std::unique_ptr<entt::registry> registry;
     };
 
-    template<typename TContext>
-    inline TContext Registry::AddContext(TContext context)
-    {
-        return registry->ctx().emplace<TContext>(context);
-    }
+    template<typename TComponent>
+    entt::runtime_view &add_component_to_view(Registry *registry, 
+        entt::runtime_view &view);
 
-    template<typename TContext>
-    inline TContext &Registry::GetContext()
-    {
-        return registry->ctx().get<TContext>();
-    }
+    template<typename TComponent>
+    entt::runtime_view &exclude_component_to_view(Registry *registry,
+        entt::runtime_view &view);
 }
+
+#include "Registry.inl"

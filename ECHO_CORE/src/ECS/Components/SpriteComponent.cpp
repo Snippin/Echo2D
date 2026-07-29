@@ -37,7 +37,7 @@ namespace ECHO_CORE::ECS
             "Start_X", &SpriteComponent::Start_X,
             "Start_Y", &SpriteComponent::Start_Y,
             "Layer", &SpriteComponent::Layer,
-            "generateUVs",
+            "GenerateUVs",
             [&](SpriteComponent &sprite)
             {
                 const auto &asset_manager = registry.GetContext<

@@ -192,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="include\Core\ECS\Entity.inl" />
+    <None Include="include\Core\ECS\Registry.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

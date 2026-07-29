@@ -42,14 +42,14 @@ namespace ECHO_CORE::ECS
             "Entity",
             sol::call_constructor,
             sol::factories(
-                [&](const std::string &name, const std::string &group)
+                [&registry](const std::string &name, const std::string &group)
                 {
                     return Entity{registry, name, group};
                 }
             ),
-            "addComponent",
-            [](Entity &entity, const sol::table &comp, sol::this_state s) ->  
-                sol::object 
+            "AddComponent",
+            [](Entity &entity, const sol::table &comp, sol::this_state s) ->
+                sol::object
             {
                 // Check if valid lua/sol table
                 if (!comp.valid())
@@ -63,8 +63,51 @@ namespace ECHO_CORE::ECS
                     entity, comp, s
                 );
 
-                return component ? 
+                return component ?
                     component.cast<sol::reference>() : sol::lua_nil_t{};
+            },
+            "HasComponent",
+            [](Entity &entity, const sol::table &comp)
+            {
+                const auto has_comp = ECHO_CORE::UTILS::InvokeMetaFunction(
+                    ECHO_CORE::UTILS::GetIdType(comp),
+                    "has_component"_hs,
+                    entity
+                );
+
+                return has_comp ? has_comp.cast<bool>() : false;
+            },
+            "GetComponent",
+            [](Entity &entity, const sol::table &comp, sol::this_state s)
+            {
+                const auto component = ECHO_CORE::UTILS::InvokeMetaFunction(
+                    ECHO_CORE::UTILS::GetIdType(comp),
+                    "get_component"_hs,
+                    entity, s
+                );
+
+                return component ?
+                    component.cast<sol::reference>() : sol::lua_nil_t{};
+            },
+            "RemoveComponent",
+            [](Entity &entity, const sol::table &comp)
+            {
+                const auto component = ECHO_CORE::UTILS::InvokeMetaFunction(
+                    ECHO_CORE::UTILS::GetIdType(comp),
+                    "remove_component"_hs,
+                    entity
+                );
+
+                return component ?
+                    component.cast<sol::reference>() : sol::lua_nil_t{};
+            },
+            "Name", &Entity::GetName,
+            "Group", &Entity::GetGroup,
+            "Kill", &Entity::Kill,
+            "ID", 
+            [](Entity &entity) 
+            { 
+                return static_cast<int32_t>(entity.GetEntity()); 
             }
         );
     }
