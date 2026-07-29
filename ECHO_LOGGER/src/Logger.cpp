@@ -1,7 +1,17 @@
 #include "Logger/Logger.h"
 
+#include <chrono>
+#include <format>
+#include <iostream>
+#include <Windows.h>
+
 namespace ECHO_LOGGER
 {
+    static constexpr WORD GREEN = 2;
+    static constexpr WORD RED = 4;
+    static constexpr WORD YELLOW = 6;
+    static constexpr WORD WHITE = 7;
+
     Logger &Logger::Get()
     {
         static Logger instance{};
@@ -23,23 +33,36 @@ namespace ECHO_LOGGER
         initialised = true;
     }
 
-    Logger::LogTime::LogTime(const std::string &date) :
-        day{date.substr(0, 3)}, day_number{date.substr(8, 2)},
-        month{date.substr(4, 3)}, year{date.substr(20, 4)},
-        time{date.substr(11, 8)}
+    void Logger::ConsoleLog(LogEntry::LogType type, std::string_view message)
     {
+        HANDLE h_console = GetStdHandle(STD_OUTPUT_HANDLE);
+
+        switch (type)
+        {
+            using enum ECHO_LOGGER::LogEntry::LogType;
+        case INFO:
+            SetConsoleTextAttribute(h_console, GREEN);
+            break;
+        case WARN:
+            SetConsoleTextAttribute(h_console, YELLOW);
+            break;
+        case ERR:
+            SetConsoleTextAttribute(h_console, RED);
+            break;
+        case NONE:
+            break;
+        default:
+            ECHO_ERROR("No `LogEntry::LogType` is invalid");
+            return;
+        }
+
+        std::cout << message;
+        SetConsoleTextAttribute(h_console, WHITE);
     }
 
-    std::string Logger::DateTime()
+    std::string Logger::DateTime() const
     {
-        auto time = std::chrono::system_clock::to_time_t(
-            std::chrono::system_clock::now());
-
-        char buf[30];
-        ctime_s(buf, sizeof(buf), &time);
-
-        LogTime log_time{std::string{buf}};
-        return std::format("{}-{}-{} {}", log_time.day_number, log_time.month,
-            log_time.year, log_time.time);
+        auto now = std::chrono::system_clock::now();
+        return std::format("{:%H:%M:%S}", now);
     }
 }

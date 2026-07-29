@@ -41,28 +41,19 @@ namespace ECHO_LOGGER
         void Init(bool console_log = true, bool retain_logs = true);
 
         template <typename... Args>
-        void Log(const std::string &message, Args&&... args);
+        void Log(std::string_view message, Args&&... args);
         template <typename... Args>
-        void Warn(const std::string &message, Args&&... args);
+        void Warn(std::string_view message, Args&&... args);
         template <typename... Args>
-        void Error(std::source_location location, const std::string &message,
+        void Error(std::source_location location, std::string_view message,
             Args&&... args);
 
     private:
-        struct LogTime
-        {
-            std::string day;
-            std::string day_number;
-            std::string month;
-            std::string year;
-            std::string time;
-
-            LogTime(const std::string &date);
-        };
-
         Logger() = default;
 
-        std::string DateTime();
+        void ConsoleLog(LogEntry::LogType type, std::string_view message);
+
+        std::string DateTime() const;
 
         std::vector<LogEntry> log_entries;
         bool log_added{false};

@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{de690bae-85bd-4c81-ae6c-87639959ee70}</ProjectGuid>
-    <RootNamespace>ECHORENDERING</RootNamespace>
+    <ProjectGuid>{2a9f6299-cea3-488a-a3c1-62115c27748f}</ProjectGuid>
+    <RootNamespace>FMT</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -71,10 +71,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(ProjectDir)include;$(SolutionDir)GLAD\include;$(SolutionDir)SOIL\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\GLM;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(ProjectDir)include;$(SolutionDir)GLAD\include;$(SolutionDir)SOIL\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\GLM;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -114,10 +114,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <AdditionalOptions>/utf-8 /interface %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,10 +134,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /interface %(AdditionalOptions)</AdditionalOptions>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,32 +149,27 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ECHO_LOGGER\ECHO_LOGGER.vcxproj">
-      <Project>{b5a46f22-e1e8-486e-aefb-0bcc537fb90e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\GLAD\GLAD.vcxproj">
-      <Project>{ef57e67f-34df-4ce8-9df0-e878e4b4aa1d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\SOIL\SOIL.vcxproj">
-      <Project>{649d7631-de10-48e9-abb3-6cb8b22e5029}</Project>
-    </ProjectReference>
+    <ClInclude Include="include\fmt\args.h" />
+    <ClInclude Include="include\fmt\base.h" />
+    <ClInclude Include="include\fmt\chrono.h" />
+    <ClInclude Include="include\fmt\color.h" />
+    <ClInclude Include="include\fmt\compile.h" />
+    <ClInclude Include="include\fmt\core.h" />
+    <ClInclude Include="include\fmt\fmt-c.h" />
+    <ClInclude Include="include\fmt\format-inl.h" />
+    <ClInclude Include="include\fmt\format.h" />
+    <ClInclude Include="include\fmt\os.h" />
+    <ClInclude Include="include\fmt\ostream.h" />
+    <ClInclude Include="include\fmt\printf.h" />
+    <ClInclude Include="include\fmt\ranges.h" />
+    <ClInclude Include="include\fmt\std.h" />
+    <ClInclude Include="include\fmt\xchar.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Rendering\Core\BatchRenderer.h" />
-    <ClInclude Include="include\Rendering\Core\Camera2D.h" />
-    <ClInclude Include="include\Rendering\Essentials\Shader.h" />
-    <ClInclude Include="include\Rendering\Essentials\ShaderLoader.h" />
-    <ClInclude Include="include\Rendering\Essentials\Texture.h" />
-    <ClInclude Include="include\Rendering\Essentials\TextureLoader.h" />
-    <ClInclude Include="include\Rendering\Essentials\Vertex.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\BatchRenderer.cpp" />
-    <ClCompile Include="src\Camera2D.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\ShaderLoader.cpp" />
-    <ClCompile Include="src\Texture.cpp" />
-    <ClCompile Include="src\TextureLoader.cpp" />
+    <ClCompile Include="src\fmt-c.cc" />
+    <ClCompile Include="src\fmt.cc" />
+    <ClCompile Include="src\format.cc" />
+    <ClCompile Include="src\os.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
