@@ -45,6 +45,9 @@
     <ClInclude Include="include\Core\ECS\MetaUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Core\Scripting\GlmBindings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ECS\Registry.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ECS\Components\SpriteComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scripting\GLMBindings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

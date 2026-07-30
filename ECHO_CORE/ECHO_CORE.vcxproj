@@ -177,6 +177,7 @@
     <ClInclude Include="include\Core\ECS\MetaUtilities.h" />
     <ClInclude Include="include\Core\ECS\Registry.h" />
     <ClInclude Include="include\Core\Resources\AssetManager.h" />
+    <ClInclude Include="include\Core\Scripting\GlmBindings.h" />
     <ClInclude Include="include\Core\Systems\RenderSystem.h" />
     <ClInclude Include="include\Core\Systems\ScriptSystem.h" />
   </ItemGroup>
@@ -187,6 +188,7 @@
     <ClCompile Include="src\ECS\MetaUtilities.cpp" />
     <ClCompile Include="src\ECS\Registry.cpp" />
     <ClCompile Include="src\Resources\AssetManager.cpp" />
+    <ClCompile Include="src\Scripting\GLMBindings.cpp" />
     <ClCompile Include="src\Systems\ScriptSystem.cpp" />
     <ClCompile Include="src\Systems\RenderSystem.cpp" />
   </ItemGroup>

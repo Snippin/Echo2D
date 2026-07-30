@@ -4,6 +4,7 @@
 #include "Core/ECS/Components/SpriteComponent.h"
 #include "Core/ECS/Components/TransformComponent.h"
 #include "Core/ECS/Entity.h"
+#include "Core/Scripting/GLMBindings.h"
 
 #include <Logger/Logger.h>
 
@@ -17,18 +18,18 @@ namespace ECHO_CORE::SYSTEMS
     void ScriptSystem::RegisterLuaBindings(sol::state &lua,
         ECHO_CORE::ECS::Registry &registry)
     {
-        using namespace ECHO_CORE::ECS;
+        ECHO_CORE::SCRIPTING::GLMBindings::CreateLuaBind(lua);
 
-        Registry::CreateLuaBind(lua, registry);
-        Entity::CreateLuaBind(lua, registry);
-        TransformComponent::CreateLuaBind(lua);
-        SpriteComponent::CreateLuaBind(lua, registry);
+        ECHO_CORE::ECS::Registry::CreateLuaBind(lua, registry);
+        ECHO_CORE::ECS::Entity::CreateLuaBind(lua, registry);
+        ECHO_CORE::ECS::TransformComponent::CreateLuaBind(lua);
+        ECHO_CORE::ECS::SpriteComponent::CreateLuaBind(lua, registry);
 
-        Entity::RegisterMetaComponent<TransformComponent>();
-        Entity::RegisterMetaComponent<SpriteComponent>();
+        ECHO_CORE::ECS::Entity::RegisterMetaComponent<ECHO_CORE::ECS::TransformComponent>();
+        ECHO_CORE::ECS::Entity::RegisterMetaComponent<ECHO_CORE::ECS::SpriteComponent>();
 
-        Registry::RegisterMetaComponent<TransformComponent>();
-        Registry::RegisterMetaComponent<SpriteComponent>();
+        ECHO_CORE::ECS::Registry::RegisterMetaComponent<ECHO_CORE::ECS::TransformComponent>();
+        ECHO_CORE::ECS::Registry::RegisterMetaComponent<ECHO_CORE::ECS::SpriteComponent>();
     }
 
     bool ScriptSystem::LoadMainScript(sol::state &lua)

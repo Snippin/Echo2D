@@ -1,7 +1,7 @@
 -- Main lua script
 
 entity = Entity("test", "grp")
-local transform = entity:AddComponent(Transform(-80, -80, 10, 10, 0))
+local transform = entity:AddComponent(Transform(Vec2(-80), Vec2(10), 0))
 local sprite = entity:AddComponent(Sprite("hill_tiles", 16, 16, 1, 6, 0))
 sprite:GenerateUVs()
 
@@ -49,10 +49,8 @@ main = {
 			move_right = true
 		end
 
-		local pos_x, pos_y = transform:Position()
-		pos_x = x
+		transform.Position.x = x
 		transform.Rotation = rotation
-		transform:SetPosition(pos_x, pos_y)
 
 		if move_right then
 			rotation = rotation + 9
@@ -74,7 +72,7 @@ main = {
 			value = 0
 		end
 
-		transform:SetScale(scale, scale)
+		transform.Scale = Vec2(scale)
 
 		end
 	},

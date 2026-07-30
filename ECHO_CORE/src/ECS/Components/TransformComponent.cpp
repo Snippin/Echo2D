@@ -29,27 +29,9 @@ namespace ECHO_CORE::ECS
                     };
                 }
             ),
-            "Position",
-            [](TransformComponent &transform)
-            {
-                return std::make_tuple(transform.Position.x, transform.Position.y);
-            },
-            "Scale",
-            [](TransformComponent &transform)
-            {
-                return std::make_tuple(transform.Scale.x, transform.Scale.y);
-            },
-            "Rotation", &TransformComponent::Rotation,
-            "SetPosition",
-            [](TransformComponent &transform, float x, float y)
-            {
-                transform.Position = glm::vec2{x, y};
-            },
-            "SetScale",
-            [](TransformComponent &transform, float x, float y)
-            {
-                transform.Scale = glm::vec2{x, y};
-            }
+            "Position", &TransformComponent::Position,
+            "Scale", &TransformComponent::Scale,
+            "Rotation", &TransformComponent::Rotation
         );
     }
 }
