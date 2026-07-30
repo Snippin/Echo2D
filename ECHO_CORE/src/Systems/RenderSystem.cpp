@@ -60,7 +60,9 @@ namespace ECHO_CORE::SYSTEMS
                 return;
             }
 
-            glm::vec4 sprite_rect{transform.Position.x, transform.Position.y,
+            glm::vec4 sprite_rect{
+                transform.Position.x - sprite.Width * 0.5f,
+                transform.Position.y - sprite.Height * 0.5f,
                 sprite.Width, sprite.Height};
             glm::vec4 uv_rect{sprite.Uvs.X, sprite.Uvs.Y, sprite.Uvs.UV_Width,
                 sprite.Uvs.UV_Height};
