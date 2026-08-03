@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\lua53\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\lua53\lib;$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\lua53\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\lua53\lib;$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -129,7 +129,7 @@
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
     <Lib>
-      <AdditionalDependencies>lua53.lib</AdditionalDependencies>
+      <AdditionalDependencies>lua53.lib;SDL2.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +151,7 @@
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
     <Lib>
-      <AdditionalDependencies>lua53.lib</AdditionalDependencies>
+      <AdditionalDependencies>lua53.lib;SDL2.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -169,6 +169,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Core\ECS\Components\AnimationComponent.h" />
     <ClInclude Include="include\Core\ECS\Components\Identity.h" />
     <ClInclude Include="include\Core\ECS\Components\ScriptComponent.h" />
     <ClInclude Include="include\Core\ECS\Components\SpriteComponent.h" />
@@ -178,10 +179,12 @@
     <ClInclude Include="include\Core\ECS\Registry.h" />
     <ClInclude Include="include\Core\Resources\AssetManager.h" />
     <ClInclude Include="include\Core\Scripting\GlmBindings.h" />
+    <ClInclude Include="include\Core\Systems\AnimationSystem.h" />
     <ClInclude Include="include\Core\Systems\RenderSystem.h" />
     <ClInclude Include="include\Core\Systems\ScriptSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ECS\Components\AnimationComponent.cpp" />
     <ClCompile Include="src\ECS\Components\SpriteComponent.cpp" />
     <ClCompile Include="src\ECS\Components\TransformComponent.cpp" />
     <ClCompile Include="src\ECS\Entity.cpp" />
@@ -189,6 +192,7 @@
     <ClCompile Include="src\ECS\Registry.cpp" />
     <ClCompile Include="src\Resources\AssetManager.cpp" />
     <ClCompile Include="src\Scripting\GLMBindings.cpp" />
+    <ClCompile Include="src\Systems\AnimationSystem.cpp" />
     <ClCompile Include="src\Systems\ScriptSystem.cpp" />
     <ClCompile Include="src\Systems\RenderSystem.cpp" />
   </ItemGroup>

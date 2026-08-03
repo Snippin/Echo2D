@@ -2,6 +2,7 @@
 
 #include <Core/ECS/Entity.h>
 #include <Core/Resources/AssetManager.h>
+#include <Core/Systems/AnimationSystem.h>
 #include <Core/Systems/RenderSystem.h>
 #include <Core/Systems/ScriptSystem.h>
 #include <Logger/Logger.h>
@@ -139,6 +140,13 @@ namespace ECHO_EDITOR
             return false;
         }
 
+        if (!asset_manager->AddTexture("warrior_princess",
+            "./assets/textures/warrior_princess.png", true))
+        {
+            ECHO_ERROR("Failed to create and add texture");
+            return false;
+        }
+
         // Create lua state
         auto lua = std::make_shared<sol::state>();
 
@@ -188,6 +196,23 @@ namespace ECHO_EDITOR
             ECHO_CORE::SYSTEMS::RenderSystem>>(render_system))
         {
             ECHO_ERROR("Failed to add render system to registry context");
+            return false;
+        }
+
+        // Create animation system
+        auto animation_system = std::make_shared<
+            ECHO_CORE::SYSTEMS::AnimationSystem>(*registry);
+
+        if (!animation_system)
+        {
+            ECHO_ERROR("Failed to create animation system");
+            return false;
+        }
+
+        if (!registry->AddContext<std::shared_ptr<
+            ECHO_CORE::SYSTEMS::AnimationSystem>>(animation_system))
+        {
+            ECHO_ERROR("Failed to add animation system to registry context");
             return false;
         }
 
@@ -279,6 +304,10 @@ namespace ECHO_EDITOR
         const auto &script_system = registry->GetContext<std::shared_ptr<
             ECHO_CORE::SYSTEMS::ScriptSystem>>();
         script_system->Update();
+
+        const auto &animation_system = registry->GetContext<std::shared_ptr<
+            ECHO_CORE::SYSTEMS::AnimationSystem>>();
+        animation_system->Update();
     }
 
     void Application::Render()

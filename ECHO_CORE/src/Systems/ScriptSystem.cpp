@@ -1,5 +1,6 @@
 #include "Core/Systems/ScriptSystem.h"
 
+#include "Core/ECS/Components/AnimationComponent.h"
 #include "Core/ECS/Components/ScriptComponent.h"
 #include "Core/ECS/Components/SpriteComponent.h"
 #include "Core/ECS/Components/TransformComponent.h"
@@ -24,12 +25,15 @@ namespace ECHO_CORE::SYSTEMS
         ECHO_CORE::ECS::Entity::CreateLuaBind(lua, registry);
         ECHO_CORE::ECS::TransformComponent::CreateLuaBind(lua);
         ECHO_CORE::ECS::SpriteComponent::CreateLuaBind(lua, registry);
+        ECHO_CORE::ECS::AnimationComponent::CreateLuaBind(lua);
 
         ECHO_CORE::ECS::Entity::RegisterMetaComponent<ECHO_CORE::ECS::TransformComponent>();
         ECHO_CORE::ECS::Entity::RegisterMetaComponent<ECHO_CORE::ECS::SpriteComponent>();
+        ECHO_CORE::ECS::Entity::RegisterMetaComponent<ECHO_CORE::ECS::AnimationComponent>();
 
         ECHO_CORE::ECS::Registry::RegisterMetaComponent<ECHO_CORE::ECS::TransformComponent>();
-        ECHO_CORE::ECS::Registry::RegisterMetaComponent<ECHO_CORE::ECS::SpriteComponent>();
+        ECHO_CORE::ECS::Registry::RegisterMetaComponent<ECHO_CORE::ECS::TransformComponent>();
+        ECHO_CORE::ECS::Registry::RegisterMetaComponent<ECHO_CORE::ECS::AnimationComponent>();
     }
 
     bool ScriptSystem::LoadMainScript(sol::state &lua)

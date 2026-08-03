@@ -15,7 +15,7 @@ namespace ECHO_CORE::ECS
     }
 
     template<typename TComponent>
-    entt::runtime_view &add_component_to_view(Registry *registry, 
+    entt::runtime_view &add_component_to_view(Registry *registry,
         entt::runtime_view &view)
     {
         return view.iterate(registry->Get().storage<TComponent>());
@@ -38,4 +38,3 @@ namespace ECHO_CORE::ECS
             .template func<&exclude_component_to_view<TComponent>>("exclude_component_to_view"_hs);
     }
 }
-

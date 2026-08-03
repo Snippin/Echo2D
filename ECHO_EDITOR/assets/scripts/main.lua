@@ -11,11 +11,15 @@ local scale = 1
 local move_right = true
 local value = 0
 
-local sprite2 = entity:GetComponent(Sprite)
-print("Tex Name: " ..sprite2.Texture_Name)
+local get_name = entity:GetComponent(Sprite)
+print("Tex Name: " ..get_name.Texture_Name)
 
 entity2 = Entity("test2", "grp")
-entity2:AddComponent(Transform(80, -80, 10, 10, 0))
+entity2:AddComponent(Transform(0, 0, 5, 5, 0))
+local sprite2 = entity2:AddComponent(Sprite("warrior_princess", 16, 32, 0, 0, 0))
+sprite2:GenerateUVs()
+
+entity2:AddComponent(Animation(4, 5, 0, false))
 
 local view = Registry.GetEntities(Transform)
 
