@@ -9,17 +9,19 @@ void ECHO_UTIL::SDLDestroyer::operator()(SDL_Window *window) const
 }
 
 void ECHO_UTIL::SDLDestroyer::operator()(SDL_GameController *controller) const
-{}
+{
+}
 
 void ECHO_UTIL::SDLDestroyer::operator()(SDL_Cursor *cursor) const
-{}
+{
+}
 
 Controller MakeSharedController(SDL_GameController *controller)
 {
 	return Controller();
 }
 
-Controller MakeSharedCursor(SDL_Cursor *cursor)
+Cursor MakeSharedCursor(SDL_Cursor *cursor)
 {
-	return Controller();
+    return Cursor();
 }
