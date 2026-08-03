@@ -270,6 +270,7 @@ namespace ECHO_EDITOR
     {
         auto &input_manager = ECHO_CORE::InputManager::Get();
         auto &keyboard = input_manager.GetKeyboard();
+        auto &mouse = input_manager.GetMouse();
 
         while (SDL_PollEvent(&event))
         {
@@ -290,6 +291,23 @@ namespace ECHO_EDITOR
 
             case SDL_KEYUP:
                 keyboard.OnKeyReleased(event.key.keysym.sym);
+                break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                mouse.OnBtnPressed(event.button.button);
+                break;
+
+            case SDL_MOUSEBUTTONUP:
+                mouse.OnBtnReleased(event.button.button);
+                break;
+
+            case SDL_MOUSEWHEEL:
+                mouse.SetMouseWheelX(event.wheel.x);
+                mouse.SetMouseWheelY(event.wheel.y);
+                break;
+
+            case SDL_MOUSEMOTION:
+                mouse.SetMouseMoving(true);
                 break;
 
             default:
@@ -320,8 +338,12 @@ namespace ECHO_EDITOR
         animation_system->Update();
 
         auto &input_manager = ECHO_CORE::InputManager::Get();
+
         auto &keyboard = input_manager.GetKeyboard();
         keyboard.Update();
+
+        auto &mouse = input_manager.GetMouse();
+        mouse.Update();
     }
 
     void Application::Render()

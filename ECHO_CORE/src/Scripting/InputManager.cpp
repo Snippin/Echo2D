@@ -1,5 +1,7 @@
 #include "Core/Scripting/InputManager.h"
 
+#include "Windowing/Inputs/MouseButtons.h"
+
 namespace ECHO_CORE
 {
     InputManager &InputManager::Get()
@@ -13,12 +15,19 @@ namespace ECHO_CORE
         return *keyboard;
     }
 
+    ECHO_WINDOW::INPUTS::Mouse &InputManager::GetMouse()
+    {
+        return *mouse;
+    }
+
     void InputManager::CreateLuaBind(sol::state &lua)
     {
         RegisterKeyNames(lua);
+        RegisterMouseBtnNames(lua);
 
         auto &input_manager = Get();
         const auto &keyboard = input_manager.GetKeyboard();
+        auto &mouse = input_manager.GetMouse();
 
         lua.new_usertype<ECHO_WINDOW::INPUTS::Keyboard>(
             "Keyboard",
@@ -30,10 +39,28 @@ namespace ECHO_CORE
             "JustReleased",
             [&keyboard](int key) { return keyboard.IsKeyJustReleased(key); }
         );
+
+        lua.new_usertype<ECHO_WINDOW::INPUTS::Mouse>(
+            "Mouse",
+            sol::no_constructor,
+            "Pressed",
+            [&mouse](int btn) { return mouse.IsBtnPressed(btn); },
+            "JustPressed",
+            [&mouse](int btn) { return mouse.IsBtnJustPressed(btn); },
+            "JustReleased",
+            [&mouse](int btn) { return mouse.IsBtnJustReleased(btn); },
+            "ScreenPosition",
+            [&mouse]() { return mouse.GetMouseScreenPosition(); },
+            "WheelX",
+            [&mouse]() { return mouse.GetMouseWheelX(); },
+            "WheelY",
+            [&mouse]() { return mouse.GetMouseWheelY(); }
+        );
     }
 
     InputManager::InputManager() :
-        keyboard{std::make_unique<ECHO_WINDOW::INPUTS::Keyboard>()}
+        keyboard{std::make_unique<ECHO_WINDOW::INPUTS::Keyboard>()},
+        mouse{std::make_unique<ECHO_WINDOW::INPUTS::Mouse>()}
     {
     }
 
@@ -130,5 +157,12 @@ namespace ECHO_CORE
         lua.set("KP_KEY_PLUS", KEY_KPPLUS);
         lua.set("KP_KEY_ENTER", KEY_KPENTER);
         lua.set("KP_KEY_PERIOD", KEY_KPPERIOD);
+    }
+
+    void InputManager::RegisterMouseBtnNames(sol::state &lua)
+    {
+        lua.set("MOUSE_LEFT", MOUSE_LEFT);
+        lua.set("MOUSE_MIDDLE", MOUSE_MIDDLE);
+        lua.set("MOUSE_RIGHT", MOUSE_RIGHT);
     }
 }

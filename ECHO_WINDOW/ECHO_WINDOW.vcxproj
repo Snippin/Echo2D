@@ -158,11 +158,14 @@
     <ClCompile Include="include\Windowing\Window\Window.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Keyboard.cpp" />
+    <ClCompile Include="src\Mouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Windowing\Inputs\Button.h" />
     <ClInclude Include="include\Windowing\Inputs\Keyboard.h" />
     <ClInclude Include="include\Windowing\Inputs\Keys.h" />
+    <ClInclude Include="include\Windowing\Inputs\Mouse.h" />
+    <ClInclude Include="include\Windowing\Inputs\MouseButtons.h" />
     <ClInclude Include="include\Windowing\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
