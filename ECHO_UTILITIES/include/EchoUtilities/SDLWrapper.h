@@ -14,10 +14,17 @@ namespace ECHO_UTIL
     };
 }
 
-typedef std::shared_ptr<SDL_GameController> Controller;
-static Controller MakeSharedController(SDL_GameController *controller);
+using WindowPtr = std::unique_ptr<SDL_Window, ECHO_UTIL::SDLDestroyer>;
+using ControllerPtr = std::shared_ptr<SDL_GameController>;
+using CursorPtr = std::shared_ptr<SDL_Cursor>;
 
-typedef std::shared_ptr<SDL_Cursor> Cursor;
-static Cursor MakeSharedCursor(SDL_Cursor *cursor);
+static ControllerPtr MakeSharedController(SDL_GameController *controller)
+{
+    return std::shared_ptr<SDL_GameController>(
+        controller, ECHO_UTIL::SDLDestroyer{});
+}
 
-typedef std::unique_ptr<SDL_Window, ECHO_UTIL::SDLDestroyer> WindowPtr;
+static CursorPtr MakeSharedCursor(SDL_Cursor *cursor)
+{
+    return CursorPtr();
+}

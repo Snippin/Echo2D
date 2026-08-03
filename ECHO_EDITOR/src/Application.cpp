@@ -310,6 +310,30 @@ namespace ECHO_EDITOR
                 mouse.SetMouseMoving(true);
                 break;
 
+            case SDL_CONTROLLERBUTTONDOWN:
+                input_manager.GamepadBtnPressed(event);
+                break;
+
+            case SDL_CONTROLLERBUTTONUP:
+                input_manager.GamepadBtnReleased(event);
+                break;
+
+            case SDL_CONTROLLERDEVICEADDED:
+                input_manager.AddGamepad(event.jdevice.which);
+                break;
+
+            case SDL_CONTROLLERDEVICEREMOVED:
+                input_manager.RemoveGamepad(event.jdevice.which);
+                break;
+
+            case SDL_JOYAXISMOTION:
+                input_manager.GamepadAxisValues(event);
+                break;
+
+            case SDL_JOYHATMOTION:
+                input_manager.GamepadHatValues(event);
+                break;
+
             default:
                 break;
             }
@@ -344,6 +368,8 @@ namespace ECHO_EDITOR
 
         auto &mouse = input_manager.GetMouse();
         mouse.Update();
+
+        input_manager.UpdateGamepads();
     }
 
     void Application::Render()

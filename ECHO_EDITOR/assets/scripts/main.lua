@@ -18,18 +18,17 @@ entity2 = Entity("test2", "grp")
 entity2:AddComponent(Transform(0, 0, 5, 5, 0))
 local sprite2 = entity2:AddComponent(Sprite("warrior_princess", 16, 32, 0, 0, 0))
 sprite2:GenerateUVs()
-
 entity2:AddComponent(Animation(4, 5, 0, false))
 
 local view = Registry.GetEntities(Transform)
-
 view:Exclude(Sprite)
-
 view:ForEach(
     function(entity)
         print(entity:Name())
     end
 )
+
+local load_controller = false
 
 main = {
     [1] = {
@@ -101,9 +100,24 @@ main = {
                 print("right btn just released")
             end
 
-            if Keyboard.Pressed(KEY_SPACE) then
-                local mouse_x, mouse_y = Mouse.ScreenPosition()
-                print("mouse pos - [" .. mouse_x .. ", " .. mouse_y .. "]")
+            if Keyboard.JustPressed(KEY_SPACE) then
+                load_controller = not load_controller
+            end
+
+            if load_controller then
+                local lstick_horizontal = Gamepad.GetAxisPosition(0, 0)
+                local lstick_vertical = Gamepad.GetAxisPosition(0, 1)
+                local rstick_horizontal = Gamepad.GetAxisPosition(0, 2)
+                local rstick_vertical = Gamepad.GetAxisPosition(0, 3)
+                local ltrigger = Gamepad.GetAxisPosition(0, 4)
+                local rtrigger = Gamepad.GetAxisPosition(0, 5)
+
+                print("LSTICK horizontal val: " .. lstick_horizontal)
+                print("LSTICK vertical val: " .. lstick_vertical)
+                print("RSTICK horizontal val: " .. rstick_horizontal)
+                print("RSTICK vertical val: " .. rstick_vertical)
+                print("LTRIGGER val: " .. ltrigger)
+                print("RTRIGGER val: " .. rtrigger)
             end
         end
     },

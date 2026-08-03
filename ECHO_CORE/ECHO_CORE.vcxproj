@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(SolutionDir)ECHO_UTILITIES\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\lua53\lib;$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(SolutionDir)ECHO_UTILITIES\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\lua53\lib;$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -160,6 +160,9 @@
     </ProjectReference>
     <ProjectReference Include="..\ECHO_RENDERING\ECHO_RENDERING.vcxproj">
       <Project>{de690bae-85bd-4c81-ae6c-87639959ee70}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ECHO_UTILITIES\ECHO_UTILITIES.vcxproj">
+      <Project>{04493297-1a07-4364-9365-1f6916997fc1}</Project>
     </ProjectReference>
     <ProjectReference Include="..\ECHO_WINDOW\ECHO_WINDOW.vcxproj">
       <Project>{865b8956-2d51-48a1-a9b2-a46208397f10}</Project>

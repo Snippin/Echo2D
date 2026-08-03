@@ -157,11 +157,14 @@
   <ItemGroup>
     <ClCompile Include="include\Windowing\Window\Window.cpp" />
     <ClCompile Include="src\Button.cpp" />
+    <ClCompile Include="src\Gamepad.cpp" />
     <ClCompile Include="src\Keyboard.cpp" />
     <ClCompile Include="src\Mouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Windowing\Inputs\Button.h" />
+    <ClInclude Include="include\Windowing\Inputs\Gamepad.h" />
+    <ClInclude Include="include\Windowing\Inputs\GamepadButtons.h" />
     <ClInclude Include="include\Windowing\Inputs\Keyboard.h" />
     <ClInclude Include="include\Windowing\Inputs\Keys.h" />
     <ClInclude Include="include\Windowing\Inputs\Mouse.h" />
@@ -171,6 +174,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ECHO_LOGGER\ECHO_LOGGER.vcxproj">
       <Project>{b5a46f22-e1e8-486e-aefb-0bcc537fb90e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ECHO_UTILITIES\ECHO_UTILITIES.vcxproj">
+      <Project>{04493297-1a07-4364-9365-1f6916997fc1}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
