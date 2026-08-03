@@ -5,7 +5,9 @@
 #include "Core/ECS/Components/SpriteComponent.h"
 #include "Core/ECS/Components/TransformComponent.h"
 #include "Core/ECS/Entity.h"
+
 #include "Core/Scripting/GLMBindings.h"
+#include "Core/Scripting/InputManager.h"
 
 #include <Logger/Logger.h>
 
@@ -20,6 +22,7 @@ namespace ECHO_CORE::SYSTEMS
         ECHO_CORE::ECS::Registry &registry)
     {
         ECHO_CORE::SCRIPTING::GLMBindings::CreateLuaBind(lua);
+        ECHO_CORE::InputManager::CreateLuaBind(lua);
 
         ECHO_CORE::ECS::Registry::CreateLuaBind(lua, registry);
         ECHO_CORE::ECS::Entity::CreateLuaBind(lua, registry);

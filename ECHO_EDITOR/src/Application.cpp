@@ -2,6 +2,7 @@
 
 #include <Core/ECS/Entity.h>
 #include <Core/Resources/AssetManager.h>
+#include <Core/Scripting/InputManager.h>
 #include <Core/Systems/AnimationSystem.h>
 #include <Core/Systems/RenderSystem.h>
 #include <Core/Systems/ScriptSystem.h>
@@ -267,6 +268,9 @@ namespace ECHO_EDITOR
 
     void Application::ProcessEvents()
     {
+        auto &input_manager = ECHO_CORE::InputManager::Get();
+        auto &keyboard = input_manager.GetKeyboard();
+
         while (SDL_PollEvent(&event))
         {
             switch (event.type)
@@ -280,6 +284,12 @@ namespace ECHO_EDITOR
                 {
                     running = false;
                 }
+
+                keyboard.OnKeyPressed(event.key.keysym.sym);
+                break;
+
+            case SDL_KEYUP:
+                keyboard.OnKeyReleased(event.key.keysym.sym);
                 break;
 
             default:
@@ -308,6 +318,10 @@ namespace ECHO_EDITOR
         const auto &animation_system = registry->GetContext<std::shared_ptr<
             ECHO_CORE::SYSTEMS::AnimationSystem>>();
         animation_system->Update();
+
+        auto &input_manager = ECHO_CORE::InputManager::Get();
+        auto &keyboard = input_manager.GetKeyboard();
+        keyboard.Update();
     }
 
     void Application::Render()

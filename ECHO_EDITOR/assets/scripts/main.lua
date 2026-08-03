@@ -78,11 +78,23 @@ main = {
 
 		transform.Scale = Vec2(scale)
 
+		if Keyboard.JustPressed(KEY_Q) then
+			print("Q just pressed")
+		end
+
+		if Keyboard.Pressed(KEY_W) then
+			print("W pressed")
+		end
+
+		if Keyboard.JustReleased(KEY_E) then
+			print("E just released")
+		end
+
 		end
 	},
 	[2] = {
 		Render = function()
-		
+
 		end
 	},
 }

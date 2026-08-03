@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Dependencies\SDL\include;$(SolutionDir)ECHO_UTILITIES\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_UTILITIES\include;$(ProjectDir)include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Dependencies\SDL\include;$(SolutionDir)ECHO_UTILITIES\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_UTILITIES\include;$(ProjectDir)include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -119,6 +119,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,6 +141,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,9 +156,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\Windowing\Window\Window.cpp" />
+    <ClCompile Include="src\Button.cpp" />
+    <ClCompile Include="src\Keyboard.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Windowing\Inputs\Button.h" />
+    <ClInclude Include="include\Windowing\Inputs\Keyboard.h" />
+    <ClInclude Include="include\Windowing\Inputs\Keys.h" />
     <ClInclude Include="include\Windowing\Window\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ECHO_LOGGER\ECHO_LOGGER.vcxproj">
+      <Project>{b5a46f22-e1e8-486e-aefb-0bcc537fb90e}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
