@@ -19,7 +19,7 @@ namespace ECHO_EDITOR
     private:
         Application();
 
-        std::unique_ptr<ECHO_WINDOWING::Window> window;
+        std::unique_ptr<ECHO_WINDOW::Window> window;
         std::unique_ptr<ECHO_CORE::ECS::Registry> registry;
 
         SDL_Event event;

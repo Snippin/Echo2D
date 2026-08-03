@@ -83,7 +83,7 @@ namespace ECHO_EDITOR
         SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
         // Create window
-        window = std::make_unique<ECHO_WINDOWING::Window>("Window", 640, 480,
+        window = std::make_unique<ECHO_WINDOW::Window>("Window", 640, 480,
             SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, true,
             SDL_WINDOW_OPENGL);
 
