@@ -26,10 +26,10 @@ namespace ECHO_CORE::ECS
         using namespace entt::literals;
 
         lua.new_usertype<entt::runtime_view>(
-            "runtime_view",
+            "RuntimeView",
             sol::no_constructor,
-            "for_each",
-            [&registry](const entt::runtime_view &view, 
+            "ForEach",
+            [&registry](const entt::runtime_view &view,
                 const sol::function &callback, sol::this_state s)
             {
                 if (!callback.valid())
@@ -43,7 +43,7 @@ namespace ECHO_CORE::ECS
                     callback(new_ent);
                 }
             },
-            "exclude",
+            "Exclude",
             [&registry](entt::runtime_view &view, const sol::variadic_args &va)
             {
                 for (const auto &type : va)

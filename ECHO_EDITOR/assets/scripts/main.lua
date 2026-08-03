@@ -23,9 +23,9 @@ entity2:AddComponent(Animation(4, 5, 0, false))
 
 local view = Registry.GetEntities(Transform)
 
-view:exclude(Sprite)
+view:Exclude(Sprite)
 
-view:for_each(
+view:ForEach(
 	function(entity)
 		print(entity:Name())
 	end
