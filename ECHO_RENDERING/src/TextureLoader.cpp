@@ -12,6 +12,7 @@ namespace ECHO_RENDERING
         GLuint id;
         int width;
         int height;
+        bool success;
 
         glGenTextures(1, &id);
         glBindTexture(GL_TEXTURE_2D, id);
@@ -19,14 +20,11 @@ namespace ECHO_RENDERING
         switch (type)
         {
         case Texture::TextureType::PIXEL:
-            LoadTexture(path, width, height, false);
+            success = LoadTexture(path, width, height, false);
             break;
 
         case Texture::TextureType::BLENDED:
-            LoadTexture(path, width, height, true);
-            break;
-
-        case Texture::TextureType::NONE:
+            success = LoadTexture(path, width, height, true);
             break;
 
             // TODO: Add other texture types for loading as required
@@ -36,7 +34,8 @@ namespace ECHO_RENDERING
             return nullptr;
         }
 
-        return std::make_shared<Texture>(id, width, height, type, path);
+        return success ?
+            std::make_shared<Texture>(id, width, height, type, path) : nullptr;
     }
 
     bool TextureLoader::LoadTexture(const std::string &path, int &width,
