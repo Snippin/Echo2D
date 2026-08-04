@@ -6,6 +6,30 @@
 
 namespace ECHO_RESOURCES
 {
+    void AssetManager::CreateLuaBind(sol::state &lua,
+        ECHO_CORE::ECS::Registry &registry)
+    {
+        const auto &asset_manager =
+            registry.GetContext<std::shared_ptr<AssetManager>>();
+        if (!asset_manager)
+        {
+            ECHO_ERROR("Failed to bind `AssetManager` to lua - Does not exist "
+                "in registry");
+            return;
+        }
+
+        lua.new_usertype<AssetManager>(
+            "AssetManager",
+            sol::no_constructor,
+            "AddTexture",
+            [&asset_manager](const std::string &name, const std::string &path,
+                bool pixel_art)
+            {
+                return asset_manager->AddTexture(name, path, pixel_art);
+            }
+        );
+    }
+
     bool AssetManager::AddTexture(const std::string &name,
         const std::string &path, bool pixel_art)
     {

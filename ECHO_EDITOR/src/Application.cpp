@@ -134,20 +134,6 @@ namespace ECHO_EDITOR
             return false;
         }
 
-        if (!asset_manager->AddTexture("hill_tiles",
-            "./assets/textures/hill_tiles.png", true))
-        {
-            ECHO_ERROR("Failed to create and add texture");
-            return false;
-        }
-
-        if (!asset_manager->AddTexture("warrior_princess",
-            "./assets/textures/warrior_princess.png", true))
-        {
-            ECHO_ERROR("Failed to create and add texture");
-            return false;
-        }
-
         // Create lua state
         auto lua = std::make_shared<sol::state>();
 

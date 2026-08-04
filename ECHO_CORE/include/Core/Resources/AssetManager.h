@@ -1,7 +1,11 @@
 #pragma once
 
+#include "../ECS/Registry.h"
+
 #include <Rendering/Essentials/Shader.h>
 #include <Rendering/Essentials/Texture.h>
+
+#include <sol/sol.hpp>
 
 #include <map>
 #include <memory>
@@ -14,6 +18,9 @@ namespace ECHO_RESOURCES
     public:
         AssetManager() = default;
         ~AssetManager() = default;
+
+        static void CreateLuaBind(sol::state &lua,
+            ECHO_CORE::ECS::Registry &registry);
 
         bool AddTexture(const std::string &name,
             const std::string &path, bool pixel_art = true);
