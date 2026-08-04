@@ -234,6 +234,7 @@ namespace ECHO_EDITOR
         }
 
         ECHO_CORE::SYSTEMS::ScriptSystem::RegisterLuaBindings(*lua, *registry);
+        ECHO_CORE::SYSTEMS::ScriptSystem::RegisterLuaFunctions(*lua);
 
         if (!script_system->LoadMainScript(*lua))
         {

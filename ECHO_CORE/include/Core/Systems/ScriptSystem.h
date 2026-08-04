@@ -14,6 +14,7 @@ namespace ECHO_CORE::SYSTEMS
 
         static void RegisterLuaBindings(sol::state &lua,
             ECHO_CORE::ECS::Registry &registry);
+        static void RegisterLuaFunctions(sol::state &lua);
 
         bool LoadMainScript(sol::state &lua);
         void Update();

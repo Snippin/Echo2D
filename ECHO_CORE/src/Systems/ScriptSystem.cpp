@@ -39,6 +39,27 @@ namespace ECHO_CORE::SYSTEMS
         ECHO_CORE::ECS::Registry::RegisterMetaComponent<ECHO_CORE::ECS::AnimationComponent>();
     }
 
+    void ScriptSystem::RegisterLuaFunctions(sol::state &lua)
+    {
+        lua.set_function(
+            "run_script",
+            [&lua](const std::string &path)
+            {
+                try
+                {
+                    lua.safe_script_file(path);
+                }
+                catch (const sol::error &error)
+                {
+                    ECHO_ERROR("Failed to load lua script: {}", error.what());
+                    return false;
+                }
+
+                return true;
+            }
+        );
+    }
+
     bool ScriptSystem::LoadMainScript(sol::state &lua)
     {
         try
