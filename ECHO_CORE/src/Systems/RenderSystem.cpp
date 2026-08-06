@@ -75,25 +75,13 @@ namespace ECHO_CORE::SYSTEMS
                 // Move to transform current position
                 model =
                     glm::translate(model, glm::vec3{transform.Position, 0.f});
-                // Move to center
-                model = glm::translate(model, glm::vec3{
-                    (sprite.Width * transform.Scale.x) * 0.5f,
-                    (sprite.Height * transform.Scale.y) * 0.5f, 0.f
-                    }
-                );
 
                 model = glm::rotate(model, glm::radians(transform.Rotation),
                     glm::vec3{0.f, 0.f, 1.f});
 
-                // Move back
-                model = glm::translate(model, glm::vec3{
-                    (sprite.Width * transform.Scale.x) * -0.5f,
-                    (sprite.Height * transform.Scale.y) * -0.5f, 0.f
-                    }
-                );
-
                 model = glm::scale(model, glm::vec3(transform.Scale, 1.f));
 
+                // Move to transform to original position
                 model =
                     glm::translate(model, glm::vec3{-transform.Position, 0.f});
             }
