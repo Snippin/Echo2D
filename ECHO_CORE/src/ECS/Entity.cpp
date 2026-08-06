@@ -45,6 +45,10 @@ namespace ECHO_CORE::ECS
                 [&registry](const std::string &name, const std::string &group)
                 {
                     return Entity{registry, name, group};
+                },
+                [&registry](std::int32_t id)
+                {
+                    return Entity{registry, static_cast<entt::entity>(id)};
                 }
             ),
             "AddComponent",
@@ -104,10 +108,10 @@ namespace ECHO_CORE::ECS
             "Name", &Entity::GetName,
             "Group", &Entity::GetGroup,
             "Kill", &Entity::Kill,
-            "ID", 
-            [](Entity &entity) 
-            { 
-                return static_cast<int32_t>(entity.GetEntity()); 
+            "ID",
+            [](Entity &entity)
+            {
+                return static_cast<int32_t>(entity.GetEntity());
             }
         );
     }
