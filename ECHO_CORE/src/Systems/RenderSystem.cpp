@@ -69,17 +69,24 @@ namespace ECHO_CORE::SYSTEMS
 
             glm::mat4 model{1.f};
 
-            if (transform.Rotation != 0.f || transform.Scale.x != 1.f ||
-                transform.Scale.y != 1.f)
+            if (transform.Rotation != 0.f || sprite.Rotation != 0 ||
+                transform.Scale.x != 1.f || transform.Scale.y != 1.f)
             {
                 // Move to transform current position
                 model =
                     glm::translate(model, glm::vec3{transform.Position, 0.f});
 
-                model = glm::rotate(model, glm::radians(transform.Rotation),
-                    glm::vec3{0.f, 0.f, 1.f});
+                if (transform.Rotation != 0.f || sprite.Rotation != 0)
+                {
+                    model = glm::rotate(model,
+                        glm::radians(transform.Rotation + sprite.Rotation),
+                        glm::vec3{0.f, 0.f, 1.f});
+                }
 
-                model = glm::scale(model, glm::vec3(transform.Scale, 1.f));
+                if (transform.Scale.x != 1.f || transform.Scale.y != 1.f)
+                {
+                    model = glm::scale(model, glm::vec3(transform.Scale, 1.f));
+                }
 
                 // Move to transform to original position
                 model =

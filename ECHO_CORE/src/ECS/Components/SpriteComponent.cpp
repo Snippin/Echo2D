@@ -27,6 +27,22 @@ namespace ECHO_CORE::ECS
                         .Start_X = start_x,
                         .Start_Y = start_y,
                         .Layer = layer,
+                        .Rotation = 0,
+                        .Texture_Name = tex_name
+                    };
+                },
+                [](const std::string &tex_name, float width, float height,
+                    int start_x, int start_y, int layer, float rotation)
+                {
+                    return SpriteComponent{
+                        .Width = width,
+                        .Height = height,
+                        .Uvs = UVs{},
+                        .Colour = ECHO_RENDERING::Color{255, 255, 255, 255},
+                        .Start_X = start_x,
+                        .Start_Y = start_y,
+                        .Layer = layer,
+                        .Rotation = rotation,
                         .Texture_Name = tex_name
                     };
                 }
@@ -37,6 +53,7 @@ namespace ECHO_CORE::ECS
             "Start_X", &SpriteComponent::Start_X,
             "Start_Y", &SpriteComponent::Start_Y,
             "Layer", &SpriteComponent::Layer,
+            "Rotation", &SpriteComponent::Rotation,
             "GenerateUVs",
             [&](SpriteComponent &sprite)
             {

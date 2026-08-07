@@ -26,6 +26,7 @@ namespace ECHO_CORE::ECS
         int Start_X{0};
         int Start_Y{0};
         int Layer{0};
+        float Rotation{0};
 
         std::string Texture_Name{""};
 
