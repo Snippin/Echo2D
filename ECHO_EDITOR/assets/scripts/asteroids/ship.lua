@@ -15,7 +15,7 @@ function Ship:Create(def)
     return this
 end
 
-function Ship:UpdateShip()
+function Ship:Update()
     local ship = Entity(self.EntityID)
     local transform = ship:GetComponent(Transform)
     local sprite = ship:GetComponent(Sprite)
@@ -39,7 +39,6 @@ function Ship:UpdateShip()
         transform.Position = transform.Position + self.DriftAngle * self.DriftSpeed
     end
 
-    CheckPosition(transform.Position,
-        sprite.Width * 0.5 * transform.Scale.x,
-        sprite.Height * 0.5 * transform.Scale.y)
+    CheckPosition(transform.Position, transform.Scale,
+        { x = sprite.Width, y = sprite.Height })
 end

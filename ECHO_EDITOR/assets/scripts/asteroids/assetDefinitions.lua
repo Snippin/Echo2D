@@ -14,7 +14,12 @@ AssetDefinitions = {
             name = "asteroid_big",
             path = "assets/textures/asteroids/asteroid_big.png",
             pixel_art = true
-        }
+        },
+        {
+            name = "star_bg",
+            path = "assets/textures/asteroids/star_bg.png",
+            pixel_art = true
+        },
     }
 }
 

@@ -16,7 +16,10 @@ AsteroidDefinitions =
                 start_y = 0,
                 layer = 2
             }
-        }
+        },
+        type = "Big",
+        min_speed = -2,
+        max_speed = 5,
     },
     small_asteroid = {
         group = "Asteroid",
@@ -34,7 +37,10 @@ AsteroidDefinitions =
                 start_y = 0,
                 layer = 2
             }
-        }
+        },
+        type = "Small",
+        min_speed = -5,
+        max_speed = 5,
     }
 }
 
@@ -44,7 +50,7 @@ ShipDefinitions = {
         components = {
             transform = {
                 position = { x = 0, y = 0 },
-                scale = { x = 2, y = 2 },
+                scale = { x = 1, y = 1 },
                 rotation = 0
             },
             sprite = {
@@ -53,7 +59,8 @@ ShipDefinitions = {
                 height = 75,
                 start_x = 0,
                 start_y = 0,
-                layer = 2
+                layer = 2,
+                rotation = 90
             }
         }
     }

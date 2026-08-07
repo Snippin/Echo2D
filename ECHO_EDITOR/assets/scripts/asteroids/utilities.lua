@@ -43,7 +43,8 @@ function LoadEntity(def)
                 def.components.sprite.height,
                 def.components.sprite.start_x,
                 def.components.sprite.start_y,
-                def.components.sprite.layer
+                def.components.sprite.layer,
+                def.components.sprite.rotation or 0
             )
         )
         sprite:GenerateUVs()
@@ -52,12 +53,32 @@ function LoadEntity(def)
     return new_entity:ID()
 end
 
--- position = Vec2, width = float, height = float
-function CheckPosition(position, width, height)
+function LoadBackground()
+    for i = 0, 2 do
+        for j = 0, 3 do
+            local bg_tile = Entity("", "Background")
+            bg_tile:AddComponent(
+                Transform(
+                    Vec2(j * 256 - WINDOW_HALF.x, i * 256 - WINDOW_HALF.y),
+                    Vec2(1, 1), 0
+                )
+            )
+            local sprite =
+                bg_tile:AddComponent(Sprite("star_bg", 256, 256, 0, 0, 0))
+            sprite:GenerateUVs()
+        end
+    end
+end
+
+-- position = Vec2, scale = Vec2, size = Vec2
+function CheckPosition(position, scale, size)
     local min_x = -WINDOW_HALF.x
     local min_y = -WINDOW_HALF.y
     local max_x = WINDOW_HALF.x
     local max_y = WINDOW_HALF.y
+
+    local width = size.x * 0.5 * scale.x
+    local height = size.y * 0.5 * scale.y
 
     if position.x + width < min_x then
         position.x = position.x + WINDOW_WIDTH + width
@@ -70,4 +91,18 @@ function CheckPosition(position, width, height)
     elseif position.y > max_y + height then
         position.y = position.y - WINDOW_HEIGHT - height
     end
+end
+
+function GetRandomVelocity(min_speed, max_speed)
+    return Vec2(
+        math.random(min_speed, max_speed),
+        math.random(min_speed, max_speed)
+    )
+end
+
+function GetRandomPosition()
+    return Vec2(
+        math.random(-WINDOW_HALF.x, WINDOW_HALF.x) + WINDOW_WIDTH,
+        math.random(-WINDOW_HALF.y, WINDOW_HALF.y) + WINDOW_HEIGHT
+    )
 end
