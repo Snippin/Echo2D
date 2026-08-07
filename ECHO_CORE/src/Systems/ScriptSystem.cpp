@@ -9,6 +9,7 @@
 #include "Core/Scripting/GlmBindings.h"
 #include "Core/Scripting/InputManager.h"
 
+#include <EchoUtilities/Timer.h>
 #include <Logger/Logger.h>
 
 namespace ECHO_CORE::SYSTEMS
@@ -24,6 +25,8 @@ namespace ECHO_CORE::SYSTEMS
         ECHO_CORE::SCRIPTING::GLMBindings::CreateLuaBind(lua);
         ECHO_CORE::InputManager::CreateLuaBind(lua);
         ECHO_RESOURCES::AssetManager::CreateLuaBind(lua, registry);
+
+        ECHO_UTIL::Timer::CreateLuaBind(lua);
 
         ECHO_CORE::ECS::Registry::CreateLuaBind(lua, registry);
         ECHO_CORE::ECS::Entity::CreateLuaBind(lua, registry);

@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Dependencies\SDL\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\SDL\include;$(ProjectDir)include;$(SolutionDir)Dependencies\sol3;$(SolutionDir)Dependencies\lua53\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(SolutionDir)Dependencies\lua53\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Dependencies\SDL\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\SDL\include;$(ProjectDir)include;$(SolutionDir)Dependencies\sol3;$(SolutionDir)Dependencies\lua53\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(SolutionDir)Dependencies\lua53\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -128,7 +128,7 @@
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
     <Lib>
-      <AdditionalDependencies>SDL2.lib</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;lua53.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,14 +149,16 @@
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
     <Lib>
-      <AdditionalDependencies>SDL2.lib</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;lua53.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\SDLWrapper.cpp" />
+    <ClCompile Include="src\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EchoUtilities\SDLWrapper.h" />
+    <ClInclude Include="include\EchoUtilities\Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
