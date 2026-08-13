@@ -1,11 +1,14 @@
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include "Core/Scripting/GLMBindings.h"
 
 #include <glm/glm.hpp>
+#include <glm/gtx/norm.hpp>
 
 namespace ECHO_CORE::SCRIPTING
 {
     // glm::vec2
-    static void CreateVec2Bind(sol::state& lua)
+    static void CreateVec2Bind(sol::state &lua)
     {
         // Multiply overloads
         auto multiply_overloads = sol::overload(
@@ -44,7 +47,9 @@ namespace ECHO_CORE::SCRIPTING
             sol::meta_function::multiplication, multiply_overloads,
             sol::meta_function::division, divide_overloads,
             sol::meta_function::addition, addition_overloads,
-            sol::meta_function::subtraction, subtraction_overloads
+            sol::meta_function::subtraction, subtraction_overloads,
+            "Length", [](const glm::vec2 &v) { return glm::length(v); },
+            "LengthSqr", [](const glm::vec2 &v) { return glm::length2(v); }
         );
     }
 
@@ -89,7 +94,9 @@ namespace ECHO_CORE::SCRIPTING
             sol::meta_function::multiplication, multiply_overloads,
             sol::meta_function::division, divide_overloads,
             sol::meta_function::addition, addition_overloads,
-            sol::meta_function::subtraction, subtraction_overloads
+            sol::meta_function::subtraction, subtraction_overloads,
+            "Length", [](const glm::vec2 &v) { return glm::length(v); },
+            "LengthSqr", [](const glm::vec2 &v) { return glm::length2(v); }
         );
     }
 
@@ -135,15 +142,17 @@ namespace ECHO_CORE::SCRIPTING
             sol::meta_function::multiplication, multiply_overloads,
             sol::meta_function::division, divide_overloads,
             sol::meta_function::addition, addition_overloads,
-            sol::meta_function::subtraction, subtraction_overloads
+            sol::meta_function::subtraction, subtraction_overloads,
+            "Length", [](const glm::vec2 &v) { return glm::length(v); },
+            "LengthSqr", [](const glm::vec2 &v) { return glm::length2(v); }
         );
     }
-    
+
     // Helper math functions
     static void MathFunctions(sol::state &lua)
     {
         lua.set_function(
-            "Distance", 
+            "Distance",
             sol::overload
             (
                 [](const glm::vec2 &a, const glm::vec2 &b) { return glm::distance(a, b); },
