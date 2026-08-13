@@ -6,6 +6,7 @@ run_script("assets/scripts/asteroids/utilities.lua")
 run_script("assets/scripts/asteroids/ship.lua")
 run_script("assets/scripts/asteroids/asteroid.lua")
 run_script("assets/scripts/asteroids/asteroidUtilities.lua")
+run_script("assets/scripts/asteroids/collisionSystem.lua")
 
 math.randomseed(os.time())
 LoadAssets()
@@ -14,6 +15,8 @@ LoadBackground()
 local ship = LoadEntity(ShipDefinitions["base_ship"])
 gShip = Ship:Create({ id = ship })
 
+gCollisionSystem = CollisionSystem:Create()
+
 main = {
     [1] = {
         Update = function()
@@ -21,6 +24,7 @@ main = {
 
             gShip:Update()
             UpdateAsteroids()
+            gCollisionSystem:Update()
         end
     },
     [2] = {

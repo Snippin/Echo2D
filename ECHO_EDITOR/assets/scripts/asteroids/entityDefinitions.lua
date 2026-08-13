@@ -15,7 +15,10 @@ AsteroidDefinitions =
                 start_x = 0,
                 start_y = 0,
                 layer = 2
-            }
+            },
+            circle_collider = {
+                radius = 55
+            },
         },
         type = "Big",
         min_speed = -2,
@@ -36,7 +39,10 @@ AsteroidDefinitions =
                 start_x = 0,
                 start_y = 0,
                 layer = 2
-            }
+            },
+            circle_collider = {
+                radius = 21
+            },
         },
         type = "Small",
         min_speed = -5,
@@ -61,7 +67,10 @@ ShipDefinitions = {
                 start_y = 0,
                 layer = 2,
                 rotation = 90
-            }
+            },
+            circle_collider = {
+                radius = 37.5
+            },
         }
     }
 }

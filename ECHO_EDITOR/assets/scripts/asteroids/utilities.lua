@@ -50,6 +50,12 @@ function LoadEntity(def)
         sprite:GenerateUVs()
     end
 
+    if def.components.circle_collider then
+        local collider = new_entity:AddComponent(
+            CircleCollider(def.components.circle_collider.radius)
+        )
+    end
+
     return new_entity:ID()
 end
 
