@@ -1,6 +1,8 @@
 #include "Core/Systems/ScriptSystem.h"
 
 #include "Core/ECS/Components/AnimationComponent.h"
+#include "Core/ECS/Components/BoxColliderComponent.h"
+#include "Core/ECS/Components/CircleColliderComponent.h"
 #include "Core/ECS/Components/ScriptComponent.h"
 #include "Core/ECS/Components/SpriteComponent.h"
 #include "Core/ECS/Components/TransformComponent.h"
@@ -22,25 +24,33 @@ namespace ECHO_CORE::SYSTEMS
     void ScriptSystem::RegisterLuaBindings(sol::state &lua,
         ECHO_CORE::ECS::Registry &registry)
     {
-        ECHO_CORE::SCRIPTING::GLMBindings::CreateLuaBind(lua);
-        ECHO_CORE::InputManager::CreateLuaBind(lua);
+        using namespace ECHO_CORE;
+
+        SCRIPTING::GLMBindings::CreateLuaBind(lua);
+        InputManager::CreateLuaBind(lua);
         ECHO_RESOURCES::AssetManager::CreateLuaBind(lua, registry);
 
         ECHO_UTIL::Timer::CreateLuaBind(lua);
 
-        ECHO_CORE::ECS::Registry::CreateLuaBind(lua, registry);
-        ECHO_CORE::ECS::Entity::CreateLuaBind(lua, registry);
-        ECHO_CORE::ECS::TransformComponent::CreateLuaBind(lua);
-        ECHO_CORE::ECS::SpriteComponent::CreateLuaBind(lua, registry);
-        ECHO_CORE::ECS::AnimationComponent::CreateLuaBind(lua);
+        ECS::Registry::CreateLuaBind(lua, registry);
+        ECS::Entity::CreateLuaBind(lua, registry);
+        ECS::TransformComponent::CreateLuaBind(lua);
+        ECS::SpriteComponent::CreateLuaBind(lua, registry);
+        ECS::AnimationComponent::CreateLuaBind(lua);
+        ECS::BoxColliderComponent::CreateLuaBind(lua);
+        ECS::CircleColliderComponent::CreateLuaBind(lua);
 
-        ECHO_CORE::ECS::Entity::RegisterMetaComponent<ECHO_CORE::ECS::TransformComponent>();
-        ECHO_CORE::ECS::Entity::RegisterMetaComponent<ECHO_CORE::ECS::SpriteComponent>();
-        ECHO_CORE::ECS::Entity::RegisterMetaComponent<ECHO_CORE::ECS::AnimationComponent>();
+        ECS::Entity::RegisterMetaComponent<ECS::TransformComponent>();
+        ECS::Entity::RegisterMetaComponent<ECS::SpriteComponent>();
+        ECS::Entity::RegisterMetaComponent<ECS::AnimationComponent>();
+        ECS::Entity::RegisterMetaComponent<ECS::BoxColliderComponent>();
+        ECS::Entity::RegisterMetaComponent<ECS::CircleColliderComponent>();
 
-        ECHO_CORE::ECS::Registry::RegisterMetaComponent<ECHO_CORE::ECS::TransformComponent>();
-        ECHO_CORE::ECS::Registry::RegisterMetaComponent<ECHO_CORE::ECS::TransformComponent>();
-        ECHO_CORE::ECS::Registry::RegisterMetaComponent<ECHO_CORE::ECS::AnimationComponent>();
+        ECS::Registry::RegisterMetaComponent<ECS::TransformComponent>();
+        ECS::Registry::RegisterMetaComponent<ECS::TransformComponent>();
+        ECS::Registry::RegisterMetaComponent<ECS::AnimationComponent>();
+        ECS::Registry::RegisterMetaComponent<ECS::BoxColliderComponent>();
+        ECS::Registry::RegisterMetaComponent<ECS::CircleColliderComponent>();
     }
 
     void ScriptSystem::RegisterLuaFunctions(sol::state &lua)
