@@ -7,6 +7,8 @@ run_script("assets/scripts/asteroids/ship.lua")
 run_script("assets/scripts/asteroids/asteroid.lua")
 run_script("assets/scripts/asteroids/asteroidUtilities.lua")
 run_script("assets/scripts/asteroids/collisionSystem.lua")
+run_script("assets/scripts/asteroids/projectile.lua")
+run_script("assets/scripts/asteroids/projectileUtilities.lua")
 
 math.randomseed(os.time())
 LoadAssets()
@@ -24,6 +26,7 @@ main = {
 
             gShip:Update()
             UpdateAsteroids()
+            UpdateProjectiles()
             gCollisionSystem:Update()
         end
     },

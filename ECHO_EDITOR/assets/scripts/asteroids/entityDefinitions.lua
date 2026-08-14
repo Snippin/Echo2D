@@ -74,3 +74,30 @@ ShipDefinitions = {
         }
     }
 }
+
+ProjectileDefinitions = {
+    projectile1 = {
+        group = "Projectile",
+        components = {
+            transform = {
+                position = { x = 0, y = 0 },
+                scale = { x = 1, y = 1 },
+                rotation = 0
+            },
+            sprite = {
+                assetName = "projectile_1",
+                width = 9,
+                height = 33,
+                start_x = 0,
+                start_y = 0,
+                layer = 2,
+                rotation = 90
+            },
+            circle_collider = {
+                radius = 16
+            },
+        },
+        lifetime = 2000,
+        speed = 10,
+    }
+}

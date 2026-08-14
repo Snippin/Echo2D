@@ -31,7 +31,6 @@ function CollisionSystem:UpdateCircleCollision()
                     local group_b = b:Group()
 
                     if group_a == group_b then
-                        printf("ASteroid")
                         goto continue
                     end
 

@@ -20,6 +20,11 @@ AssetDefinitions = {
             path = "assets/textures/asteroids/star_bg.png",
             pixel_art = true
         },
+        {
+            name = "projectile_1",
+            path = "assets/textures/asteroids/projectile_1.png",
+            pixel_art = true
+        },
     }
 }
 

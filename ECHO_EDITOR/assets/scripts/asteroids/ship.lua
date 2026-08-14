@@ -39,6 +39,16 @@ function Ship:Update()
         transform.Position = transform.Position + self.DriftAngle * self.DriftSpeed
     end
 
+    if Keyboard.JustPressed(KEY_SPACE) then
+        local projectile = Projectile:Create({
+            def = "projectile1",
+            dir = forward,
+            start_pos = transform.Position,
+            rotation = transform.Rotation,
+        })
+        AddPojectile(projectile)
+    end
+
     CheckPosition(transform.Position, transform.Scale,
         { x = sprite.Width, y = sprite.Height })
 end
