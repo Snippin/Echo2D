@@ -24,8 +24,32 @@ function AddAsteroid(asteroid)
     table.insert(asteroids, asteroid)
 end
 
+function RemoveAsteroid(id)
+    for key, value in pairs(asteroids) do
+        if value.ID == id then
+            -- TODO : Add score
+            if value.Type == "Big" then
+                CreateSmallFromBigAsteroid(value)
+            end
+
+            local asteroid = Entity(value.ID)
+            asteroid:Kill()
+            asteroids[key] = nil
+        end
+    end
+end
+
 function UpdateAsteroids()
     for key, value in pairs(asteroids) do
         value:Update()
+    end
+end
+
+function CreateSmallFromBigAsteroid(asteroid)
+    local transform = Entity(asteroid.ID):GetComponent(Transform)
+    for i = 1, 2 do
+        local small = Asteroid:Create("small_asteroid")
+        Entity(small.ID):GetComponent(Transform).Position = transform.Position
+        AddAsteroid(small)
     end
 end

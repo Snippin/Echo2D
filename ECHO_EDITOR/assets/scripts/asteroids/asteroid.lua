@@ -7,7 +7,7 @@ function Asteroid:Create(def)
 
     local this = {
         Def = def,
-        EntityID = -1,
+        ID = -1,
         Type = asteroid.type,
         MinSpeed = asteroid.min_speed,
         MaxSpeed = asteroid.max_speed,
@@ -16,9 +16,9 @@ function Asteroid:Create(def)
         RotationSpeed = math.random(1, 4),
     }
 
-    this.EntityID = LoadEntity(asteroid)
+    this.ID = LoadEntity(asteroid)
 
-    local entity = Entity(this.EntityID)
+    local entity = Entity(this.ID)
     local transform = entity:GetComponent(Transform)
     transform.Position = GetRandomPosition()
 
@@ -27,7 +27,7 @@ function Asteroid:Create(def)
 end
 
 function Asteroid:Update()
-    local entity = Entity(self.EntityID)
+    local entity = Entity(self.ID)
     local transform = entity:GetComponent(Transform)
     local sprite = entity:GetComponent(Sprite)
 

@@ -16,9 +16,11 @@ end
 
 function CollisionSystem:UpdateCircleCollision()
     local entities = Registry.GetEntities(CircleCollider)
+    local to_destroy = {}
 
     entities:ForEach(
         function(a)
+            local name_a = a:Name()
             local group_a = a:Group()
             local collider_a = a:GetComponent(CircleCollider)
 
@@ -34,6 +36,7 @@ function CollisionSystem:UpdateCircleCollision()
                         goto continue
                     end
 
+                    local name_b = b:Name()
                     local collider_b = b:GetComponent(CircleCollider)
 
                     if collider_a.IsColliding or collider_b.IsColliding then
@@ -41,9 +44,27 @@ function CollisionSystem:UpdateCircleCollision()
                     end
 
                     if self:Intersect(a, b) then
-                        print(string.format("ID: [%s] is colliding with ID: [%s]",
-                            a:ID(), b:ID()))
-                        -- TODO : Add destruction of asteroids
+                        -- Check if projectile hit asteroids
+                        if (group_a == "Projectile" and group_b == "Asteroid") or
+                            (group_b == "Projectile" and group_a == "Asteroid") then
+                            collider_a.IsColliding = true
+                            collider_b.IsColliding = true
+
+                            if group_a == "Asteroid" then
+                                table.insert(to_destroy, a:ID())
+                            else
+                                table.insert(to_destroy, b:ID())
+                            end
+                        elseif (name_a == "Ship" and group_b == "Asteroid") or
+                            (group_a == "Asteroid" and name_b == "Ship") then
+                            if name_a == "Ship" then
+                                collider_a.IsColliding = true
+                                table.insert(to_destroy, a:ID())
+                            else
+                                collider_b.IsColliding = true
+                                table.insert(to_destroy, b:ID())
+                            end
+                        end
                     end
 
                     ::continue::
@@ -51,6 +72,16 @@ function CollisionSystem:UpdateCircleCollision()
             )
         end
     )
+
+    for key, value in pairs(to_destroy) do
+        local entity = Entity(value)
+        if entity:Group() == "Asteroid" then
+            RemoveAsteroid(entity:ID())
+            -- TODO
+        elseif entity:Name() == "Ship" then
+            -- TODO
+        end
+    end
 end
 
 function CollisionSystem:Intersect(a, b)
