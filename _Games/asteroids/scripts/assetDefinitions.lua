@@ -2,27 +2,27 @@ AssetDefinitions = {
     textures = {
         {
             name = "ship",
-            path = "assets/textures/asteroids/ship.png",
+            path = "../_Games/asteroids/textures/ship.png",
             pixel_art = true
         },
         {
             name = "asteroid_small",
-            path = "assets/textures/asteroids/asteroid_small.png",
+            path = "../_Games/asteroids/textures/asteroid_small.png",
             pixel_art = true
         },
         {
             name = "asteroid_big",
-            path = "assets/textures/asteroids/asteroid_big.png",
+            path = "../_Games/asteroids/textures/asteroid_big.png",
             pixel_art = true
         },
         {
             name = "star_bg",
-            path = "assets/textures/asteroids/star_bg.png",
+            path = "../_Games/asteroids/textures/star_bg.png",
             pixel_art = true
         },
         {
             name = "projectile_1",
-            path = "assets/textures/asteroids/projectile_1.png",
+            path = "../_Games/asteroids/textures/projectile_1.png",
             pixel_art = true
         },
     }
