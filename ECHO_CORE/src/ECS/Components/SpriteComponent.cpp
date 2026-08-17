@@ -31,6 +31,20 @@ namespace ECHO_CORE::ECS
             "A", &ECHO_RENDERING::Color::A
         );
 
+        lua.new_usertype<UVs>(
+            "UVs",
+            "type_id", &entt::type_hash<UVs>::value,
+            sol::call_constructor,
+            sol::factories(
+                []() { return UVs{}; },
+                [](float x, float y) { return UVs{.X = x, .Y = y}; }
+            ),
+            "X", &UVs::X,
+            "Y", &UVs::Y,
+            "UV_Width", &UVs::UV_Width,
+            "UV_Height", &UVs::UV_Height
+        );
+
         lua.new_usertype<SpriteComponent>(
             "Sprite",
             "type_id", &entt::type_hash<SpriteComponent>::value,
@@ -72,6 +86,7 @@ namespace ECHO_CORE::ECS
             "Texture_Name", &SpriteComponent::Texture_Name,
             "Width", &SpriteComponent::Width,
             "Height", &SpriteComponent::Height,
+            "UVs", &SpriteComponent::Uvs,
             "Color", &SpriteComponent::Colour,
             "Start_X", &SpriteComponent::Start_X,
             "Start_Y", &SpriteComponent::Start_Y,
