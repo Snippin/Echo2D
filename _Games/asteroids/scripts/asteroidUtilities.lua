@@ -27,9 +27,11 @@ end
 function RemoveAsteroid(id)
     for key, value in pairs(asteroids) do
         if value.ID == id then
-            -- TODO : Add score
             if value.Type == "Big" then
                 CreateSmallFromBigAsteroid(value)
+                GAME_DATA:AddScore(BIG_ASTEROID_SCORE)
+            elseif value.Type == "Small" then
+                GAME_DATA:AddScore(SMALL_ASTEROID_SCORE)
             end
 
             local asteroid = Entity(value.ID)

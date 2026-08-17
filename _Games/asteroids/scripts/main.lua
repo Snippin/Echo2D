@@ -26,4 +26,5 @@ function AsteroidsGame()
     UpdateAsteroids()
     UpdateProjectiles()
     COLLISION_SYSTEM:Update()
+    print(string.format("Score %i", GAME_DATA:GetScore()))
 end
