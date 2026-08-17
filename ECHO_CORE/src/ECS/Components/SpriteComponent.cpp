@@ -11,6 +11,26 @@ namespace ECHO_CORE::ECS
     void SpriteComponent::CreateLuaBind(sol::state &lua,
         ECHO_CORE::ECS::Registry &registry)
     {
+        lua.new_usertype<ECHO_RENDERING::Color>(
+            "Color",
+            "type_id", &entt::type_hash<ECHO_RENDERING::Color>::value,
+            sol::call_constructor,
+            sol::factories(
+                []()
+                {
+                    return ECHO_RENDERING::Color{};
+                },
+                [](GLubyte r, GLubyte g, GLubyte b, GLubyte a)
+                {
+                    return ECHO_RENDERING::Color{.R = r, .G = g,.B = b, .A = a};
+                }
+            ),
+            "R", &ECHO_RENDERING::Color::R,
+            "G", &ECHO_RENDERING::Color::G,
+            "B", &ECHO_RENDERING::Color::B,
+            "A", &ECHO_RENDERING::Color::A
+        );
+
         lua.new_usertype<SpriteComponent>(
             "Sprite",
             "type_id", &entt::type_hash<SpriteComponent>::value,
@@ -50,6 +70,7 @@ namespace ECHO_CORE::ECS
             "Texture_Name", &SpriteComponent::Texture_Name,
             "Width", &SpriteComponent::Width,
             "Height", &SpriteComponent::Height,
+            "Color", &SpriteComponent::Colour,
             "Start_X", &SpriteComponent::Start_X,
             "Start_Y", &SpriteComponent::Start_Y,
             "Layer", &SpriteComponent::Layer,

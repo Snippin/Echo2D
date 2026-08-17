@@ -7,10 +7,10 @@ namespace ECHO_RENDERING
 {
     struct Color
     {
-        GLubyte R;
-        GLubyte G;
-        GLubyte B;
-        GLubyte A;
+        GLubyte R = 255;
+        GLubyte G = 255;
+        GLubyte B = 255;
+        GLubyte A = 255;
     };
 
     struct Vertex
