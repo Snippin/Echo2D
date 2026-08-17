@@ -77,9 +77,8 @@ function CollisionSystem:UpdateCircleCollision()
         local entity = Entity(value)
         if entity:Group() == "Asteroid" then
             RemoveAsteroid(entity:ID())
-            -- TODO
         elseif entity:Name() == "Ship" then
-            -- TODO
+            GAME_DATA:RemoveLife()
         end
     end
 end
