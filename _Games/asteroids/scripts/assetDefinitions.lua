@@ -25,6 +25,21 @@ AssetDefinitions = {
             path = "../_Games/asteroids/textures/projectile_1.png",
             pixel_art = true
         },
+        {
+            name = "life",
+            path = "../_Games/asteroids/textures/life.png",
+            pixel_art = true
+        },
+        {
+            name = "numbers_text",
+            path = "../_Games/asteroids/textures/numbers_text.png",
+            pixel_art = true
+        },
+        {
+            name = "game_over_text",
+            path = "../_Games/asteroids/textures/game_over_text.png",
+            pixel_art = true
+        },
     }
 }
 

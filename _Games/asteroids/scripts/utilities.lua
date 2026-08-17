@@ -48,6 +48,7 @@ function LoadEntity(def)
             )
         )
         sprite:GenerateUVs()
+        sprite.IsHidden = def.components.sprite.is_hidden or false
     end
 
     if def.components.circle_collider then
@@ -111,4 +112,10 @@ function GetRandomPosition()
         math.random(-WINDOW_HALF.x, WINDOW_HALF.x) + WINDOW_WIDTH,
         math.random(-WINDOW_HALF.y, WINDOW_HALF.y) + WINDOW_HEIGHT
     )
+end
+
+function GetDigitValue(num, digit)
+    local n = 10 ^ digit
+    local n1 = 10 ^ (digit - 1)
+    return math.floor((num % n) / n1)
 end

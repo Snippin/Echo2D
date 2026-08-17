@@ -101,3 +101,61 @@ ProjectileDefinitions = {
         speed = 10,
     }
 }
+
+HudDefinitions = {
+    lives = {
+        group = "Life",
+        components = {
+            transform = {
+                position = { x = 0, y = 0 },
+                scale = { x = 1, y = 1 },
+                rotation = 0
+            },
+            sprite = {
+                assetName = "life",
+                width = 35,
+                height = 27,
+                start_x = 0,
+                start_y = 0,
+                layer = 10,
+            },
+        },
+    },
+    number = {
+        Group = "Number",
+        components = {
+            transform = {
+                position = { x = 0, y = 0 },
+                scale = { x = 1, y = 1 },
+                rotation = 0
+            },
+            sprite = {
+                assetName = "numbers_text",
+                width = 19,
+                height = 19,
+                start_x = 0,
+                start_y = 0,
+                layer = 10,
+            },
+        },
+    },
+    game_over = {
+        name = "GameOver",
+        components = {
+            transform = {
+                position = { x = 0, y = 0 },
+                scale = { x = 1, y = 1 },
+                rotation = 0
+            },
+            sprite = {
+                assetName = "game_over_text",
+                width = 282,
+                height = 61,
+                start_x = 0,
+                start_y = 0,
+                layer = 10,
+                is_hidden = true,
+            },
+        },
+    },
+}
