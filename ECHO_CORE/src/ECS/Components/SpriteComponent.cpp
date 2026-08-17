@@ -48,6 +48,7 @@ namespace ECHO_CORE::ECS
                         .Start_Y = start_y,
                         .Layer = layer,
                         .Rotation = 0,
+                        .IsHidden = false,
                         .Texture_Name = tex_name
                     };
                 },
@@ -63,6 +64,7 @@ namespace ECHO_CORE::ECS
                         .Start_Y = start_y,
                         .Layer = layer,
                         .Rotation = rotation,
+                        .IsHidden = false,
                         .Texture_Name = tex_name
                     };
                 }
@@ -74,6 +76,7 @@ namespace ECHO_CORE::ECS
             "Start_X", &SpriteComponent::Start_X,
             "Start_Y", &SpriteComponent::Start_Y,
             "Layer", &SpriteComponent::Layer,
+            "IsHidden", &SpriteComponent::IsHidden,
             "Rotation", &SpriteComponent::Rotation,
             "GenerateUVs",
             [&](SpriteComponent &sprite)

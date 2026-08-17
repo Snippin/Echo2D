@@ -47,7 +47,7 @@ namespace ECHO_CORE::SYSTEMS
             const auto &sprite =
                 view.get<ECHO_CORE::ECS::SpriteComponent>(entity);
 
-            if (sprite.Texture_Name.empty())
+            if (sprite.Texture_Name.empty() || sprite.IsHidden)
             {
                 continue;
             }
