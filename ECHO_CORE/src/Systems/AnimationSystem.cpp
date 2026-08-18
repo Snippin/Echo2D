@@ -30,10 +30,21 @@ namespace ECHO_CORE::SYSTEMS
             auto &animation =
                 view.get<ECHO_CORE::ECS::AnimationComponent>(entity);
 
+            if (animation.Frames <= 0)
+            {
+                continue;
+            }
+
+            // Check if looped and current frame = max frames
+            if (!animation.IsLooped &&
+                animation.CurrentFrame >= animation.Frames - 1)
+            {
+                continue;
+            }
+
             // Get current frame
-            animation.CurrentFrame =
-                (SDL_GetTicks() * animation.FrameRate / 1000) %
-                animation.Frames;
+            animation.CurrentFrame = ((SDL_GetTicks() - animation.StartTime) *
+                animation.FrameRate / 1000) % animation.Frames;
 
             if (animation.IsVerical)
             {

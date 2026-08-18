@@ -11,13 +11,15 @@ namespace ECHO_CORE::ECS
             "type_id", &entt::type_hash<AnimationComponent>::value,
             sol::call_constructor,
             sol::factories(
-                [](int frames, int frame_rate, int frame_offset, bool vertical)
+                [](int frames, int frame_rate, int frame_offset, bool vertical,
+                    bool looped)
                 {
                     return AnimationComponent{
                         .Frames = frames,
                         .FrameRate = frame_rate,
                         .FrameOffset = frame_offset,
                         .IsVerical = vertical,
+                        .IsLooped = looped,
                     };
                 }
             ),
@@ -25,7 +27,15 @@ namespace ECHO_CORE::ECS
             "FrameRate", &AnimationComponent::FrameRate,
             "FrameOffset", &AnimationComponent::FrameOffset,
             "CurrentFrame", &AnimationComponent::CurrentFrame,
-            "IsVerical", &AnimationComponent::IsVerical
+            "StartTime", &AnimationComponent::StartTime,
+            "IsVerical", &AnimationComponent::IsVerical,
+            "IsLooped", &AnimationComponent::IsLooped,
+            "Restart",
+            [](AnimationComponent &animation)
+            {
+                animation.CurrentFrame = 0;
+                animation.StartTime = SDL_GetTicks();
+            }
         );
     }
 }

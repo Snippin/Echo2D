@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL.h>
 #include <sol/sol.hpp>
 
 namespace ECHO_CORE::ECS
@@ -10,7 +11,11 @@ namespace ECHO_CORE::ECS
         int FrameRate{1};
         int FrameOffset{1};
         int CurrentFrame{1};
+
+        int StartTime{static_cast<int>(SDL_GetTicks())};
+
         bool IsVerical{};
+        bool IsLooped{};
 
         static void CreateLuaBind(sol::state &lua);
     };
