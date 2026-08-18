@@ -71,6 +71,14 @@ ShipDefinitions = {
             circle_collider = {
                 radius = 37.5
             },
+            animation = {
+                frames = 0,
+                frame_rate = 0,
+                frame_offset = 0,
+                is_vertical = false,
+                is_looped = false,
+
+            },
         }
     }
 }

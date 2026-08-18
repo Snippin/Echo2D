@@ -40,6 +40,11 @@ AssetDefinitions = {
             path = "../_Games/asteroids/textures/game_over_text.png",
             pixel_art = true
         },
+        {
+            name = "explosion",
+            path = "../_Games/asteroids/textures/explosion.png",
+            pixel_art = true
+        },
     }
 }
 

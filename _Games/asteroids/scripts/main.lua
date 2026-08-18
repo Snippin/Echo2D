@@ -16,17 +16,19 @@ math.randomseed(os.time())
 LoadAssets()
 LoadBackground()
 
-local ship = LoadEntity(ShipDefinitions["base_ship"])
-SHIP = Ship:Create({ id = ship })
-COLLISION_SYSTEM = CollisionSystem:Create()
-HUD = Hud:Create()
+local ship_id = LoadEntity(ShipDefinitions["base_ship"])
+local ship = Ship:Create({ id = ship_id })
+local collision_system = CollisionSystem:Create()
+local hud = Hud:Create()
 
 function AsteroidsGame()
-    SpawnAsteroids()
+    if not GAME_DATA:IsGameOver() then
+        SpawnAsteroids()
+    end
 
-    SHIP:Update()
+    ship:Update()
     UpdateAsteroids()
     UpdateProjectiles()
-    COLLISION_SYSTEM:Update()
-    HUD:Update()
+    collision_system:Update()
+    hud:Update()
 end

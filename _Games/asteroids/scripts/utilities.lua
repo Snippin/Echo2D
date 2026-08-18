@@ -57,6 +57,18 @@ function LoadEntity(def)
         )
     end
 
+    if def.components.animation then
+        local animation = new_entity:AddComponent(
+            Animation(
+                def.components.animation.frames,
+                def.components.animation.frame_rate,
+                def.components.animation.frame_offset,
+                def.components.animation.is_vertical,
+                def.components.animation.is_looped
+            )
+        )
+    end
+
     return new_entity:ID()
 end
 

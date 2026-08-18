@@ -10,6 +10,7 @@ function Ship:Create(def)
         DriftAngle = Vec2(math.cos(0), math.sin(0)),
         StartDrifting = false,
 
+        IsExploding = false,
         IsDead = false,
         Lives = GAME_DATA:GetNumLives(),
         Cooldown = def.cooldown or 200,
@@ -26,6 +27,10 @@ end
 function Ship:Update()
     if self.IsDead then
         return
+    end
+
+    if self.IsExploding then
+        self:UpdateExplosion()
     end
 
     local ship = Entity(self.ID)
@@ -48,7 +53,8 @@ function Ship:Update()
         self.DriftAngle = forward
         self.StartDrifitng = true
     elseif not Keyboard.Pressed(KEY_W) and self.StartDrifitng then
-        transform.Position = transform.Position + self.DriftAngle * self.DriftSpeed
+        transform.Position =
+            transform.Position + self.DriftAngle * self.DriftSpeed
     end
 
     if not self.CooldownTimer:IsRunning() then
@@ -66,16 +72,36 @@ function Ship:Update()
         self.CooldownTimer:Stop()
     end
 
-    self:GetData()
+    self:UpdateData()
 
     CheckPosition(transform.Position, transform.Scale,
         { x = sprite.Width, y = sprite.Height })
 end
 
-function Ship:GetData()
-    if self.Lives ~= GAME_DATA:GetNumLives() then
-        self.Lives = GAME_DATA:GetNumLives()
-        self.InvincibleTimer:Start()
+function Ship:UpdateData()
+    local lives = GAME_DATA:GetNumLives()
+
+    if self.Lives ~= lives and not self.IsExploding then
+        self.IsExploding = true
+
+        local ship = Entity(self.ID)
+        local transform = ship:GetComponent(Transform)
+        local sprite = ship:GetComponent(Sprite)
+        local animation = ship:GetComponent(Animation)
+
+        animation.Frames = 8
+        animation.FrameRate = 16
+        animation:Restart()
+
+        sprite.Texture_Name = "explosion"
+        sprite.Width = 34
+        sprite.Height = 34
+        sprite:GenerateUVs()
+
+        transform.Scale = Vec2(2)
+
+        self.Lives = lives
+        self.DeathTimer:Start()
     end
 
     if self.InvincibleTimer:IsRunning() then
@@ -86,8 +112,65 @@ function Ship:GetData()
         if self.InvincibleTimer:ElapsedMS() >= 3000 then
             local collider = ship:GetComponent(CircleCollider)
             collider.IsColliding = false
-            sprite.Color.A = 255
+
             self.InvincibleTimer:Stop()
+            sprite.Color.A = 255
         end
     end
+end
+
+function Ship:UpdateExplosion()
+    if self.IsExploding and self.DeathTimer:ElapsedMS() >= 1000 then
+        local ship = Entity(self.ID)
+        local animation = ship:GetComponent(Animation)
+
+        if animation.CurrentFrame >= animation.Frames - 1 then
+            -- Reset animation
+            animation.Frames = 0
+            animation.FrameRate = 0
+            animation.CurrentFrame = 0
+
+            -- Reset sprite to ship
+            local sprite = ship:GetComponent(Sprite)
+            sprite.Texture_Name = "ship"
+            sprite.Width = 99
+            sprite.Height = 75
+            sprite:GenerateUVs()
+            sprite.Start_X = 0
+
+            -- Reset scale
+            local transform = ship:GetComponent(Transform)
+            transform.Scale = Vec2(1)
+
+            -- Reset explosion
+            self.IsExploding = false
+            self.DeathTimer:Stop()
+            self.InvincibleTimer:Start()
+
+            if GAME_DATA:GetNumLives() == 0 then
+                if not self.IsDead then
+                    sprite.IsHidden = true
+                end
+
+                self.IsDead = true
+            end
+        end
+    end
+end
+
+function Ship:Reset()
+    self.IsExploding = false
+    self.IsDead = false
+    self.Lives = GAME_DATA:GetNumLives()
+    self.DeathTimer:Stop()
+    self.InvincibleTimer:Stop()
+    self.CooldownTimer:Stop()
+
+    local ship = Entity(self.ID)
+
+    local sprite = ship:GetComponent(Sprite)
+    sprite.IsHidden = false
+
+    local collider = ship:GetComponent(CircleCollider)
+    collider.IsColliding = false
 end
