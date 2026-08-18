@@ -17,13 +17,24 @@ LoadAssets()
 LoadBackground()
 
 local ship_id = LoadEntity(ShipDefinitions["base_ship"])
+
 local ship = Ship:Create({ id = ship_id })
 local collision_system = CollisionSystem:Create()
 local hud = Hud:Create()
 
+ship:Reset()
+
 function AsteroidsGame()
     if not GAME_DATA:IsGameOver() then
         SpawnAsteroids()
+    else
+        if Keyboard.JustPressed(KEY_ENTER) then
+            GAME_DATA:Reset()
+            hud:Reset()
+            ship:Reset()
+            ResetAsteroids()
+            ResetProjectiles()
+        end
     end
 
     ship:Update()

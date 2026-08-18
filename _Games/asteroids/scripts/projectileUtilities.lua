@@ -14,3 +14,11 @@ function UpdateProjectiles()
         end
     end
 end
+
+function ResetProjectiles()
+    for key, value in pairs(projectiles) do
+        local projectile = Entity(value.ID)
+        projectile:Kill()
+        projectiles[key] = nil
+    end
+end

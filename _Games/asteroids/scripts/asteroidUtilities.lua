@@ -20,6 +20,14 @@ function SpawnAsteroids()
     end
 end
 
+function ResetAsteroids()
+    for key, value in pairs(asteroids) do
+        local asteroid = Entity(value.ID)
+        asteroid:Kill()
+        asteroids[key] = nil
+    end
+end
+
 function AddAsteroid(asteroid)
     table.insert(asteroids, asteroid)
 end

@@ -31,6 +31,7 @@ function Ship:Update()
 
     if self.IsExploding then
         self:UpdateExplosion()
+        return
     end
 
     local ship = Entity(self.ID)
@@ -51,8 +52,8 @@ function Ship:Update()
     if Keyboard.Pressed(KEY_W) then
         transform.Position = transform.Position + forward * self.ForwardSpeed
         self.DriftAngle = forward
-        self.StartDrifitng = true
-    elseif not Keyboard.Pressed(KEY_W) and self.StartDrifitng then
+        self.StartDrifting = true
+    elseif not Keyboard.Pressed(KEY_W) and self.StartDrifting then
         transform.Position =
             transform.Position + self.DriftAngle * self.DriftSpeed
     end
@@ -159,6 +160,7 @@ function Ship:UpdateExplosion()
 end
 
 function Ship:Reset()
+    self.StartDrifting = false
     self.IsExploding = false
     self.IsDead = false
     self.Lives = GAME_DATA:GetNumLives()
@@ -168,8 +170,13 @@ function Ship:Reset()
 
     local ship = Entity(self.ID)
 
+    local transform = ship:GetComponent(Transform)
+    transform.Position = Vec2(0)
+    transform.Rotation = -90.0
+
     local sprite = ship:GetComponent(Sprite)
     sprite.IsHidden = false
+    sprite.Color.A = 255
 
     local collider = ship:GetComponent(CircleCollider)
     collider.IsColliding = false

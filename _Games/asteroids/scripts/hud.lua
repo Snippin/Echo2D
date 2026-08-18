@@ -107,7 +107,7 @@ end
 function Hud:Reset()
     self.IsGameOver = false
     self.ShowGameOver = false
-    self.Score = 0
+    self:SetScore(0)
 
     local sprite = Entity(self.GameOverID):GetComponent(Sprite)
     sprite.IsHidden = true
