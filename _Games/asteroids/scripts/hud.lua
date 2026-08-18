@@ -101,7 +101,7 @@ function Hud:SetScore(score)
     end
 
     -- Set score
-    self.Score = value
+    self.Score = score
 end
 
 function Hud:Reset()
