@@ -38,8 +38,10 @@ function RemoveAsteroid(id)
             if value.Type == "Big" then
                 CreateSmallFromBigAsteroid(value)
                 GAME_DATA:AddScore(BIG_ASTEROID_SCORE)
+                Sound.Play("sfx_big_asteroid_explosion")
             elseif value.Type == "Small" then
                 GAME_DATA:AddScore(SMALL_ASTEROID_SCORE)
+                Sound.Play("sfx_small_asteroid_explosion")
             end
 
             local asteroid = Entity(value.ID)

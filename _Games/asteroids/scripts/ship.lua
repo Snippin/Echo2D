@@ -68,6 +68,7 @@ function Ship:Update()
             })
             AddPojectile(projectile)
             self.CooldownTimer:Start()
+            Sound.Play("sfx_laser")
         end
     elseif self.CooldownTimer:ElapsedMS() >= self.Cooldown then
         self.CooldownTimer:Stop()
@@ -103,6 +104,7 @@ function Ship:UpdateData()
 
         self.Lives = lives
         self.DeathTimer:Start()
+        Sound.Play("sfx_ship_explosion")
     end
 
     if self.InvincibleTimer:IsRunning() then

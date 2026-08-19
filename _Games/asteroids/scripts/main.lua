@@ -23,8 +23,13 @@ local collision_system = CollisionSystem:Create()
 local hud = Hud:Create()
 
 ship:Reset()
+Music.Play("gameplay_music")
 
 function AsteroidsGame()
+    if Keyboard.JustPressed(KEY_Z) then
+        Music.Stop()
+    end
+
     if not GAME_DATA:IsGameOver() then
         SpawnAsteroids()
     else

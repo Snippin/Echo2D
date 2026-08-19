@@ -45,7 +45,31 @@ AssetDefinitions = {
             path = "../_Games/asteroids/textures/explosion.png",
             pixel_art = true
         },
-    }
+    },
+    musics = {
+        {
+            name = "gameplay_music",
+            path = "../_Games/asteroids/audio/gameplay_music.wav",
+        },
+    },
+    sound_fx = {
+        {
+            name = "sfx_laser",
+            path = "../_Games/asteroids/audio/sfx_laser.ogg",
+        },
+        {
+            name = "sfx_big_asteroid_explosion",
+            path = "../_Games/asteroids/audio/sfx_big_asteroid_explosion.wav",
+        },
+        {
+            name = "sfx_small_asteroid_explosion",
+            path = "../_Games/asteroids/audio/sfx_small_asteroid_explosion.ogg",
+        },
+        {
+            name = "sfx_ship_explosion",
+            path = "../_Games/asteroids/audio/sfx_ship_explosion.wav",
+        },
+    },
 }
 
 function LoadAssets()
@@ -59,5 +83,21 @@ function LoadAssets()
         end
     end
 
-    -- TODO: Load other asset types
+    for key, value in pairs(AssetDefinitions.musics) do
+        if not AssetManager.AddMusic(value.name, value.path) then
+            print(string.format("Failed to load music [%s] at path [%s]",
+                value.name, value.path))
+        else
+            print(string.format("Loaded music [%s]", value.name))
+        end
+    end
+
+    for key, value in pairs(AssetDefinitions.sound_fx) do
+        if not AssetManager.AddSoundFX(value.name, value.path) then
+            print(string.format("Failed to load soundfx [%s] at path [%s]",
+                value.name, value.path))
+        else
+            print(string.format("Loaded soundfx [%s]", value.name))
+        end
+    end
 end
