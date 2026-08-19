@@ -5,6 +5,7 @@
 #include <Rendering/Essentials/Shader.h>
 #include <Rendering/Essentials/Texture.h>
 #include <Sounds/Essentials/Music.h>
+#include <Sounds/Essentials/SoundFX.h>
 
 #include <sol/sol.hpp>
 
@@ -33,10 +34,16 @@ namespace ECHO_RESOURCES
         bool AddMusic(const std::string &name, const std::string &path);
         std::shared_ptr<ECHO_SOUNDS::Music> GetMusic(const std::string &name);
 
+        bool AddSoundFX(const std::string &name, const std::string &path);
+        std::shared_ptr<ECHO_SOUNDS::SoundFX> GetSoundFX(
+            const std::string &name);
+
     private:
         std::map<std::string, std::shared_ptr<ECHO_RENDERING::Texture>>
             textures;
         std::map<std::string, std::shared_ptr<ECHO_RENDERING::Shader>> shaders;
         std::map<std::string, std::shared_ptr<ECHO_SOUNDS::Music>> musics;
+        std::map<std::string, std::shared_ptr<ECHO_SOUNDS::SoundFX>>
+            sound_fxs;
     };
 }

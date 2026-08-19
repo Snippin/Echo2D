@@ -9,6 +9,7 @@
 #include <Logger/Logger.h>
 #include <Rendering/Core/Camera2D.h>
 #include <Sounds/Audio/MusicPlayer.h>
+#include <Sounds/Audio/SoundFXPlayer.h>
 
 #include <glad/glad.h>
 #include <SDL.h>
@@ -204,6 +205,7 @@ namespace ECHO_EDITOR
             return false;
         }
 
+        // Create music player
         auto music_player = std::make_shared<ECHO_SOUNDS::MusicPlayer>();
 
         if (!music_player)
@@ -216,6 +218,22 @@ namespace ECHO_EDITOR
             ECHO_SOUNDS::MusicPlayer>>(music_player))
         {
             ECHO_ERROR("Failed to add music player to registry context");
+            return false;
+        }
+
+        // Create soundfx player
+        auto soundfx_player = std::make_shared<ECHO_SOUNDS::SoundFXPlayer>();
+
+        if (!soundfx_player)
+        {
+            ECHO_ERROR("Failed to create soundfx player");
+            return false;
+        }
+
+        if (!registry->AddContext<std::shared_ptr<
+            ECHO_SOUNDS::SoundFXPlayer>>(soundfx_player))
+        {
+            ECHO_ERROR("Failed to add soundfx player to registry context");
             return false;
         }
 

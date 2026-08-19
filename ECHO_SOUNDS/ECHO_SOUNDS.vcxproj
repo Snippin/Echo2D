@@ -158,12 +158,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sounds\Audio\MusicPlayer.h" />
+    <ClInclude Include="include\Sounds\Audio\SoundFXPlayer.h" />
     <ClInclude Include="include\Sounds\Essentials\Music.h" />
+    <ClInclude Include="include\Sounds\Essentials\SoundFX.h" />
     <ClInclude Include="include\Sounds\Essentials\SoundParams.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Audio\MusicPlayer.cpp" />
+    <ClCompile Include="src\Audio\SoundFXPlayer.cpp" />
     <ClCompile Include="src\Essentials\Music.cpp" />
+    <ClCompile Include="src\Essentials\SoundFX.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

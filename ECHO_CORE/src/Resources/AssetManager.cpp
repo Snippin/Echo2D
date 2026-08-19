@@ -31,6 +31,11 @@ namespace ECHO_RESOURCES
             [&asset_manager](const std::string &name, const std::string &path)
             {
                 return asset_manager->AddMusic(name, path);
+            },
+            "AddSoundFX",
+            [&asset_manager](const std::string &name, const std::string &path)
+            {
+                return asset_manager->AddSoundFX(name, path);
             }
         );
     }
@@ -157,6 +162,57 @@ namespace ECHO_RESOURCES
         if (itr == musics.end())
         {
             ECHO_ERROR("Failed to get music [{}] -- Does not exist", name);
+            return nullptr;
+        }
+
+        return itr->second;
+    }
+
+    bool AssetManager::AddSoundFX(const std::string &name, const std::string &path)
+    {
+        // Check if sound fx exists
+        if (sound_fxs.contains(name))
+        {
+            ECHO_ERROR("Failed to add sound fx [{}] -- Already exists", name);
+            return false;
+        }
+
+        // Create sound fx
+        Mix_Chunk *sound_fx = Mix_LoadWAV(path.c_str());
+
+        if (!sound_fx)
+        {
+            ECHO_ERROR("Failed to load sound fx [{}] at [{}] -- "
+                "Mixer Error: {}", name, path, Mix_GetError());
+            return false;
+        }
+
+        // Create params
+        ECHO_SOUNDS::SoundParams params{
+            .Name = name,
+            .FilePath = path,
+            .Duration = sound_fx->alen / 176.4
+        };
+
+        auto sound_fx_ptr =
+            std::make_shared<ECHO_SOUNDS::SoundFX>(params, SoundFXPtr{sound_fx});
+
+        if (!sound_fx_ptr)
+        {
+            ECHO_ERROR("Failed to create sound fx ptr for [{}]", name);
+            return false;
+        }
+
+        sound_fxs.emplace(name, std::move(sound_fx_ptr));
+        return true;
+    }
+
+    std::shared_ptr<ECHO_SOUNDS::SoundFX> AssetManager::GetSoundFX(const std::string &name)
+    {
+        auto itr = sound_fxs.find(name);
+        if (itr == sound_fxs.end())
+        {
+            ECHO_ERROR("Failed to get sound fx [{}] -- Does not exist", name);
             return nullptr;
         }
 
