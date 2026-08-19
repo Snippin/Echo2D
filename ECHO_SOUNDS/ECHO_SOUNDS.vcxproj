@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{6b9435b6-231c-48cb-9f8d-79ce4b30cd64}</ProjectGuid>
-    <RootNamespace>ECHOCORE</RootNamespace>
+    <ProjectGuid>{c0d74b41-c92f-4504-888e-f6efd6586087}</ProjectGuid>
+    <RootNamespace>ECHOSOUNDS</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)ECHO_SOUNDS\include;$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(SolutionDir)ECHO_UTILITIES\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\lua53\lib;$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ECHO_UTILITIES\include;$(SolutionDir)ECHO_LOGGER\include;$(ProjectDir)include;$(SolutionDir)Dependencies\SDL\include;$(SolutionDir)FMT\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)ECHO_SOUNDS\include;$(SolutionDir)ECHO_WINDOW\include;$(SolutionDir)ECHO_LOGGER\include;$(SolutionDir)ECHO_RENDERING\include;$(SolutionDir)ECHO_UTILITIES\include;$(ProjectDir)include;$(SolutionDir)SOIL\include;$(SolutionDir)GLAD\include;$(SolutionDir)FMT\include;$(SolutionDir)Dependencies\entt;$(SolutionDir)Dependencies\GLM;$(SolutionDir)Dependencies\lua53\include;$(SolutionDir)Dependencies\sol3;$(SolutionDir)Dependencies\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Dependencies\lua53\lib;$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ECHO_UTILITIES\include;$(SolutionDir)ECHO_LOGGER\include;$(ProjectDir)include;$(SolutionDir)Dependencies\SDL\include;$(SolutionDir)FMT\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\SDL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -128,9 +128,6 @@
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
-    <Lib>
-      <AdditionalDependencies>lua53.lib;SDL2.lib;SDL2_mixer.lib</AdditionalDependencies>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -150,72 +147,23 @@
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
-    <Lib>
-      <AdditionalDependencies>lua53.lib;SDL2.lib;SDL2_mixer.lib</AdditionalDependencies>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECHO_LOGGER\ECHO_LOGGER.vcxproj">
       <Project>{b5a46f22-e1e8-486e-aefb-0bcc537fb90e}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\ECHO_RENDERING\ECHO_RENDERING.vcxproj">
-      <Project>{de690bae-85bd-4c81-ae6c-87639959ee70}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ECHO_SOUNDS\ECHO_SOUNDS.vcxproj">
-      <Project>{c0d74b41-c92f-4504-888e-f6efd6586087}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\ECHO_UTILITIES\ECHO_UTILITIES.vcxproj">
       <Project>{04493297-1a07-4364-9365-1f6916997fc1}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\ECHO_WINDOW\ECHO_WINDOW.vcxproj">
-      <Project>{865b8956-2d51-48a1-a9b2-a46208397f10}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\GLAD\GLAD.vcxproj">
-      <Project>{ef57e67f-34df-4ce8-9df0-e878e4b4aa1d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\SOIL\SOIL.vcxproj">
-      <Project>{649d7631-de10-48e9-abb3-6cb8b22e5029}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Core\ECS\Components\AnimationComponent.h" />
-    <ClInclude Include="include\Core\ECS\Components\BoxColliderComponent.h" />
-    <ClInclude Include="include\Core\ECS\Components\CircleColliderComponent.h" />
-    <ClInclude Include="include\Core\ECS\Components\Identity.h" />
-    <ClInclude Include="include\Core\ECS\Components\ScriptComponent.h" />
-    <ClInclude Include="include\Core\ECS\Components\SpriteComponent.h" />
-    <ClInclude Include="include\Core\ECS\Components\TransformComponent.h" />
-    <ClInclude Include="include\Core\ECS\Entity.h" />
-    <ClInclude Include="include\Core\ECS\MetaUtilities.h" />
-    <ClInclude Include="include\Core\ECS\Registry.h" />
-    <ClInclude Include="include\Core\Resources\AssetManager.h" />
-    <ClInclude Include="include\Core\Scripting\GlmBindings.h" />
-    <ClInclude Include="include\Core\Scripting\InputManager.h" />
-    <ClInclude Include="include\Core\Scripting\SoundBindings.h" />
-    <ClInclude Include="include\Core\Systems\AnimationSystem.h" />
-    <ClInclude Include="include\Core\Systems\RenderSystem.h" />
-    <ClInclude Include="include\Core\Systems\ScriptSystem.h" />
+    <ClInclude Include="include\Sounds\Audio\MusicPlayer.h" />
+    <ClInclude Include="include\Sounds\Essentials\Music.h" />
+    <ClInclude Include="include\Sounds\Essentials\SoundParams.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ECS\Components\AnimationComponent.cpp" />
-    <ClCompile Include="src\ECS\Components\BoxColliderComponent.cpp" />
-    <ClCompile Include="src\ECS\Components\CircleColliderComponent.cpp" />
-    <ClCompile Include="src\ECS\Components\SpriteComponent.cpp" />
-    <ClCompile Include="src\ECS\Components\TransformComponent.cpp" />
-    <ClCompile Include="src\ECS\Entity.cpp" />
-    <ClCompile Include="src\ECS\MetaUtilities.cpp" />
-    <ClCompile Include="src\ECS\Registry.cpp" />
-    <ClCompile Include="src\Resources\AssetManager.cpp" />
-    <ClCompile Include="src\Scripting\GLMBindings.cpp" />
-    <ClCompile Include="src\Scripting\InputManager.cpp" />
-    <ClCompile Include="src\Scripting\SoundBindings.cpp" />
-    <ClCompile Include="src\Systems\AnimationSystem.cpp" />
-    <ClCompile Include="src\Systems\ScriptSystem.cpp" />
-    <ClCompile Include="src\Systems\RenderSystem.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="include\Core\ECS\Entity.inl" />
-    <None Include="include\Core\ECS\Registry.inl" />
+    <ClCompile Include="src\Audio\MusicPlayer.cpp" />
+    <ClCompile Include="src\Essentials\Music.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

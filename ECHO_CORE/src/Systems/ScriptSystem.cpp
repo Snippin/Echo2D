@@ -10,6 +10,7 @@
 #include "Core/Resources/AssetManager.h"
 #include "Core/Scripting/GlmBindings.h"
 #include "Core/Scripting/InputManager.h"
+#include "Core/Scripting/SoundBindings.h"
 
 #include <EchoUtilities/Timer.h>
 #include <Logger/Logger.h>
@@ -26,9 +27,11 @@ namespace ECHO_CORE::SYSTEMS
     {
         using namespace ECHO_CORE;
 
+        ECHO_RESOURCES::AssetManager::CreateLuaBind(lua, registry);
+
         SCRIPTING::GLMBindings::CreateLuaBind(lua);
         InputManager::CreateLuaBind(lua);
-        ECHO_RESOURCES::AssetManager::CreateLuaBind(lua, registry);
+        SCRIPTING::SoundBindings::CreateLuaBind(lua, registry);
 
         ECHO_UTIL::Timer::CreateLuaBind(lua);
 

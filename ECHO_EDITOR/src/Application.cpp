@@ -8,6 +8,7 @@
 #include <Core/Systems/ScriptSystem.h>
 #include <Logger/Logger.h>
 #include <Rendering/Core/Camera2D.h>
+#include <Sounds/Audio/MusicPlayer.h>
 
 #include <glad/glad.h>
 #include <SDL.h>
@@ -200,6 +201,21 @@ namespace ECHO_EDITOR
             ECHO_CORE::SYSTEMS::AnimationSystem>>(animation_system))
         {
             ECHO_ERROR("Failed to add animation system to registry context");
+            return false;
+        }
+
+        auto music_player = std::make_shared<ECHO_SOUNDS::MusicPlayer>();
+
+        if (!music_player)
+        {
+            ECHO_ERROR("Failed to create music player");
+            return false;
+        }
+
+        if (!registry->AddContext<std::shared_ptr<
+            ECHO_SOUNDS::MusicPlayer>>(music_player))
+        {
+            ECHO_ERROR("Failed to add music player to registry context");
             return false;
         }
 

@@ -26,6 +26,11 @@ namespace ECHO_RESOURCES
                 bool pixel_art)
             {
                 return asset_manager->AddTexture(name, path, pixel_art);
+            },
+            "AddMusic",
+            [&asset_manager](const std::string &name, const std::string &path)
+            {
+                return asset_manager->AddMusic(name, path);
             }
         );
     }
@@ -103,5 +108,58 @@ namespace ECHO_RESOURCES
         }
 
         return *itr->second;
+    }
+
+    bool AssetManager::AddMusic(const std::string &name,
+        const std::string &path)
+    {
+        // Check if music exists
+        if (musics.contains(name))
+        {
+            ECHO_ERROR("Failed to add music [{}] -- Already exists", name);
+            return false;
+        }
+
+        // Create music
+        Mix_Music *music = Mix_LoadMUS(path.c_str());
+
+        if (!music)
+        {
+            ECHO_ERROR("Failed to load music [{}] at [{}] -- Mixer Error: {}",
+                name, path, Mix_GetError());
+            return false;
+        }
+
+        // Create params
+        ECHO_SOUNDS::SoundParams params{
+            .Name = name,
+            .FilePath = path,
+            .Duration = Mix_MusicDuration(music)
+        };
+
+        auto music_ptr =
+            std::make_shared<ECHO_SOUNDS::Music>(params, MusicPtr{music});
+
+        if (!music_ptr)
+        {
+            ECHO_ERROR("Failed to create music ptr for [{}]", name);
+            return false;
+        }
+
+        musics.emplace(name, std::move(music_ptr));
+        return true;
+    }
+
+    std::shared_ptr<ECHO_SOUNDS::Music> AssetManager::GetMusic(
+        const std::string &name)
+    {
+        auto itr = musics.find(name);
+        if (itr == musics.end())
+        {
+            ECHO_ERROR("Failed to get music [{}] -- Does not exist", name);
+            return nullptr;
+        }
+
+        return itr->second;
     }
 }
