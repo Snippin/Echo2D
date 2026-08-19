@@ -1,7 +1,8 @@
 #include "Logger/Logger.h"
 
+#include <fmt/chrono.h>
+
 #include <chrono>
-#include <format>
 #include <iostream>
 #include <Windows.h>
 
@@ -63,6 +64,8 @@ namespace ECHO_LOGGER
     std::string Logger::DateTime() const
     {
         auto now = std::chrono::system_clock::now();
-        return std::format("{:%H:%M:%S}", now);
+        auto local_time = std::chrono::current_zone()->to_local(now);
+        auto time = std::chrono::floor<std::chrono::seconds>(local_time);
+        return fmt::format("{:%H:%M:%S}", time);
     }
 }
