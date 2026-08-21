@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# `Tiled` project files
+*.tiled-session
+
 # User-specific files
 *.rsuser
 *.suo
