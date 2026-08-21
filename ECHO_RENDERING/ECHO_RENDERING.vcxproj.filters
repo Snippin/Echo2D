@@ -33,7 +33,13 @@
     <ClInclude Include="include\Rendering\Essentials\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Rendering\Core\BatchRenderer.h">
+    <ClInclude Include="include\Rendering\Core\SpriteBatchRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Rendering\Core\Batcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Rendering\Essentials\BatchType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,7 +59,7 @@
     <ClCompile Include="src\Core\Camera2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\BatchRenderer.cpp">
+    <ClCompile Include="src\Core\SpriteBatchRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

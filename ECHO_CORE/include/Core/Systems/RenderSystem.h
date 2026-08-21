@@ -2,7 +2,7 @@
 
 #include "../ECS/Registry.h"
 
-#include <Rendering/Core/BatchRenderer.h>
+#include <Rendering/Core/SpriteBatchRenderer.h>
 
 namespace ECHO_CORE::SYSTEMS
 {
@@ -16,6 +16,6 @@ namespace ECHO_CORE::SYSTEMS
 
     private:
         ECHO_CORE::ECS::Registry &registry;
-        std::unique_ptr<ECHO_RENDERING::BatchRenderer> batch_renderer;
+        std::unique_ptr<ECHO_RENDERING::SpriteBatchRenderer> batch_renderer;
     };
 }

@@ -13,7 +13,7 @@ namespace ECHO_CORE::SYSTEMS
     RenderSystem::RenderSystem(ECHO_CORE::ECS::Registry &registry) :
         registry{registry}, batch_renderer{nullptr}
     {
-        batch_renderer = std::make_unique<ECHO_RENDERING::BatchRenderer>();
+        batch_renderer = std::make_unique<ECHO_RENDERING::SpriteBatchRenderer>();
     }
 
     void RenderSystem::Render()
