@@ -167,12 +167,12 @@
     <ClInclude Include="include\Rendering\Essentials\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\BatchRenderer.cpp" />
-    <ClCompile Include="src\Camera2D.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\ShaderLoader.cpp" />
-    <ClCompile Include="src\Texture.cpp" />
-    <ClCompile Include="src\TextureLoader.cpp" />
+    <ClCompile Include="src\Core\BatchRenderer.cpp" />
+    <ClCompile Include="src\Core\Camera2D.cpp" />
+    <ClCompile Include="src\Essentials\Shader.cpp" />
+    <ClCompile Include="src\Essentials\ShaderLoader.cpp" />
+    <ClCompile Include="src\Essentials\Texture.cpp" />
+    <ClCompile Include="src\Essentials\TextureLoader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
