@@ -88,7 +88,7 @@ namespace ECHO_EDITOR
         // Create window
         window = std::make_unique<ECHO_WINDOW::Window>("Window", 640, 480,
             SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, true,
-            SDL_WINDOW_OPENGL);
+            (SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE));
 
         if (!window->GetWindow())
         {
@@ -299,6 +299,14 @@ namespace ECHO_EDITOR
             {
             case SDL_QUIT:
                 running = false;
+                break;
+
+            case SDL_WINDOWEVENT:
+                if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+                {
+                    window->SetWidth(event.window.data1);
+                    window->SetHeight(event.window.data2);
+                }
                 break;
 
             case SDL_KEYDOWN:

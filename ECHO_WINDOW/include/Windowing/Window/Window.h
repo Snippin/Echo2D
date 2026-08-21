@@ -27,7 +27,9 @@ namespace ECHO_WINDOW
         inline WindowPtr &GetWindow() { return window; }
         inline const std::string &GetWindowName() const { return title; }
         inline int GetWidth() const { return width; }
+        inline void SetWidth(int width) { this->width = width; }
         inline int GetHeight() const { return height; }
+        inline void SetHeight(int height) { this->height = height; }
 
         inline int GetXPos() const { return x_pos; }
         inline void SetXPos(int x) { x_pos = x; }
