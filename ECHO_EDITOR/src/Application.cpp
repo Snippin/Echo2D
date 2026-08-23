@@ -8,6 +8,7 @@
 #include <Core/Systems/ScriptSystem.h>
 #include <Logger/Logger.h>
 #include <Rendering/Core/Camera2D.h>
+#include <Rendering/Core/Renderer.h>
 #include <Sounds/Audio/MusicPlayer.h>
 #include <Sounds/Audio/SoundFXPlayer.h>
 
@@ -122,6 +123,22 @@ namespace ECHO_EDITOR
 
         registry = std::make_unique<ECHO_CORE::ECS::Registry>();
 
+        // Create the renderer
+        auto renderer = std::make_shared<ECHO_RENDERING::Renderer>();
+        if (!renderer)
+        {
+            ECHO_ERROR("Failed to create `Renderer`");
+            return false;
+        }
+
+        if (!registry->AddContext<std::shared_ptr<
+            ECHO_RENDERING::Renderer>>(renderer))
+        {
+            ECHO_ERROR("Failed to add renderer to registry context");
+            return false;
+        }
+
+        // Create the asset manager
         auto asset_manager = std::make_shared<ECHO_RESOURCES::AssetManager>();
         if (!asset_manager)
         {
@@ -262,6 +279,16 @@ namespace ECHO_EDITOR
             return false;
         }
 
+        // TEMP
+        renderer->DrawLine(ECHO_RENDERING::Line{
+            .P1 = glm::vec2{-100.f, -100.f},
+            .P2 = glm::vec2{100.f, 100.f},
+            .Color = ECHO_RENDERING::Color{.R = 255, .G = 0, .B = 0, .A = 255}
+            }
+        );
+
+        renderer->DrawRect(glm::vec2{0.f}, 100, 100, {0, 255, 0, 255});
+
         return true;
     }
 
@@ -276,11 +303,18 @@ namespace ECHO_EDITOR
             return false;
         }
 
-        // Create shader
+        // Create shaders
         if (!asset_manager->AddShader("basic",
             "./assets/shaders/basic_shader"))
         {
-            ECHO_ERROR("Failed to create and add shader");
+            ECHO_ERROR("Failed to create and add basic shader");
+            return false;
+        }
+
+        if (!asset_manager->AddShader("color",
+            "./assets/shaders/color_shader"))
+        {
+            ECHO_ERROR("Failed to create and add color shader");
             return false;
         }
 
@@ -407,6 +441,14 @@ namespace ECHO_EDITOR
             ECHO_CORE::SYSTEMS::RenderSystem>>();
         const auto &script_system = registry->GetContext<std::shared_ptr<
             ECHO_CORE::SYSTEMS::ScriptSystem>>();
+        const auto &renderer = registry->GetContext<std::shared_ptr<
+            ECHO_RENDERING::Renderer>>();
+        const auto &camera = registry->GetContext<std::shared_ptr<
+            ECHO_RENDERING::Camera2D>>();
+        const auto &asset_manager = registry->GetContext<std::shared_ptr<
+            ECHO_RESOURCES::AssetManager>>();
+
+        auto &shader = asset_manager->GetShader("color");
 
         glViewport(0, 0, window->GetWidth(), window->GetHeight());
 
@@ -415,6 +457,7 @@ namespace ECHO_EDITOR
 
         script_system->Render();
         render_system->Render();
+        renderer->DrawLines(shader, *camera);
 
         SDL_GL_SwapWindow(window->GetWindow().get());
     }

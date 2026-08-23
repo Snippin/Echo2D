@@ -21,4 +21,18 @@ namespace ECHO_RENDERING
         int Layer;
         GLuint TextureId;
     };
+
+    struct LineBatch
+    {
+        GLuint Offset{2};
+        GLuint NumVertices{0};
+        float Width{1.f};
+    };
+
+    struct LineGlyph
+    {
+        Vertex P1;
+        Vertex P2;
+        float Width;
+    };
 }

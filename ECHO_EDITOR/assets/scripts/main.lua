@@ -1,10 +1,10 @@
 -- Main lua script
-run_script("../_Games/testproject/scripts/main.lua")
+--run_script("../_Games/testproject/scripts/main.lua")
 
 main = {
     [1] = {
         Update = function()
-            UpdateTestProject()
+            --UpdateTestProject()
         end
     },
     [2] = {

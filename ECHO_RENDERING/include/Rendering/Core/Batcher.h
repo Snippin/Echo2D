@@ -26,13 +26,13 @@ namespace ECHO_RENDERING
         virtual void Render() = 0;
 
     protected:
-        /*
-            stride - Specifies byte offset between consecutive attributes
-            offset - Specifies the offset of the first component
-        */
+
+        // `stride` - Specifies byte offset between consecutive attributes
+        // `offset` - Specifies the offset of the first component
+
         void SetVertexAttribute(GLuint layout_position, GLuint num_components,
             GLenum type, GLsizeiptr stride, void *offset,
-            GLboolean normalised = GL_FALSE);
+            GLboolean normalised = GL_FALSE) const;
 
         inline GLuint GetVBO() const { return VBO; }
         inline GLuint GetEBO() const { return EBO; }
@@ -105,7 +105,7 @@ namespace ECHO_RENDERING
     template<typename TBatch, typename TGlyph>
     inline void Batcher<TBatch, TGlyph>::SetVertexAttribute(
         GLuint layout_position, GLuint num_components, GLenum type,
-        GLsizeiptr stride, void *offset, GLboolean normalised)
+        GLsizeiptr stride, void *offset, GLboolean normalised) const
     {
         glBindVertexArray(VAO);
         glVertexAttribPointer(layout_position, num_components, type,
