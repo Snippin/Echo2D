@@ -127,7 +127,9 @@ namespace ECHO_WINDOW::INPUTS
             {KEY_LALT, Button{}},
             {KEY_RCTRL, Button{}},
             {KEY_RSHIFT, Button{}},
-            {KEY_RALT, Button{}}}
+            {KEY_RALT, Button{}},
+            {KEY_LGUI , Button{}},
+            {KEY_RGUI , Button{}}}
     {
     }
 

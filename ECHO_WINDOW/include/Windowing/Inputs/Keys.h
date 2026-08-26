@@ -137,3 +137,6 @@ constexpr int KEY_LALT = SDLK_LALT;
 constexpr int KEY_RCTRL = SDLK_RCTRL;
 constexpr int KEY_RSHIFT = SDLK_RSHIFT;
 constexpr int KEY_RALT = SDLK_RALT;
+
+constexpr int KEY_LGUI = SDLK_LGUI;
+constexpr int KEY_RGUI = SDLK_RGUI;
