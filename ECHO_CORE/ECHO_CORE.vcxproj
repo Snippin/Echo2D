@@ -191,6 +191,7 @@
     <ClInclude Include="include\Core\Resources\AssetManager.h" />
     <ClInclude Include="include\Core\Scripting\GlmBindings.h" />
     <ClInclude Include="include\Core\Scripting\InputManager.h" />
+    <ClInclude Include="include\Core\Scripting\RenderingBindings.h" />
     <ClInclude Include="include\Core\Scripting\SoundBindings.h" />
     <ClInclude Include="include\Core\Systems\AnimationSystem.h" />
     <ClInclude Include="include\Core\Systems\RenderSystem.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="src\Resources\AssetManager.cpp" />
     <ClCompile Include="src\Scripting\GLMBindings.cpp" />
     <ClCompile Include="src\Scripting\InputManager.cpp" />
+    <ClCompile Include="src\Scripting\RenderingBindings.cpp" />
     <ClCompile Include="src\Scripting\SoundBindings.cpp" />
     <ClCompile Include="src\Systems\AnimationSystem.cpp" />
     <ClCompile Include="src\Systems\ScriptSystem.cpp" />
