@@ -95,5 +95,8 @@
     <ClInclude Include="include\SOIL2\wfETC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\SOIL2\stb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

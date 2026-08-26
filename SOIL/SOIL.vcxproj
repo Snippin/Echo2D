@@ -46,6 +46,7 @@
     <ClInclude Include="include\SOIL2\stbi_qoi_write.h" />
     <ClInclude Include="include\SOIL2\stb_image.h" />
     <ClInclude Include="include\SOIL2\stb_image_write.h" />
+    <ClInclude Include="include\SOIL2\stb_truetype.h" />
     <ClInclude Include="include\SOIL2\wfETC.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
