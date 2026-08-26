@@ -279,16 +279,6 @@ namespace ECHO_EDITOR
             return false;
         }
 
-        // TEMP
-        renderer->DrawLine(ECHO_RENDERING::Line{
-            .P1 = glm::vec2{-100.f, -100.f},
-            .P2 = glm::vec2{100.f, 100.f},
-            .Color = ECHO_RENDERING::Color{.R = 255, .G = 0, .B = 0, .A = 255}
-            }
-        );
-
-        renderer->DrawRect(glm::vec2{0.f}, 100, 100, {0, 255, 0, 255});
-
         return true;
     }
 

@@ -33,7 +33,7 @@ namespace ECHO_RENDERING
         return position;
     }
 
-    void Camera2D::SetPosition(glm::vec2 new_position)
+    void Camera2D::SetPosition(const glm::vec2 &new_position)
     {
         position = new_position;
         need_update = true;

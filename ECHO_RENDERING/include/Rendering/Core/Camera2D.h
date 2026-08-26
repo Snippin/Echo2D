@@ -12,7 +12,7 @@ namespace ECHO_RENDERING
         Camera2D(int width, int height);
 
         glm::vec2 GetPosition() const;
-        void SetPosition(glm::vec2 new_position);
+        void SetPosition(const glm::vec2 &new_position);
 
         float GetScale() const;
         void SetScale(float new_scale);
