@@ -49,28 +49,44 @@ namespace ECHO_RENDERING
 
     void SpriteBatchRenderer::AddSprite(const glm::vec4 &sprite_rect,
         const glm::vec4 &uv_rect, GLuint texture_id, int layer,
-        glm::mat4 model, const Color &color)
+        const glm::mat4 &model, const Color &color)
     {
         auto new_sprite = std::make_shared<SpriteGlyph>(
             SpriteGlyph
             {
                 .TopLeft = Vertex{
-                    .Position = model * glm::vec4(sprite_rect.x, sprite_rect.y + sprite_rect.w, 0.f, 1.f),
+                    .Position = model * glm::vec4{
+                        sprite_rect.x,
+                        sprite_rect.y + sprite_rect.w,
+                        0.f, 1.f
+                    },
                     .UVs = glm::vec2{uv_rect.x, uv_rect.y + uv_rect.w},
                     .Color = color
                 },
                 .BotLeft = Vertex{
-                    .Position = model * glm::vec4(sprite_rect.x, sprite_rect.y, 0.f, 1.f),
+                    .Position = model * glm::vec4{
+                        sprite_rect.x,
+                        sprite_rect.y,
+                        0.f, 1.f
+                    },
                     .UVs = glm::vec2{uv_rect.x, uv_rect.y},
                     .Color = color
                 },
                 .TopRight = Vertex{
-                    .Position = model * glm::vec4(sprite_rect.x + sprite_rect.z, sprite_rect.y + sprite_rect.w, 0.f, 1.f),
+                    .Position = model * glm::vec4(
+                        sprite_rect.x + sprite_rect.z,
+                        sprite_rect.y + sprite_rect.w,
+                        0.f, 1.f
+                    ),
                     .UVs = glm::vec2{uv_rect.x + uv_rect.z, uv_rect.y + uv_rect.w},
                     .Color = color
                 },
                 .BotRight = Vertex{
-                    .Position = model * glm::vec4(sprite_rect.x + sprite_rect.z, sprite_rect.y, 0.f, 1.f),
+                    .Position = model * glm::vec4{
+                        sprite_rect.x + sprite_rect.z,
+                        sprite_rect.y,
+                        0.f, 1.f
+                    },
                     .UVs = glm::vec2{uv_rect.x + uv_rect.z, uv_rect.y},
                     .Color = color
                 },
@@ -82,7 +98,7 @@ namespace ECHO_RENDERING
         glyphs.push_back(std::move(new_sprite));
     }
 
-    void SpriteBatchRenderer::Initialise()
+    void SpriteBatchRenderer::Initialise() const
     {
         SetVertexAttribute(0, 2, GL_FLOAT, sizeof(Vertex),
             (void *)offsetof(Vertex, Position));

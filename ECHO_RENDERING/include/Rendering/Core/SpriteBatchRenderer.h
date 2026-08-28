@@ -15,11 +15,12 @@ namespace ECHO_RENDERING
         void Render() override;
 
         void AddSprite(const glm::vec4 &sprite_rect, const glm::vec4 &uv_rect,
-            GLuint texture_id, int layer = 0, glm::mat4 model = glm::mat4{1.f},
+            GLuint texture_id, int layer = 0,
+            const glm::mat4 &model = glm::mat4{1.f},
             const Color &color = Color{.R = 255, .G = 255, .B = 255,.A = 255});
 
     private:
-        void Initialise();
+        void Initialise() const;
         void GenerateBatches() override;
     };
 }
