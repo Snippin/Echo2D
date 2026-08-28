@@ -6,11 +6,11 @@
 namespace ECHO_RENDERING
 {
     Renderer::Renderer() :
-        line_renderer{nullptr}, sprite_renderer{nullptr}
+        lines{}, rects{}, circles{},
+        line_renderer{std::make_unique<LineBatchRenderer>()},
+        rect_renderer{std::make_unique<RectBatchRenderer>()},
+        sprite_renderer{std::make_unique<SpriteBatchRenderer>()}
     {
-        line_renderer = std::make_unique<LineBatchRenderer>();
-        rect_renderer = std::make_unique<RectBatchRenderer>();
-        sprite_renderer = std::make_unique<SpriteBatchRenderer>();
     }
 
     void Renderer::SetClearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
@@ -28,7 +28,7 @@ namespace ECHO_RENDERING
         );
     }
 
-    void Renderer::SetCapability(GLCapability capability, bool enable)
+    void Renderer::SetCapability(GLCapability capability, bool enable) const
     {
         if (enable)
         {

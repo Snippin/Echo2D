@@ -10,16 +10,6 @@ namespace ECHO_RENDERING
         Initialise();
     }
 
-    void RectBatchRenderer::End()
-    {
-        if (glyphs.empty())
-        {
-            return;
-        }
-
-        GenerateBatches();
-    }
-
     void RectBatchRenderer::Render()
     {
         EnableVAO();

@@ -38,7 +38,7 @@ namespace ECHO_RENDERING
         void SetClearColor(GLfloat r, GLfloat g, GLfloat b, GLfloat a) const;
         void ClearBuffers(bool color = true, bool depth = true,
             bool stencil = false) const;
-        void SetCapability(GLCapability capability, bool enable);
+        void SetCapability(GLCapability capability, bool enable) const;
         bool IsCapabilityEnabled(GLCapability capability) const;
         void SetBlendCapability(BlendingFactors s_factor,
             BlendingFactors d_factor) const;

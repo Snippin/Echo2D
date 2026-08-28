@@ -11,7 +11,6 @@ namespace ECHO_RENDERING
         RectBatchRenderer();
         ~RectBatchRenderer() = default;
 
-        void End() override;
         void Render() override;
 
         void AddRect(const glm::vec4 &dest_rect, const Color &color);

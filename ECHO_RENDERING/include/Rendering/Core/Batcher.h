@@ -22,7 +22,7 @@ namespace ECHO_RENDERING
         virtual ~Batcher();
 
         void Begin();
-        virtual void End() = 0;
+        virtual void End();
         virtual void Render() = 0;
 
     protected:
@@ -95,11 +95,12 @@ namespace ECHO_RENDERING
     template<typename TBatch, typename TGlyph>
     inline void Batcher<TBatch, TGlyph>::End()
     {
-    }
+        if (glyphs.empty())
+        {
+            return;
+        }
 
-    template<typename TBatch, typename TGlyph>
-    inline void Batcher<TBatch, TGlyph>::Render()
-    {
+        GenerateBatches();
     }
 
     template<typename TBatch, typename TGlyph>

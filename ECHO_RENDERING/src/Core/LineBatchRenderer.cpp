@@ -8,16 +8,6 @@ namespace ECHO_RENDERING
         Initialise();
     }
 
-    void LineBatchRenderer::End()
-    {
-        if (glyphs.empty())
-        {
-            return;
-        }
-
-        GenerateBatches();
-    }
-
     void LineBatchRenderer::Render()
     {
         glEnable(GL_LINE_SMOOTH);

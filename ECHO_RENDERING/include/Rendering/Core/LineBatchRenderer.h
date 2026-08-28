@@ -12,7 +12,6 @@ namespace ECHO_RENDERING
         LineBatchRenderer();
         ~LineBatchRenderer() = default;
 
-        void End() override;
         void Render() override;
 
         void AddLine(const Line &line);
