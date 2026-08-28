@@ -1,11 +1,12 @@
 #pragma once
 
 #include "../Essentials/BatchType.h"
-#include "../Essentials/Primitives.h"
 #include "Batcher.h"
 
 namespace ECHO_RENDERING
 {
+    struct Line;
+
     class LineBatchRenderer : public Batcher<LineBatch, LineGlyph>
     {
     public:
@@ -18,6 +19,6 @@ namespace ECHO_RENDERING
 
     private:
         void GenerateBatches() override;
-        void Initialise();
+        void Initialise() const;
     };
 }

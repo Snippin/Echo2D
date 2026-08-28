@@ -1,5 +1,7 @@
 #include "Rendering/Core/LineBatchRenderer.h"
 
+#include "Rendering/Essentials/Primitives.h"
+
 namespace ECHO_RENDERING
 {
     LineBatchRenderer::LineBatchRenderer()
@@ -76,7 +78,7 @@ namespace ECHO_RENDERING
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    void LineBatchRenderer::Initialise()
+    void LineBatchRenderer::Initialise() const
     {
         SetVertexAttribute(0, 2, GL_FLOAT, sizeof(Vertex),
             (void *)offsetof(Vertex, Position));
