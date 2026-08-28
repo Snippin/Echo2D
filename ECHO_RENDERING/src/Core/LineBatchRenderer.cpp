@@ -43,27 +43,27 @@ namespace ECHO_RENDERING
         std::vector<Vertex> vertices;
         vertices.resize(glyphs.size() * 2);
 
+        int current_line{0};
         int current_vertex{0};
-
-        batches.push_back(std::make_shared<LineBatch>(
-            LineBatch{
-            .Offset = 0,
-            .NumVertices = 2
-            }
-        ));
 
         for (const auto &line : glyphs)
         {
+            if (current_line == 0)
+            {
+                batches.push_back(std::make_shared<LineBatch>(
+                    LineBatch{.Offset = 0,.NumVertices = 2}
+                ));
+            }
+            else
+            {
+                batches.back()->NumVertices += 2;
+            }
+
             vertices[current_vertex++] = line->P1;
             vertices[current_vertex++] = line->P2;
             batches.back()->Width = line->Width;
 
-            if (glyphs.size() == 1)
-            {
-                break;
-            }
-
-            batches.back()->NumVertices += 2;
+            current_line++;
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, GetVBO());

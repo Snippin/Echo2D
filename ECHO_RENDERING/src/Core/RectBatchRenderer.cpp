@@ -77,22 +77,30 @@ namespace ECHO_RENDERING
     void RectBatchRenderer::GenerateBatches()
     {
         std::vector<Vertex> vertices;
-        vertices.resize(glyphs.size() * 4);
+        vertices.resize(glyphs.size() * NUM_SPRITE_VERTICES);
 
+        int current_rect{0};
         int current_vertex{0};
-
-        batches.push_back(std::make_shared<RectBatch>(
-            RectBatch{.NumIndices = 6, .Offset = 0}
-        ));
 
         for (const auto &rect : glyphs)
         {
-            batches.back()->NumIndices += 6;
+            if (current_rect == 0)
+            {
+                batches.push_back(std::make_shared<RectBatch>(
+                    RectBatch{.NumIndices = NUM_SPRITE_INDICES, .Offset = 0}
+                ));
+            }
+            else
+            {
+                batches.back()->NumIndices += NUM_SPRITE_INDICES;
+            }
 
             vertices[current_vertex++] = rect->TopLeft;
             vertices[current_vertex++] = rect->TopRight;
             vertices[current_vertex++] = rect->BotRight;
             vertices[current_vertex++] = rect->BotLeft;
+
+            current_rect++;
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, GetVBO());
