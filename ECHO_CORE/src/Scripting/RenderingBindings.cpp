@@ -53,6 +53,37 @@ namespace ECHO_CORE::SCRIPTING
             "Color", &ECHO_RENDERING::Rect::Color
         );
 
+        lua.new_usertype<ECHO_RENDERING::Circle>(
+            "Circle",
+            sol::call_constructor,
+            sol::factories(
+                [](const glm::vec2 &position, float radius, float thickness,
+                    const ECHO_RENDERING::Color &color)
+                {
+                    return ECHO_RENDERING::Circle{
+                        .Position = position,
+                        .Radius = radius,
+                        .Thickness = thickness,
+                        .Color = color
+                    };
+                },
+                [](const glm::vec2 &position, float radius,
+                    const ECHO_RENDERING::Color &color)
+                {
+                    return ECHO_RENDERING::Circle{
+                        .Position = position,
+                        .Radius = radius,
+                        .Thickness = 1.f,
+                        .Color = color
+                    };
+                }
+            ),
+            "Position", &ECHO_RENDERING::Circle::Position,
+            "Radius", &ECHO_RENDERING::Circle::Radius,
+            "Thickness", &ECHO_RENDERING::Circle::Thickness,
+            "Color", &ECHO_RENDERING::Circle::Color
+        );
+
         // Bind renderer
         const auto &renderer =
             registry.GetContext<std::shared_ptr<ECHO_RENDERING::Renderer>>();
@@ -106,6 +137,25 @@ namespace ECHO_CORE::SCRIPTING
                         .Height = height,
                         .Color = color
                     });
+                }
+            )
+        );
+
+        lua.set_function(
+            "DrawCircle", sol::overload(
+                [&renderer](const ECHO_RENDERING::Circle &circle)
+                {
+                    renderer->DrawCircle(circle);
+                },
+                [&renderer](const glm::vec2 &position, float radius,
+                    const ECHO_RENDERING::Color &color, float thickness)
+                {
+                    renderer->DrawCircle(position, radius, color, thickness);
+                },
+                [&renderer](const glm::vec2 &position, float radius,
+                    const ECHO_RENDERING::Color &color)
+                {
+                    renderer->DrawCircle(position, radius, color, 1.f);
                 }
             )
         );

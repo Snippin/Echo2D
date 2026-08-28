@@ -49,4 +49,12 @@ namespace ECHO_RENDERING
         Vertex TopRight;
         Vertex BotRight;
     };
+
+    struct CircleGlyph
+    {
+        CircleVertex TopLeft;
+        CircleVertex BotLeft;
+        CircleVertex TopRight;
+        CircleVertex BotRight;
+    };
 }

@@ -40,4 +40,12 @@ namespace ECHO_RENDERING
             Colour.A = (new_color >> 0) & 0xFF;
         }
     };
+
+    struct CircleVertex
+    {
+        glm::vec2 Position{0.f};
+        glm::vec2 UVs{0.f};
+        Color Colour{.R = 255, .G = 255, .B = 255, .A = 255};
+        float Thickness{1.f};
+    };
 }

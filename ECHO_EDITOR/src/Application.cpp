@@ -308,6 +308,13 @@ namespace ECHO_EDITOR
             return false;
         }
 
+        if (!asset_manager->AddShader("circle",
+            "./assets/shaders/circle_shader"))
+        {
+            ECHO_ERROR("Failed to create and add circle shader");
+            return false;
+        }
+
         return true;
     }
 
@@ -438,7 +445,8 @@ namespace ECHO_EDITOR
         const auto &asset_manager = registry->GetContext<std::shared_ptr<
             ECHO_RESOURCES::AssetManager>>();
 
-        auto &shader = asset_manager->GetShader("color");
+        auto &color_shader = asset_manager->GetShader("color");
+        auto &circle_shader = asset_manager->GetShader("circle");
 
         glViewport(0, 0, window->GetWidth(), window->GetHeight());
 
@@ -448,8 +456,9 @@ namespace ECHO_EDITOR
         script_system->Render();
         render_system->Render();
 
-        renderer->DrawLines(shader, *camera);
-        renderer->DrawFilledRects(shader, *camera);
+        renderer->DrawLines(color_shader, *camera);
+        renderer->DrawFilledRects(color_shader, *camera);
+        renderer->DrawCircles(circle_shader, *camera);
 
         SDL_GL_SwapWindow(window->GetWindow().get());
     }

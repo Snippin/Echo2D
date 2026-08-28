@@ -9,6 +9,7 @@ namespace ECHO_RENDERING
         lines{}, rects{}, circles{},
         line_renderer{std::make_unique<LineBatchRenderer>()},
         rect_renderer{std::make_unique<RectBatchRenderer>()},
+        circle_renderer{std::make_unique<CircleBatchRenderer>()},
         sprite_renderer{std::make_unique<SpriteBatchRenderer>()}
     {
     }
@@ -137,8 +138,8 @@ namespace ECHO_RENDERING
     {
         circles.push_back(Circle{
             .Position = position,
-            .Thickness = thickness,
             .Radius = radius,
+            .Thickness = thickness,
             .Color = color
         });
     }
@@ -187,6 +188,23 @@ namespace ECHO_RENDERING
 
     void Renderer::DrawCircles(Shader &shader, const Camera2D &camera)
     {
+        if (circles.empty())
+        {
+            return;
+        }
+
+        auto camera_matrix = camera.GetCameraMatrix();
+        shader.Enable();
+        shader.SetUniformMat4("uProjection", camera_matrix);
+
+        circle_renderer->Begin();
+        for (const auto &circle : circles)
+        {
+            circle_renderer->AddCircle(circle);
+        }
+        circle_renderer->End();
+        circle_renderer->Render();
+        shader.Disable();
     }
 
     void Renderer::ClearPrimitives()

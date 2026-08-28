@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Essentials/Primitives.h"
+#include "CircleBatchRenderer.h"
 #include "LineBatchRenderer.h"
 #include "RectBatchRenderer.h"
 #include "SpriteBatchRenderer.h"
@@ -71,6 +72,7 @@ namespace ECHO_RENDERING
 
         std::unique_ptr<LineBatchRenderer> line_renderer;
         std::unique_ptr<RectBatchRenderer> rect_renderer;
+        std::unique_ptr<CircleBatchRenderer> circle_renderer;
         std::unique_ptr<SpriteBatchRenderer> sprite_renderer;
     };
 }
