@@ -35,4 +35,18 @@ namespace ECHO_RENDERING
         Vertex P2;
         float Width;
     };
+
+    struct RectBatch
+    {
+        GLuint NumIndices{0};
+        GLuint Offset{0};
+    };
+
+    struct RectGlyph
+    {
+        Vertex TopLeft;
+        Vertex BotLeft;
+        Vertex TopRight;
+        Vertex BotRight;
+    };
 }

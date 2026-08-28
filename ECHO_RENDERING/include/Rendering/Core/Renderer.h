@@ -2,6 +2,7 @@
 
 #include "../Essentials/Primitives.h"
 #include "LineBatchRenderer.h"
+#include "RectBatchRenderer.h"
 #include "SpriteBatchRenderer.h"
 
 #include <glad/glad.h>
@@ -69,6 +70,7 @@ namespace ECHO_RENDERING
         std::vector<Circle> circles;
 
         std::unique_ptr<LineBatchRenderer> line_renderer;
+        std::unique_ptr<RectBatchRenderer> rect_renderer;
         std::unique_ptr<SpriteBatchRenderer> sprite_renderer;
     };
 }

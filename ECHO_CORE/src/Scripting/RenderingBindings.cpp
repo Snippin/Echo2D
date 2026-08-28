@@ -91,6 +91,25 @@ namespace ECHO_CORE::SCRIPTING
             )
         );
 
+        lua.set_function(
+            "DrawFilledRect", sol::overload(
+                [&renderer](const ECHO_RENDERING::Rect &rect)
+                {
+                    renderer->DrawFilledRect(rect);
+                },
+                [&renderer](const glm::vec2 &position, float width,
+                    float height, const ECHO_RENDERING::Color &color)
+                {
+                    renderer->DrawFilledRect(ECHO_RENDERING::Rect{
+                        .Position = position,
+                        .Width = width,
+                        .Height = height,
+                        .Color = color
+                    });
+                }
+            )
+        );
+
         // Bind camera
         const auto &camera =
             registry.GetContext<std::shared_ptr<ECHO_RENDERING::Camera2D>>();

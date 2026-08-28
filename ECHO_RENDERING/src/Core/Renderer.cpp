@@ -9,6 +9,7 @@ namespace ECHO_RENDERING
         line_renderer{nullptr}, sprite_renderer{nullptr}
     {
         line_renderer = std::make_unique<LineBatchRenderer>();
+        rect_renderer = std::make_unique<RectBatchRenderer>();
         sprite_renderer = std::make_unique<SpriteBatchRenderer>();
     }
 
@@ -123,19 +124,32 @@ namespace ECHO_RENDERING
 
     void Renderer::DrawFilledRect(const Rect &rect)
     {
+        rects.push_back(rect);
     }
 
     void Renderer::DrawCircle(const Circle &circle)
     {
+        circles.push_back(circle);
     }
 
     void Renderer::DrawCircle(const glm::vec2 &position, float radius,
         const Color &color, float thickness)
     {
+        circles.push_back(Circle{
+            .Position = position,
+            .Thickness = thickness,
+            .Radius = radius,
+            .Color = color
+        });
     }
 
     void Renderer::DrawLines(Shader &shader, const Camera2D &camera)
     {
+        if (lines.empty())
+        {
+            return;
+        }
+
         auto camera_matrix = camera.GetCameraMatrix();
         shader.Enable();
         shader.SetUniformMat4("uProjection", camera_matrix);
@@ -152,6 +166,23 @@ namespace ECHO_RENDERING
 
     void Renderer::DrawFilledRects(Shader &shader, const Camera2D &camera)
     {
+        if (rects.empty())
+        {
+            return;
+        }
+
+        auto camera_matrix = camera.GetCameraMatrix();
+        shader.Enable();
+        shader.SetUniformMat4("uProjection", camera_matrix);
+
+        rect_renderer->Begin();
+        for (const auto &rect : rects)
+        {
+            rect_renderer->AddRect(rect);
+        }
+        rect_renderer->End();
+        rect_renderer->Render();
+        shader.Disable();
     }
 
     void Renderer::DrawCircles(Shader &shader, const Camera2D &camera)

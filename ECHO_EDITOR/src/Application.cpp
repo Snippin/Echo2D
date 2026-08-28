@@ -447,7 +447,9 @@ namespace ECHO_EDITOR
 
         script_system->Render();
         render_system->Render();
+
         renderer->DrawLines(shader, *camera);
+        renderer->DrawFilledRects(shader, *camera);
 
         SDL_GL_SwapWindow(window->GetWindow().get());
     }
