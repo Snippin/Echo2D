@@ -23,8 +23,8 @@ namespace ECHO_RENDERING
     struct Circle
     {
         glm::vec2 Position{0.f};
-        float thickness{1.f};
-        float radius{0.f};
+        float Thickness{1.f};
+        float Radius{0.f};
         Color Color{};
     };
 }
