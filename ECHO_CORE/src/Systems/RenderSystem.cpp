@@ -94,7 +94,7 @@ namespace ECHO_CORE::SYSTEMS
             }
 
             batch_renderer->AddSprite(sprite_rect, uv_rect, texture.GetID(),
-                sprite.Layer, model, sprite.Colour);
+                sprite.Layer, model, sprite.Color);
         }
 
         batch_renderer->End();

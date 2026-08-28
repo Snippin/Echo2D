@@ -41,7 +41,7 @@ namespace ECHO_RENDERING
                     0.f, 1.f
                 },
                 .UVs = glm::vec2{-1.f, 1.f},
-                .Colour = color,
+                .Color = color,
                 .Thickness = thickness
             },
             .BotLeft = CircleVertex {
@@ -51,7 +51,7 @@ namespace ECHO_RENDERING
                     0.f, 1.f
                 },
                 .UVs = glm::vec2{-1.f, -1.f},
-                .Colour = color,
+                .Color = color,
                 .Thickness = thickness
             },
             .TopRight = CircleVertex {
@@ -61,7 +61,7 @@ namespace ECHO_RENDERING
                     0.f, 1.f
                 },
                 .UVs = glm::vec2{1.f, 1.f},
-                .Colour = color,
+                .Color = color,
                 .Thickness = thickness
             },
             .BotRight = CircleVertex {
@@ -71,7 +71,7 @@ namespace ECHO_RENDERING
                     0.f, 1.f
                 },
                 .UVs = glm::vec2{1.f, -1.f},
-                .Colour = color,
+                .Color = color,
                 .Thickness = thickness
             },
         });
@@ -91,7 +91,7 @@ namespace ECHO_RENDERING
                     0.f, 1.f
                 },
                 .UVs = glm::vec2{-1.f, 1.f},
-                .Colour = circle.Color,
+                .Color = circle.Color,
                 .Thickness = circle.Thickness
             },
             .BotLeft = CircleVertex {
@@ -101,7 +101,7 @@ namespace ECHO_RENDERING
                     0.f, 1.f
                 },
                 .UVs = glm::vec2{-1.f, -1.f},
-                .Colour = circle.Color,
+                .Color = circle.Color,
                 .Thickness = circle.Thickness
             },
             .TopRight = CircleVertex {
@@ -111,7 +111,7 @@ namespace ECHO_RENDERING
                     0.f, 1.f
                 },
                 .UVs = glm::vec2{1.f, 1.f},
-                .Colour = circle.Color,
+                .Color = circle.Color,
                 .Thickness = circle.Thickness
             },
             .BotRight = CircleVertex {
@@ -121,7 +121,7 @@ namespace ECHO_RENDERING
                     0.f, 1.f
                 },
                 .UVs = glm::vec2{1.f, -1.f},
-                .Colour = circle.Color,
+                .Color = circle.Color,
                 .Thickness = circle.Thickness
             },
         });
@@ -177,7 +177,7 @@ namespace ECHO_RENDERING
         SetVertexAttribute(1, 2, GL_FLOAT, sizeof(CircleVertex),
             (void *)offsetof(CircleVertex, UVs));
         SetVertexAttribute(2, 4, GL_UNSIGNED_BYTE, sizeof(CircleVertex),
-            (void *)offsetof(CircleVertex, Colour), GL_TRUE);
+            (void *)offsetof(CircleVertex, Color), GL_TRUE);
         SetVertexAttribute(3, 1, GL_FLOAT, sizeof(CircleVertex),
             (void *)offsetof(CircleVertex, Thickness));
     }

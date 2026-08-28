@@ -57,22 +57,22 @@ namespace ECHO_RENDERING
                 .TopLeft = Vertex{
                     .Position = model * glm::vec4(sprite_rect.x, sprite_rect.y + sprite_rect.w, 0.f, 1.f),
                     .UVs = glm::vec2{uv_rect.x, uv_rect.y + uv_rect.w},
-                    .Colour = color
+                    .Color = color
                 },
                 .BotLeft = Vertex{
                     .Position = model * glm::vec4(sprite_rect.x, sprite_rect.y, 0.f, 1.f),
                     .UVs = glm::vec2{uv_rect.x, uv_rect.y},
-                    .Colour = color
+                    .Color = color
                 },
                 .TopRight = Vertex{
                     .Position = model * glm::vec4(sprite_rect.x + sprite_rect.z, sprite_rect.y + sprite_rect.w, 0.f, 1.f),
                     .UVs = glm::vec2{uv_rect.x + uv_rect.z, uv_rect.y + uv_rect.w},
-                    .Colour = color
+                    .Color = color
                 },
                 .BotRight = Vertex{
                     .Position = model * glm::vec4(sprite_rect.x + sprite_rect.z, sprite_rect.y, 0.f, 1.f),
                     .UVs = glm::vec2{uv_rect.x + uv_rect.z, uv_rect.y},
-                    .Colour = color
+                    .Color = color
                 },
                 .Layer = layer,
                 .TextureId = texture_id
@@ -89,7 +89,7 @@ namespace ECHO_RENDERING
         SetVertexAttribute(1, 2, GL_FLOAT, sizeof(Vertex),
             (void *)offsetof(Vertex, UVs));
         SetVertexAttribute(2, 4, GL_UNSIGNED_BYTE, sizeof(Vertex),
-            (void *)offsetof(Vertex, Colour), GL_TRUE);
+            (void *)offsetof(Vertex, Color), GL_TRUE);
     }
 
     void SpriteBatchRenderer::GenerateBatches()

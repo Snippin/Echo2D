@@ -22,7 +22,7 @@ namespace ECHO_CORE::ECS
         float Height{0.f};
         UVs Uvs{.X = 0.f, .Y = 0.f, .UV_Width = 0.f, .UV_Height = 0.f};
 
-        ECHO_RENDERING::Color Colour{.R = 255, .G = 255, .B = 255, .A = 255};
+        ECHO_RENDERING::Color Color{.R = 255, .G = 255, .B = 255, .A = 255};
         int Start_X{0};
         int Start_Y{0};
         int Layer{0};

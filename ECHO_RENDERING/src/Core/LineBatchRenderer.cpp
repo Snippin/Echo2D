@@ -30,10 +30,10 @@ namespace ECHO_RENDERING
         new_glyph->Width = line.Width;
 
         new_glyph->P1.Position = line.P1;
-        new_glyph->P1.Colour = line.Color;
+        new_glyph->P1.Color = line.Color;
 
         new_glyph->P2.Position = line.P2;
-        new_glyph->P2.Colour = line.Color;
+        new_glyph->P2.Color = line.Color;
 
         glyphs.push_back(std::move(new_glyph));
     }
@@ -83,6 +83,6 @@ namespace ECHO_RENDERING
         SetVertexAttribute(0, 2, GL_FLOAT, sizeof(Vertex),
             (void *)offsetof(Vertex, Position));
         SetVertexAttribute(1, 4, GL_UNSIGNED_BYTE, sizeof(Vertex),
-            (void *)offsetof(Vertex, Colour), GL_TRUE);
+            (void *)offsetof(Vertex, Color), GL_TRUE);
     }
 }

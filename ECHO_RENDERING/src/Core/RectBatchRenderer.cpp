@@ -30,19 +30,19 @@ namespace ECHO_RENDERING
 
         auto new_glyph = std::make_shared<RectGlyph>();
 
-        new_glyph->TopLeft.Colour = color;
+        new_glyph->TopLeft.Color = color;
         new_glyph->TopLeft.Position =
             glm::vec2{dest_rect.x - half_size.x, dest_rect.y - half_size.y};
 
-        new_glyph->BotLeft.Colour = color;
+        new_glyph->BotLeft.Color = color;
         new_glyph->BotLeft.Position =
             glm::vec2{dest_rect.x - half_size.x, dest_rect.y + half_size.y};
 
-        new_glyph->TopRight.Colour = color;
+        new_glyph->TopRight.Color = color;
         new_glyph->TopRight.Position =
             glm::vec2{dest_rect.x + half_size.x, dest_rect.y - half_size.y};
 
-        new_glyph->BotRight.Colour = color;
+        new_glyph->BotRight.Color = color;
         new_glyph->BotRight.Position =
             glm::vec2{dest_rect.x + half_size.x, dest_rect.y + half_size.y};
 
@@ -55,19 +55,19 @@ namespace ECHO_RENDERING
 
         auto new_glyph = std::make_shared<RectGlyph>();
 
-        new_glyph->TopLeft.Colour = rect.Color;
+        new_glyph->TopLeft.Color = rect.Color;
         new_glyph->TopLeft.Position =
             rect.Position + glm::vec2{-half_size.x, -half_size.y};
 
-        new_glyph->BotLeft.Colour = rect.Color;
+        new_glyph->BotLeft.Color = rect.Color;
         new_glyph->BotLeft.Position =
             rect.Position + glm::vec2{-half_size.x, half_size.y};
 
-        new_glyph->TopRight.Colour = rect.Color;
+        new_glyph->TopRight.Color = rect.Color;
         new_glyph->TopRight.Position =
             rect.Position + glm::vec2{half_size.x, -half_size.y};
 
-        new_glyph->BotRight.Colour = rect.Color;
+        new_glyph->BotRight.Color = rect.Color;
         new_glyph->BotRight.Position =
             rect.Position + glm::vec2{half_size.x, half_size.y};
 
@@ -120,6 +120,6 @@ namespace ECHO_RENDERING
         SetVertexAttribute(0, 2, GL_FLOAT, sizeof(Vertex),
             (void *)offsetof(Vertex, Position));
         SetVertexAttribute(1, 4, GL_UNSIGNED_BYTE, sizeof(Vertex),
-            (void *)offsetof(Vertex, Colour), GL_TRUE);
+            (void *)offsetof(Vertex, Color), GL_TRUE);
     }
 }
