@@ -95,7 +95,7 @@ function Ship:UpdateData()
         animation.FrameRate = 16
         animation:Restart()
 
-        sprite.Texture_Name = "explosion"
+        sprite.TextureName = "explosion"
         sprite.Width = 34
         sprite.Height = 34
         sprite:GenerateUVs()
@@ -135,11 +135,11 @@ function Ship:UpdateExplosion()
 
             -- Reset sprite to ship
             local sprite = ship:GetComponent(Sprite)
-            sprite.Texture_Name = "ship"
+            sprite.TextureName = "ship"
             sprite.Width = 99
             sprite.Height = 75
             sprite:GenerateUVs()
-            sprite.Start_X = 0
+            sprite.StartX = 0
 
             -- Reset scale
             local transform = ship:GetComponent(Transform)

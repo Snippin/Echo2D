@@ -41,8 +41,8 @@ namespace ECHO_CORE::ECS
             ),
             "X", &UVs::X,
             "Y", &UVs::Y,
-            "UV_Width", &UVs::UV_Width,
-            "UV_Height", &UVs::UV_Height
+            "UVWidth", &UVs::UVWidth,
+            "UVHeight", &UVs::UVHeight
         );
 
         lua.new_usertype<SpriteComponent>(
@@ -58,12 +58,12 @@ namespace ECHO_CORE::ECS
                         .Height = height,
                         .Uvs = UVs{},
                         .Color = ECHO_RENDERING::Color{255, 255, 255, 255},
-                        .Start_X = start_x,
-                        .Start_Y = start_y,
+                        .StartX = start_x,
+                        .StartY = start_y,
                         .Layer = layer,
                         .Rotation = 0,
                         .IsHidden = false,
-                        .Texture_Name = tex_name
+                        .TextureName = tex_name
                     };
                 },
                 [](const std::string &tex_name, float width, float height,
@@ -74,22 +74,22 @@ namespace ECHO_CORE::ECS
                         .Height = height,
                         .Uvs = UVs{},
                         .Color = ECHO_RENDERING::Color{255, 255, 255, 255},
-                        .Start_X = start_x,
-                        .Start_Y = start_y,
+                        .StartX = start_x,
+                        .StartY = start_y,
                         .Layer = layer,
                         .Rotation = rotation,
                         .IsHidden = false,
-                        .Texture_Name = tex_name
+                        .TextureName = tex_name
                     };
                 }
             ),
-            "Texture_Name", &SpriteComponent::Texture_Name,
+            "TextureName", &SpriteComponent::TextureName,
             "Width", &SpriteComponent::Width,
             "Height", &SpriteComponent::Height,
             "UVs", &SpriteComponent::Uvs,
             "Color", &SpriteComponent::Color,
-            "Start_X", &SpriteComponent::Start_X,
-            "Start_Y", &SpriteComponent::Start_Y,
+            "StartX", &SpriteComponent::StartX,
+            "StartY", &SpriteComponent::StartY,
             "Layer", &SpriteComponent::Layer,
             "IsHidden", &SpriteComponent::IsHidden,
             "Rotation", &SpriteComponent::Rotation,
@@ -98,12 +98,12 @@ namespace ECHO_CORE::ECS
             {
                 const auto &asset_manager = registry.GetContext<
                     std::shared_ptr<ECHO_RESOURCES::AssetManager>>();
-                auto &texture = asset_manager->GetTexture(sprite.Texture_Name);
+                auto &texture = asset_manager->GetTexture(sprite.TextureName);
 
                 if (texture.GetID() == 0)
                 {
                     ECHO_ERROR("Failed to generate uvs - Texture [{}] does "
-                        "not exist", sprite.Texture_Name);
+                        "not exist", sprite.TextureName);
                     return;
                 }
 

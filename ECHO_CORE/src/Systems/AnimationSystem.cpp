@@ -48,13 +48,13 @@ namespace ECHO_CORE::SYSTEMS
 
             if (animation.IsVerical)
             {
-                sprite.Uvs.Y = animation.CurrentFrame * sprite.Uvs.UV_Height;
-                sprite.Uvs.X = animation.FrameOffset * sprite.Uvs.UV_Width;
+                sprite.Uvs.Y = animation.CurrentFrame * sprite.Uvs.UVHeight;
+                sprite.Uvs.X = animation.FrameOffset * sprite.Uvs.UVWidth;
             }
             else
             {
-                sprite.Uvs.X = (animation.CurrentFrame * sprite.Uvs.UV_Width) +
-                    (animation.FrameOffset * sprite.Uvs.UV_Width);
+                sprite.Uvs.X = (animation.CurrentFrame * sprite.Uvs.UVWidth) +
+                    (animation.FrameOffset * sprite.Uvs.UVWidth);
             }
         }
     }

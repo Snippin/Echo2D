@@ -18,13 +18,12 @@ namespace ECHO_CORE::SYSTEMS
 
     void RenderSystem::Render()
     {
-        auto &camera = registry.GetContext<std::shared_ptr<
+        const auto &camera = registry.GetContext<std::shared_ptr<
             ECHO_RENDERING::Camera2D>>();
-        auto &asset_manager = registry.GetContext<std::shared_ptr<
+        const auto &asset_manager = registry.GetContext<std::shared_ptr<
             ECHO_RESOURCES::AssetManager>>();
 
         auto &sprite_shader = asset_manager->GetShader("basic");
-        auto cam_mat = camera->GetCameraMatrix();
 
         if (sprite_shader.ShaderProgramID() == 0)
         {
@@ -33,7 +32,7 @@ namespace ECHO_CORE::SYSTEMS
         }
 
         sprite_shader.Enable();
-        sprite_shader.SetUniformMat4("uProjection", cam_mat);
+        sprite_shader.SetUniformMat4("uProjection", camera->GetCameraMatrix());
 
         batch_renderer->Begin();
 
@@ -47,16 +46,16 @@ namespace ECHO_CORE::SYSTEMS
             const auto &sprite =
                 view.get<ECHO_CORE::ECS::SpriteComponent>(entity);
 
-            if (sprite.Texture_Name.empty() || sprite.IsHidden)
+            if (sprite.TextureName.empty() || sprite.IsHidden)
             {
                 continue;
             }
 
             const auto &texture =
-                asset_manager->GetTexture(sprite.Texture_Name);
+                asset_manager->GetTexture(sprite.TextureName);
             if (texture.GetID() == 0)
             {
-                ECHO_ERROR("Texture [{}] does not exist", sprite.Texture_Name);
+                ECHO_ERROR("Texture [{}] does not exist", sprite.TextureName);
                 return;
             }
 
@@ -64,8 +63,8 @@ namespace ECHO_CORE::SYSTEMS
                 transform.Position.x - sprite.Width * 0.5f,
                 transform.Position.y - sprite.Height * 0.5f,
                 sprite.Width, sprite.Height};
-            glm::vec4 uv_rect{sprite.Uvs.X, sprite.Uvs.Y, sprite.Uvs.UV_Width,
-                sprite.Uvs.UV_Height};
+            glm::vec4 uv_rect{sprite.Uvs.X, sprite.Uvs.Y, sprite.Uvs.UVWidth,
+                sprite.Uvs.UVHeight};
 
             glm::mat4 model{1.f};
 

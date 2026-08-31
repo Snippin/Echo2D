@@ -96,8 +96,8 @@ function Hud:SetScore(score)
     -- Set sprite uvs
     for i = 1, 5 do
         local sprite = Entity(self.Scores[i]):GetComponent(Sprite)
-        sprite.Start_X = digits[i]
-        sprite.UVs.X = sprite.UVs.UV_Width * sprite.Start_X
+        sprite.StartX = digits[i]
+        sprite.UVs.X = sprite.UVs.UVWidth * sprite.StartX
     end
 
     -- Set score
