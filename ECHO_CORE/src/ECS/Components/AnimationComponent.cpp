@@ -30,7 +30,7 @@ namespace ECHO_CORE::ECS
             "StartTime", &AnimationComponent::StartTime,
             "IsVerical", &AnimationComponent::IsVerical,
             "IsLooped", &AnimationComponent::IsLooped,
-            "Restart",
+            "Reset",
             [](AnimationComponent &animation)
             {
                 animation.CurrentFrame = 0;

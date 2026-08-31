@@ -93,7 +93,7 @@ function Ship:UpdateData()
 
         animation.Frames = 8
         animation.FrameRate = 16
-        animation:Restart()
+        animation:Reset()
 
         sprite.TextureName = "explosion"
         sprite.Width = 34
