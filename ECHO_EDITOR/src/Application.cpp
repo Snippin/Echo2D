@@ -461,6 +461,8 @@ namespace ECHO_EDITOR
         renderer->DrawCircles(circle_shader, *camera);
 
         SDL_GL_SwapWindow(window->GetWindow().get());
+
+        renderer->ClearPrimitives();
     }
 
     void Application::CleanUp()

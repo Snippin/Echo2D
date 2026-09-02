@@ -153,6 +153,9 @@ namespace ECHO_CORE::SYSTEMS
                 ECHO_ERROR("Error running Update script: {}", error.what());
             }
         }
+
+        const auto &lua = registry.GetContext<std::shared_ptr<sol::state>>();
+        lua->collect_garbage();
     }
 
     void ScriptSystem::Render()
@@ -183,5 +186,8 @@ namespace ECHO_CORE::SYSTEMS
                 ECHO_ERROR("Error running Render script: {}", error.what());
             }
         }
+
+        const auto &lua = registry.GetContext<std::shared_ptr<sol::state>>();
+        lua->collect_garbage();
     }
 }
