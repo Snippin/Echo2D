@@ -1,6 +1,7 @@
 #include "Core/Resources/AssetManager.h"
 
 #include <Logger/Logger.h>
+#include <Rendering/Essentials/FontLoader.h>
 #include <Rendering/Essentials/ShaderLoader.h>
 #include <Rendering/Essentials/TextureLoader.h>
 
@@ -26,6 +27,12 @@ namespace ECHO_RESOURCES
                 bool pixel_art)
             {
                 return asset_manager->AddTexture(name, path, pixel_art);
+            },
+            "AddFont",
+            [&asset_manager](const std::string &name, const std::string &path,
+                float font_size)
+            {
+                return asset_manager->AddFont(name, path, font_size);
             },
             "AddMusic",
             [&asset_manager](const std::string &name, const std::string &path)
@@ -113,6 +120,62 @@ namespace ECHO_RESOURCES
         }
 
         return *itr->second;
+    }
+
+    bool AssetManager::AddFont(const std::string &name,
+        const std::string &path, float font_size)
+    {
+        if (fonts.contains(name))
+        {
+            ECHO_ERROR("Failed to add font [{}] -- Already exists", name);
+            return false;
+        }
+
+        auto font = ECHO_RENDERING::FontLoader::Create(path, font_size);
+
+        if (!font)
+        {
+            ECHO_ERROR("Failed to add font [{}] at [{}]", name, path);
+            return false;
+        }
+
+        fonts.emplace(name, std::move(font));
+        return true;
+    }
+
+    bool AssetManager::AddFontFromMemory(const std::string &name,
+        unsigned char *data, float font_size)
+    {
+        if (fonts.contains(name))
+        {
+            ECHO_ERROR("Failed to add font [{}] -- Already exists", name);
+            return false;
+        }
+
+        auto font = ECHO_RENDERING::FontLoader::CreateFromMemory(data,
+            font_size);
+
+        if (!font)
+        {
+            ECHO_ERROR("Failed to add font [{}] from memory", name);
+            return false;
+        }
+
+        fonts.emplace(name, std::move(font));
+        return true;
+    }
+
+    std::shared_ptr<ECHO_RENDERING::Font> AssetManager::GetFont(
+        const std::string &name)
+    {
+        auto itr = fonts.find(name);
+        if (itr == fonts.end())
+        {
+            ECHO_ERROR("Failed to get font [{}] -- Does not exist", name);
+            return nullptr;
+        }
+
+        return itr->second;
     }
 
     bool AssetManager::AddMusic(const std::string &name,

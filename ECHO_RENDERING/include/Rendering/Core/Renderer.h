@@ -5,6 +5,7 @@
 #include "LineBatchRenderer.h"
 #include "RectBatchRenderer.h"
 #include "SpriteBatchRenderer.h"
+#include "TextBatchRenderer.h"
 
 #include <glad/glad.h>
 #include <memory>
@@ -60,19 +61,24 @@ namespace ECHO_RENDERING
         void DrawCircle(const glm::vec2 &position, float radius,
             const Color &color, float thickness = 1.f);
 
+        void DrawText2D(const Text &text);
+
         void DrawLines(Shader &shader, const Camera2D &camera);
         void DrawFilledRects(Shader &shader, const Camera2D &camera);
         void DrawCircles(Shader &shader, const Camera2D &camera);
+        void DrawTexts(Shader &shader, const Camera2D &camera);
         void ClearPrimitives();
 
     private:
         std::vector<Line> lines;
         std::vector<Rect> rects;
         std::vector<Circle> circles;
+        std::vector<Text> texts;
 
         std::unique_ptr<LineBatchRenderer> line_renderer;
         std::unique_ptr<RectBatchRenderer> rect_renderer;
         std::unique_ptr<CircleBatchRenderer> circle_renderer;
         std::unique_ptr<SpriteBatchRenderer> sprite_renderer;
+        std::unique_ptr<TextBatchRenderer> text_renderer;
     };
 }

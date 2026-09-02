@@ -10,7 +10,8 @@ namespace ECHO_RENDERING
         line_renderer{std::make_unique<LineBatchRenderer>()},
         rect_renderer{std::make_unique<RectBatchRenderer>()},
         circle_renderer{std::make_unique<CircleBatchRenderer>()},
-        sprite_renderer{std::make_unique<SpriteBatchRenderer>()}
+        sprite_renderer{std::make_unique<SpriteBatchRenderer>()},
+        text_renderer{std::make_unique<TextBatchRenderer>()}
     {
     }
 
@@ -144,6 +145,11 @@ namespace ECHO_RENDERING
         });
     }
 
+    void Renderer::DrawText2D(const Text &text)
+    {
+        texts.push_back(text);
+    }
+
     void Renderer::DrawLines(Shader &shader, const Camera2D &camera)
     {
         if (lines.empty())
@@ -204,6 +210,28 @@ namespace ECHO_RENDERING
         }
         circle_renderer->End();
         circle_renderer->Render();
+        shader.Disable();
+    }
+
+    void Renderer::DrawTexts(Shader &shader, const Camera2D &camera)
+    {
+        if (texts.empty())
+        {
+            return;
+        }
+
+        auto camera_matrix = camera.GetCameraMatrix();
+        shader.Enable();
+        shader.SetUniformMat4("uProjection", camera_matrix);
+
+        text_renderer->Begin();
+        for (const auto &text : texts)
+        {
+            text_renderer->AddText(text.String, text.Font, text.Position,
+                text.Padding, text.Wrap, text.Color);
+        }
+        text_renderer->End();
+        text_renderer->Render();
         shader.Disable();
     }
 

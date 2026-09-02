@@ -1,6 +1,10 @@
 #pragma once
 
+#include "Font.h"
 #include "Vertex.h"
+
+#include <memory>
+#include <string>
 
 namespace ECHO_RENDERING
 {
@@ -26,5 +30,15 @@ namespace ECHO_RENDERING
         float Radius{0.f};
         float Thickness{1.f};
         Color Color{};
+    };
+
+    struct Text
+    {
+        glm::vec2 Position{0.f};
+        std::string String{""};
+        int Padding{4};
+        float Wrap{0.f};
+        Color Color{};
+        std::shared_ptr<Font> Font{nullptr};
     };
 }

@@ -164,8 +164,11 @@
     <ClInclude Include="include\Rendering\Core\RectBatchRenderer.h" />
     <ClInclude Include="include\Rendering\Core\Renderer.h" />
     <ClInclude Include="include\Rendering\Core\SpriteBatchRenderer.h" />
+    <ClInclude Include="include\Rendering\Core\TextBatchRenderer.h" />
     <ClInclude Include="include\Rendering\Essentials\BatchType.h" />
     <ClInclude Include="include\Rendering\Core\Camera2D.h" />
+    <ClInclude Include="include\Rendering\Essentials\Font.h" />
+    <ClInclude Include="include\Rendering\Essentials\FontLoader.h" />
     <ClInclude Include="include\Rendering\Essentials\Primitives.h" />
     <ClInclude Include="include\Rendering\Essentials\Shader.h" />
     <ClInclude Include="include\Rendering\Essentials\ShaderLoader.h" />
@@ -174,12 +177,15 @@
     <ClInclude Include="include\Rendering\Essentials\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\TextBatchRenderer.cpp" />
     <ClCompile Include="src\Core\CircleBatchRenderer.cpp" />
     <ClCompile Include="src\Core\LineBatchRenderer.cpp" />
     <ClCompile Include="src\Core\RectBatchRenderer.cpp" />
     <ClCompile Include="src\Core\Renderer.cpp" />
     <ClCompile Include="src\Core\SpriteBatchRenderer.cpp" />
     <ClCompile Include="src\Core\Camera2D.cpp" />
+    <ClCompile Include="src\Essentials\Font.cpp" />
+    <ClCompile Include="src\Essentials\FontLoader.cpp" />
     <ClCompile Include="src\Essentials\Shader.cpp" />
     <ClCompile Include="src\Essentials\ShaderLoader.cpp" />
     <ClCompile Include="src\Essentials\Texture.cpp" />

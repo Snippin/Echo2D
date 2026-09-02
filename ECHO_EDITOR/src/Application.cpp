@@ -279,6 +279,22 @@ namespace ECHO_EDITOR
             return false;
         }
 
+        if (!asset_manager->AddFont("pixel",
+            "./assets/fonts/minimal_pixel.ttf"))
+        {
+            ECHO_ERROR("Failed to load pixel font");
+            return false;
+        }
+
+        auto font = asset_manager->GetFont("pixel");
+        renderer->DrawText2D(
+            ECHO_RENDERING::Text{
+                .Position = glm::vec2{0.f},
+                .String = "This is a test text.",
+                .Font = font
+            }
+        );
+
         return true;
     }
 
@@ -312,6 +328,12 @@ namespace ECHO_EDITOR
             "./assets/shaders/circle_shader"))
         {
             ECHO_ERROR("Failed to create and add circle shader");
+            return false;
+        }
+
+        if (!asset_manager->AddShader("font", "./assets/shaders/font_shader"))
+        {
+            ECHO_ERROR("Failed to create and add font shader");
             return false;
         }
 
@@ -447,10 +469,11 @@ namespace ECHO_EDITOR
 
         auto &color_shader = asset_manager->GetShader("color");
         auto &circle_shader = asset_manager->GetShader("circle");
+        auto &font_shader = asset_manager->GetShader("font");
 
         glViewport(0, 0, window->GetWidth(), window->GetHeight());
 
-        glClearColor(1.f, 1.f, 1.f, 1.f);
+        glClearColor(0.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         script_system->Render();
@@ -459,6 +482,7 @@ namespace ECHO_EDITOR
         renderer->DrawLines(color_shader, *camera);
         renderer->DrawFilledRects(color_shader, *camera);
         renderer->DrawCircles(circle_shader, *camera);
+        renderer->DrawTexts(font_shader, *camera);
 
         SDL_GL_SwapWindow(window->GetWindow().get());
 
